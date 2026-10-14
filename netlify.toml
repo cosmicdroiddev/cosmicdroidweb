@@ -7,3 +7,42 @@
   for = "/assets/*"
   [headers.values]
     Cache-Control = "public, max-age=604800"
+
+# ---------- "web in progress" mode ----------
+# Visitors on cosmicdroid.com see site/soon.html. The full site still works on the
+# *.netlify.app address (your private preview link).
+# TO LAUNCH THE REAL SITE: delete everything from here to the end of the file.
+[[redirects]]
+  from = "https://cosmicdroid.com/"
+  to = "/soon.html"
+  status = 200
+  force = true
+
+[[redirects]]
+  from = "https://www.cosmicdroid.com/"
+  to = "/soon.html"
+  status = 200
+  force = true
+
+[[redirects]]
+  from = "https://cosmicdroid.com/index.html"
+  to = "/soon.html"
+  status = 200
+  force = true
+
+[[redirects]]
+  from = "https://www.cosmicdroid.com/index.html"
+  to = "/soon.html"
+  status = 200
+  force = true
+
+# Old WordPress links (and any other page that doesn't exist) also land on the same page.
+[[redirects]]
+  from = "https://cosmicdroid.com/*"
+  to = "/soon.html"
+  status = 404
+
+[[redirects]]
+  from = "https://www.cosmicdroid.com/*"
+  to = "/soon.html"
+  status = 404
