@@ -1,0 +1,279 @@
+/* ---------- Leap Kill reader: the comic as a book you flip through ----------
+   Uses the colors, lines and type from style.css. The page-turn itself is
+   drawn by js/vendor/page-flip.browser.js (StPageFlip, MIT). */
+
+/* ---------- page head ---------- */
+.lk-read-head {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  border-bottom: 1px solid var(--line);
+}
+.lk-read-head > div { padding: var(--pad); min-width: 0; }
+.lk-read-head > div + div { border-left: 1px solid var(--line); display: grid; align-content: end; gap: 12px; }
+.lk-read-title {
+  margin: 10px 0 0;
+  font-stretch: 125%;
+  font-weight: 900;
+  font-style: italic;
+  text-transform: uppercase;
+  font-size: clamp(2.2rem, 6vw, 4.6rem);
+  line-height: 0.9;
+  letter-spacing: -0.02em;
+  color: var(--lime);
+  -webkit-text-stroke: 2px var(--line);
+  paint-order: stroke fill;
+  text-shadow: 4px 4px 0 var(--line);
+}
+.lk-read-head .facts-row { display: flex; flex-wrap: wrap; gap: 8px; margin: 0; padding: 0; list-style: none; }
+.lk-read-head .facts-row li {
+  font-family: var(--mono);
+  font-size: 0.8rem;
+  padding: 4px 9px 3px;
+  border: 1px solid var(--line);
+  background: var(--panel);
+}
+@media (max-width: 760px) {
+  .lk-read-head { grid-template-columns: minmax(0, 1fr); }
+  .lk-read-head > div + div { border-left: 0; border-top: 1px solid var(--line); }
+}
+
+/* ---------- the reader block ---------- */
+.lk-reader .bar-hint { font-family: var(--mono); font-size: 0.85rem; color: var(--muted); }
+.lk-reader .bar-hint kbd {
+  font-family: var(--mono);
+  font-size: 0.78rem;
+  padding: 1px 6px;
+  border: 1px solid var(--line);
+  background: var(--panel);
+  color: var(--ink);
+}
+.lk-reader .only-touch { display: none; }
+@media (pointer: coarse) {
+  .lk-reader .only-touch { display: inline; }
+  .lk-reader .only-mouse { display: none; }
+}
+
+.lk-stage {
+  --grid: rgba(51, 38, 214, 0.14);
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: clamp(14px, 2vw, 22px);
+  padding: clamp(18px, 3vw, 40px) clamp(10px, 3vw, 40px);
+  overflow: hidden;
+  background:
+    linear-gradient(var(--grid) 1px, transparent 1px) 0 0 / 48px 48px,
+    linear-gradient(90deg, var(--grid) 1px, transparent 1px) 0 0 / 48px 48px,
+    var(--paper);
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+/* sized by flipbook.js so the whole book fits on screen */
+.lk-book-size { position: relative; width: 100%; max-width: 100%; }
+/* slides the closed book to the middle: the cover sits alone on the right,
+   the back cover alone on the left */
+.lk-book-shift { transition: transform 0.7s cubic-bezier(0.45, 0, 0.25, 1); }
+.lk-book-shift.at-cover { transform: translateX(-25%); }
+.lk-book-shift.at-back { transform: translateX(25%); }
+.lk-book-shift.is-portrait { transform: none; }
+
+@media (prefers-reduced-motion: reduce) { .lk-book-shift { transition: none; } }
+
+/* ---------- the book (built by js/flipbook.js) ----------
+   Two flat pages; only the sheet being turned (.fb-turn) is 3D. */
+.lk-book { position: relative; }
+.fb {
+  position: relative;
+  margin: 0 auto;
+  cursor: grab;
+  touch-action: pan-y;          /* sideways drags turn pages, up/down still scrolls */
+  -webkit-user-select: none;
+  user-select: none;
+}
+.fb:active { cursor: grabbing; }
+.fb-page {
+  position: absolute;
+  top: 0;
+  width: 50%;
+  height: 100%;
+  background: var(--panel) no-repeat 0 0 / 100% 100%;
+  box-shadow: inset 0 0 0 1px var(--line), 7px 7px 0 rgba(51, 38, 214, 0.14);
+}
+.fb-left { left: 0; }
+.fb-right { left: 50%; }
+.fb-page.is-empty { visibility: hidden; }
+.fb.is-single .fb-left { display: none; }
+.fb.is-single .fb-right { left: 0; width: 100%; }
+/* the fold at the spine of an open spread */
+.fb-left::after, .fb-right::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+.fb-left::after { background: linear-gradient(to left, rgba(42, 31, 176, 0.22), rgba(42, 31, 176, 0.06) 4%, transparent 11%); }
+.fb-right::after { background: linear-gradient(to right, rgba(42, 31, 176, 0.22), rgba(42, 31, 176, 0.06) 4%, transparent 11%); }
+.fb.is-single .fb-right::after { background: none; }
+/* the shadow of the lifted sheet on the pages under it */
+.fb-page::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  background: rgba(42, 31, 176, var(--cast, 0));
+}
+.fb-turn {
+  position: absolute;
+  top: 0; left: 50%;
+  width: 50%;
+  height: 100%;
+  z-index: 3;
+  display: none;
+  transform-style: preserve-3d;
+  pointer-events: none;
+}
+.fb-turn.is-on { display: block; }
+.fb.is-single .fb-turn { left: 0; width: 100%; }
+.fb-seg, .fb-holder {
+  position: absolute;
+  top: 0;
+  height: 100%;
+  transform-style: preserve-3d;
+}
+.fb-seg { left: 0; transform-origin: 0 50%; will-change: transform; }
+.fb-holder { left: 100%; }
+.fb-face {
+  position: absolute;
+  top: 0; bottom: 0; left: 0;
+  right: -0.6px;                 /* a hair of overlap so no seam shows between strips */
+  background-color: var(--panel);
+  background-repeat: no-repeat;
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+}
+.fb-back { transform: rotateY(180deg); }
+/* the blank back of a page on phones: paper with a faint print-through */
+.fb-paper { background-image: linear-gradient(to left, rgba(42, 31, 176, 0.08), transparent 30%) !important; background-size: 100% 100% !important; }
+/* light: the paper darkens as it stands up */
+.fb-face::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: rgba(42, 31, 176, var(--shade, 0));
+}
+/* thin cobalt edges: top and bottom on every strip, the outer edge on the last strip */
+.fb-face::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  box-shadow: inset 0 1px 0 var(--line), inset 0 -1px 0 var(--line);
+}
+.fb-holder .fb-holder .fb-front::before { box-shadow: inset 0 1px 0 var(--line), inset 0 -1px 0 var(--line), inset -1px 0 0 var(--line); }
+.fb-holder .fb-holder .fb-back::before { box-shadow: inset 0 1px 0 var(--line), inset 0 -1px 0 var(--line), inset 1px 0 0 var(--line); }
+
+/* "turn me" nudge on the cover, gone after the first flip */
+.lk-nudge {
+  position: absolute;
+  right: 10px;
+  bottom: 12px;
+  z-index: 5;
+  pointer-events: none;
+  font-family: var(--mono);
+  font-size: 0.8rem;
+  line-height: 1;
+  padding: 8px 10px 7px;
+  color: var(--ink);
+  background: var(--lime);
+  border: 1px solid var(--line);
+  box-shadow: 3px 3px 0 var(--line);
+  transition: opacity 0.25s ease;
+}
+.lk-nudge.is-gone { opacity: 0; }
+@media (prefers-reduced-motion: no-preference) {
+  .lk-nudge { animation: lk-nudge 1.4s ease-in-out infinite; }
+}
+@keyframes lk-nudge { 50% { transform: translateX(-6px); } }
+
+/* ---------- controls under the book ---------- */
+.lk-controls {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  max-width: 560px;
+}
+.lk-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-width: 48px;
+  height: 46px;
+  padding: 0 14px;
+  font-family: var(--mono);
+  font-size: 0.9rem;
+  color: var(--panel);
+  background: var(--line);
+  border: 1px solid var(--line);
+  cursor: pointer;
+}
+.lk-btn:hover:not(:disabled) { color: var(--ink); background: var(--lime); }
+.lk-btn:disabled { color: var(--muted); background: transparent; border-color: rgba(51, 38, 214, 0.35); cursor: default; }
+.lk-count { display: grid; gap: 7px; text-align: center; }
+.lk-count-text {
+  font-family: var(--mono);
+  font-size: 0.85rem;
+  color: var(--ink);
+  text-transform: lowercase;
+  white-space: nowrap;
+}
+.lk-count-text b { color: var(--violet); font-weight: 700; }
+.lk-progress {
+  height: 8px;
+  border: 1px solid var(--line);
+  background: var(--panel);
+  overflow: hidden;
+}
+.lk-progress span {
+  display: block;
+  height: 100%;
+  width: 0;
+  background: var(--lime);
+  border-right: 1px solid var(--line);
+  transition: width 0.35s ease;
+}
+@media (max-width: 480px) {
+  .lk-btn .lk-btn-word { display: none; }
+}
+
+/* without the script: the pages in a column */
+.lk-book:not(.is-ready) { display: grid; gap: 12px; max-width: 520px; margin: 0 auto; }
+.lk-page img { display: block; width: 100%; height: auto; }
+
+/* "read it online" button in the Leap Kill hero */
+.lk-read-btn { align-self: flex-start; }
+.lk-reader { scroll-margin-top: var(--header-h, var(--hh)); }
+
+/* ---------- the book lives in the Leap Kill top section: book 70%, text 30% ---------- */
+.lk-hero { grid-template-columns: minmax(0, 7fr) minmax(0, 3fr); }
+.lk-hero-art.lk-reader { display: block; padding: 0; background: none; place-items: initial; }
+.lk-hero-art.lk-reader .lk-stage { height: 100%; justify-content: flex-start; min-height: 100%; }
+.lk-hero-logo { margin: 0; line-height: 0; }
+.lk-hero-logo img { width: min(240px, 75%); height: auto; }
+.lk-howto { margin: 0; font-family: var(--mono); font-size: 0.85rem; line-height: 1.6; color: var(--muted); }
+.lk-howto kbd { font-family: var(--mono); font-size: 0.78rem; padding: 1px 6px; border: 1px solid var(--line); background: var(--panel); color: var(--ink); }
+.lk-howto .only-touch { display: none; }
+@media (pointer: coarse) { .lk-howto .only-touch { display: inline; } .lk-howto .only-mouse { display: none; } }
+.lk-hero .lk-facts { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.lk-hero .lk-facts div { padding: 12px 16px; }
+@media (max-width: 760px) {
+  .lk-hero { grid-template-columns: minmax(0, 1fr); }
+  .lk-hero-text { order: -1; border-bottom: 1px solid var(--line); }
+  .lk-hero-art.lk-reader { border-right: 0; border-bottom: 1px solid var(--line); }
+}

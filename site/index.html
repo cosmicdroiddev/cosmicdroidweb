@@ -1,0 +1,168 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>cosmicdroid</title>
+<meta name="description" content="Illustrator, animator and muralist based in Colombia. Murals, characters, branding, merch and animation.">
+<meta property="og:title" content="cosmicdroid">
+<meta property="og:description" content="Illustrator, animator and muralist based in Colombia. Murals, characters, branding, merch and animation.">
+<meta name="theme-color" content="#dce9fb">
+<link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:ital,wdth,wght@0,62..125,100..900;1,62..125,100..900&family=Space+Mono:wght@400;700&family=Pirata+One&family=VT323&display=swap">
+<link rel="stylesheet" href="css/style.css">
+<script>try{if(!sessionStorage.getItem("cd-loaded"))document.documentElement.classList.add("is-loading")}catch(e){document.documentElement.classList.add("is-loading")}</script>
+</head>
+<body data-base="">
+<div class="loader" id="loader" aria-hidden="true">
+  <div class="loader-inner">
+    <span class="runner"></span>
+    <span class="loader-ground"></span>
+    <p class="loader-text">loading<span class="loader-dots"></span></p>
+  </div>
+</div>
+<div class="intro" id="intro" role="dialog" aria-modal="true" aria-label="Frog Jump, a small game" hidden>
+  <div class="intro-stage">
+    <canvas width="400" height="640" tabindex="-1" aria-label="Game area. Steer the Frog left and right and lick monsters."></canvas>
+    <div class="intro-screen" data-screen="title">
+      <div class="intro-card">
+        <p class="intro-logo">cosmicdroid</p>
+        <p>Help the Frog climb the haunted castle, floor by floor, or slip straight into the gallery.</p>
+        <div class="intro-actions">
+          <button class="button" type="button" data-action="play">Play</button>
+          <button class="button ghost" type="button" data-action="enter">Back to the castle</button>
+        </div>
+        <p class="intro-keys">← → to steer, space to lick<br>phones: tilt, tap the tongue</p>
+        <p class="intro-keys">best: <span data-best>0</span></p>
+      </div>
+    </div>
+    <div class="intro-screen" data-screen="over" hidden>
+      <div class="intro-card">
+        <p data-cause>The Frog fell into the dark</p>
+        <p class="intro-big" data-score>0</p>
+        <p class="intro-keys">reached <span data-floor>The Dungeon</span><br>best: <span data-best>0</span></p>
+        <div class="intro-actions">
+          <button class="button" type="button" data-action="play">Play again</button>
+          <button class="button ghost" type="button" data-action="enter">Back to the castle</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="intro-controls">
+    <button class="tongue-btn" type="button" data-tongue hidden aria-label="Stick out the tongue">lick</button>
+  </div>
+  <div class="intro-bar">
+    <span class="intro-hint" hidden>hold left or right to steer</span>
+    <button class="intro-skip" type="button" data-action="enter">back to the castle (esc)</button>
+  </div>
+</div>
+<div class="frame">
+<header class="site-header">
+  <a class="brand-icon" href="index.html" aria-label="cosmicdroid home" data-logo="logo-icon"><svg viewBox="0 0 64 64" aria-hidden="true" class="frog-mark">
+  <ellipse cx="32" cy="40" rx="22" ry="16" fill="#4fe0b8" stroke="#2a1fb0" stroke-width="3"/>
+  <circle cx="21" cy="24" r="9" fill="#fff" stroke="#2a1fb0" stroke-width="3"/><circle cx="43" cy="24" r="9" fill="#fff" stroke="#2a1fb0" stroke-width="3"/>
+  <circle cx="23" cy="25" r="3.4" fill="#2a1fb0"/><circle cx="45" cy="25" r="3.4" fill="#2a1fb0"/>
+  <rect x="10" y="33" width="44" height="6" fill="#e6f43c" stroke="#2a1fb0" stroke-width="2.4"/>
+  <path d="M26 46q6 4 12 0" fill="none" stroke="#2a1fb0" stroke-width="2.6" stroke-linecap="round"/>
+</svg></a>
+  <a class="brand-word" href="index.html" data-logo="logo-wordmark"><span>cosmicdroid</span></a>
+  <nav class="nav" id="site-nav" aria-label="Main">
+      <a href="work.html"><span class="nav-num">01</span>Works<span class="nav-arrow" aria-hidden="true">↗</span></a>
+      <a href="about.html"><span class="nav-num">02</span>About<span class="nav-arrow" aria-hidden="true">↗</span></a>
+      <a href="contact.html"><span class="nav-num">03</span>Contact<span class="nav-arrow" aria-hidden="true">↗</span></a>
+  </nav>
+  <div class="socials">
+    <a href="mailto:cosmicdroidworld@gmail.com" aria-label="Email cosmicdroid"><svg viewBox="0 0 32 24" aria-hidden="true"><rect x="1.5" y="1.5" width="29" height="21" fill="none" stroke="currentColor" stroke-width="2"/><path d="M2 3l14 11L30 3M2 21l10-9M30 21l-10-9" fill="none" stroke="currentColor" stroke-width="2"/></svg></a>
+    <a href="https://www.instagram.com/cosmicdroid/" rel="noopener" aria-label="cosmicdroid on Instagram"><svg viewBox="0 0 28 28" aria-hidden="true"><rect x="2" y="2" width="24" height="24" rx="6" fill="none" stroke="currentColor" stroke-width="2.4"/><circle cx="14" cy="14" r="5.6" fill="none" stroke="currentColor" stroke-width="2.4"/><circle cx="21" cy="7" r="1.6" fill="currentColor"/></svg></a>
+  </div>
+  <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="site-nav" aria-label="Open menu"><span class="burger" aria-hidden="true"><i></i><i></i><i></i></span></button>
+</header>
+<main>
+<section class="castle-hero" aria-label="cosmicdroid castle">
+  <h1 class="sr-only">cosmicdroid portfolio</h1>
+  <p class="hero-meta hero-tl" aria-hidden="true"><span>01</span> the castle</p>
+  <p class="hero-meta hero-tr" aria-hidden="true">illustrator · animator · muralist</p>
+  <p class="hero-meta hero-bl" aria-hidden="true">← → walk · space jump · ↑ go in</p>
+  <a class="hero-meta hero-br scroll-cue" href="#more">scroll <span aria-hidden="true">↓</span></a>
+  <div class="castle-stage" data-castle>
+    <div class="castle-frame">
+      <canvas width="360" height="600" tabindex="0" aria-label="A castle you can explore. Walk the Frog into a room and use the glowing object to open that part of the site. The same links are listed below the castle."></canvas>
+    </div>
+    <div class="castle-pad" aria-hidden="true">
+      <div class="stick" data-stick><span class="stick-ring"></span><span class="stick-knob"></span></div>
+      <div class="pad-mid">
+        <button type="button" class="pad-btn pad-enter" data-pad="enter" tabindex="-1"><span>go</span></button>
+        <a class="pad-scroll" href="#more" tabindex="-1">scroll ↓</a>
+      </div>
+      <button type="button" class="pad-btn pad-jump" data-pad="jump" tabindex="-1"><span>jump</span></button>
+    </div>
+  </div>
+</section>
+<div class="ticker" id="more" aria-label="illustration, murals, animation, branding, character design, merch, painting walls worldwide">
+  <div class="ticker-track" aria-hidden="true"><span>illustration</span><i aria-hidden="true">✦</i><span>murals</span><i aria-hidden="true">✦</i><span>animation</span><i aria-hidden="true">✦</i><span>branding</span><i aria-hidden="true">✦</i><span>character design</span><i aria-hidden="true">✦</i><span>merch</span><i aria-hidden="true">✦</i><span>painting walls worldwide</span><i aria-hidden="true">✦</i><span>illustration</span><i aria-hidden="true">✦</i><span>murals</span><i aria-hidden="true">✦</i><span>animation</span><i aria-hidden="true">✦</i><span>branding</span><i aria-hidden="true">✦</i><span>character design</span><i aria-hidden="true">✦</i><span>merch</span><i aria-hidden="true">✦</i><span>painting walls worldwide</span><i aria-hidden="true">✦</i><span>illustration</span><i aria-hidden="true">✦</i><span>murals</span><i aria-hidden="true">✦</i><span>animation</span><i aria-hidden="true">✦</i><span>branding</span><i aria-hidden="true">✦</i><span>character design</span><i aria-hidden="true">✦</i><span>merch</span><i aria-hidden="true">✦</i><span>painting walls worldwide</span><i aria-hidden="true">✦</i></div>
+</div>
+<section class="home-intro">
+  <div class="castle-intro">
+    <p class="castle-hello">Hey, I'm cosmicdroid.</p>
+    <p>Illustrator, animator and muralist from Colombia. I make dark fantasy art with a 2000s heart: monsters, haunted places and characters with a little bite.</p>
+    <a class="button" href="work.html">See my works <span aria-hidden="true">↗</span></a>
+  </div>
+  <div class="castle-guide guide-all">
+    <ul class="room-list" aria-label="Rooms">
+      <li><a href="work.html" data-room-art="room-1"><span class="room-art" aria-hidden="true"><span class="runner room-runner"></span></span><span class="num">01</span><b>Library</b><span class="what">my work</span><span class="arrow" aria-hidden="true">↗</span></a></li>
+      <li><a href="murals.html" data-room-art="room-2"><span class="room-art" aria-hidden="true"><span class="runner room-runner"></span></span><span class="num">02</span><b>Mural studio</b><span class="what">murals</span><span class="arrow" aria-hidden="true">↗</span></a></li>
+      <li><a href="index.html#play" data-play-frogjump data-room-art="room-3"><span class="room-art" aria-hidden="true"><span class="runner room-runner"></span></span><span class="num">03</span><b>Arcade</b><span class="what">play Frog Jump</span><span class="arrow" aria-hidden="true">↗</span></a></li>
+      <li><a href="about.html" data-room-art="room-4"><span class="room-art" aria-hidden="true"><span class="runner room-runner"></span></span><span class="num">04</span><b>My room</b><span class="what">about me</span><span class="arrow" aria-hidden="true">↗</span></a></li>
+      <li><a href="contact.html" data-room-art="room-5"><span class="room-art" aria-hidden="true"><span class="runner room-runner"></span></span><span class="num">05</span><b>Post room</b><span class="what">contact</span><span class="arrow" aria-hidden="true">↗</span></a></li>
+    </ul>
+  </div>
+  <a class="lk-cell" href="leapkill.html">
+    <span class="label">my comic</span>
+    <img src="assets/img/leapkill/title.gif" alt="Leap Kill, my comic" width="777" height="672">
+    <span class="lk-go">enter <span aria-hidden="true">↗</span></span>
+  </a>
+</section>
+<section class="block works-block">
+  <div class="bar"><h2 class="bar-title">Works</h2><a class="bar-link" href="work.html">open the works page <span aria-hidden="true">↗</span></a></div>
+  <div class="deck-filters" role="tablist" aria-label="Filter works">
+    <button type="button" role="tab" data-filter="all" aria-selected="true">All</button>
+    <button type="button" role="tab" data-filter="mural" aria-selected="false">Murals</button>
+    <button type="button" role="tab" data-filter="work" aria-selected="false">Illustration &amp; branding</button>
+  </div>
+  <div class="deck deck-all" data-deck="all"></div>
+</section>
+<section class="block">
+  <div class="bar"><h2 class="bar-title">What I make</h2></div>
+  <div class="cells cells-4">
+    <div class="service"><span class="num">01</span><figure class="slot" data-slot="service-murals" data-size="120×120" data-alt="" style="--ratio: 1 / 1;"></figure><h3>Murals</h3><p>Indoor and outdoor walls for cafes, shops, organizations and festivals. I travel for the right wall.</p></div>
+    <div class="service"><span class="num">02</span><figure class="slot" data-slot="service-illustration" data-size="120×120" data-alt="" style="--ratio: 1 / 1;"></figure><h3>Illustration</h3><p>Characters, posters, album and gig artwork, editorial pieces.</p></div>
+    <div class="service"><span class="num">03</span><figure class="slot" data-slot="service-branding" data-size="120×120" data-alt="" style="--ratio: 1 / 1;"></figure><h3>Branding</h3><p>Logos and identities with a mascot or two, plus the merch to go with them.</p></div>
+    <div class="service"><span class="num">04</span><figure class="slot" data-slot="service-animation" data-size="120×120" data-alt="" style="--ratio: 1 / 1;"></figure><h3>Animation</h3><p>Loops, GIFs and short animated pieces for social and screens.</p></div>
+  </div>
+</section>
+<section class="cta">
+  <p>Got a wall, a band or a brand that needs weird little guys?</p>
+  <a class="button lime" href="contact.html">Start a project <span aria-hidden="true">↗</span></a>
+</section>
+</main>
+<footer class="site-footer">
+  <div class="foot-cell foot-critter"><figure class="slot" data-slot="footer-critter" data-size="480×300" data-alt="A frog working on a laptop" style="--ratio: 16 / 10;"></figure></div>
+  <div class="foot-cell foot-text foot-facts" data-frog-facts>
+    <p class="fact-label">frog fact</p>
+    <p class="fact-text" aria-live="polite">A group of frogs is called an army.</p>
+  </div>
+  <div class="foot-cell foot-links">
+    <a href="mailto:cosmicdroidworld@gmail.com">cosmicdroidworld@gmail.com</a>
+    <a href="https://www.instagram.com/cosmicdroid/" rel="noopener">@cosmicdroid ↗</a>
+  </div>
+</footer>
+</div>
+<script src="js/media.js"></script>
+<script src="js/projects.js"></script>
+<script src="js/main.js"></script>
+<script src="js/game.js"></script>
+<script src="js/castle.js"></script>
+</body>
+</html>

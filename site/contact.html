@@ -1,0 +1,117 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Contact | cosmicdroid</title>
+<meta name="description" content="Commission a mural, illustration, branding or animation from cosmicdroid.">
+<meta property="og:title" content="Contact | cosmicdroid">
+<meta property="og:description" content="Commission a mural, illustration, branding or animation from cosmicdroid.">
+<meta name="theme-color" content="#dce9fb">
+<link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:ital,wdth,wght@0,62..125,100..900;1,62..125,100..900&family=Space+Mono:wght@400;700&family=Pirata+One&family=VT323&display=swap">
+<link rel="stylesheet" href="css/style.css">
+<script>try{if(!sessionStorage.getItem("cd-loaded"))document.documentElement.classList.add("is-loading")}catch(e){document.documentElement.classList.add("is-loading")}</script>
+</head>
+<body data-base="">
+<div class="loader" id="loader" aria-hidden="true">
+  <div class="loader-inner">
+    <span class="runner"></span>
+    <span class="loader-ground"></span>
+    <p class="loader-text">loading<span class="loader-dots"></span></p>
+  </div>
+</div>
+<div class="frame">
+<header class="site-header">
+  <a class="brand-icon" href="index.html" aria-label="cosmicdroid home" data-logo="logo-icon"><svg viewBox="0 0 64 64" aria-hidden="true" class="frog-mark">
+  <ellipse cx="32" cy="40" rx="22" ry="16" fill="#4fe0b8" stroke="#2a1fb0" stroke-width="3"/>
+  <circle cx="21" cy="24" r="9" fill="#fff" stroke="#2a1fb0" stroke-width="3"/><circle cx="43" cy="24" r="9" fill="#fff" stroke="#2a1fb0" stroke-width="3"/>
+  <circle cx="23" cy="25" r="3.4" fill="#2a1fb0"/><circle cx="45" cy="25" r="3.4" fill="#2a1fb0"/>
+  <rect x="10" y="33" width="44" height="6" fill="#e6f43c" stroke="#2a1fb0" stroke-width="2.4"/>
+  <path d="M26 46q6 4 12 0" fill="none" stroke="#2a1fb0" stroke-width="2.6" stroke-linecap="round"/>
+</svg></a>
+  <a class="brand-word" href="index.html" data-logo="logo-wordmark"><span>cosmicdroid</span></a>
+  <nav class="nav" id="site-nav" aria-label="Main">
+      <a href="work.html"><span class="nav-num">01</span>Works<span class="nav-arrow" aria-hidden="true">↗</span></a>
+      <a href="about.html"><span class="nav-num">02</span>About<span class="nav-arrow" aria-hidden="true">↗</span></a>
+      <a href="contact.html" aria-current="page"><span class="nav-num">03</span>Contact<span class="nav-arrow" aria-hidden="true">↗</span></a>
+  </nav>
+  <div class="socials">
+    <a href="mailto:cosmicdroidworld@gmail.com" aria-label="Email cosmicdroid"><svg viewBox="0 0 32 24" aria-hidden="true"><rect x="1.5" y="1.5" width="29" height="21" fill="none" stroke="currentColor" stroke-width="2"/><path d="M2 3l14 11L30 3M2 21l10-9M30 21l-10-9" fill="none" stroke="currentColor" stroke-width="2"/></svg></a>
+    <a href="https://www.instagram.com/cosmicdroid/" rel="noopener" aria-label="cosmicdroid on Instagram"><svg viewBox="0 0 28 28" aria-hidden="true"><rect x="2" y="2" width="24" height="24" rx="6" fill="none" stroke="currentColor" stroke-width="2.4"/><circle cx="14" cy="14" r="5.6" fill="none" stroke="currentColor" stroke-width="2.4"/><circle cx="21" cy="7" r="1.6" fill="currentColor"/></svg></a>
+  </div>
+  <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="site-nav" aria-label="Open menu"><span class="burger" aria-hidden="true"><i></i><i></i><i></i></span></button>
+</header>
+<main>
+<section class="page-head">
+  <div class="page-head-title"><h1 class="page-title">Contact</h1></div>
+  <div class="page-head-text"><p class="page-lede">Tell me about your wall, brand or idea. I usually reply within a few days.</p></div>
+</section>
+<section class="split">
+  <div class="split-cell">
+    <form class="form" name="contact" method="POST" data-netlify="true" netlify-honeypot="bot-field" data-contact>
+      <input type="hidden" name="form-name" value="contact">
+      <p class="hidden-field"><label>Leave this empty <input name="bot-field" id="bot-field"></label></p>
+      <div class="form-row">
+        <div class="field"><label for="name">Name</label><input id="name" name="name" type="text" autocomplete="name" required></div>
+        <div class="field"><label for="email">Email</label><input id="email" name="email" type="email" autocomplete="email" required></div>
+      </div>
+      <div class="form-row">
+        <div class="field">
+          <label for="type">What do you need?</label>
+          <select id="type" name="type">
+            <option>Mural</option>
+            <option>Illustration</option>
+            <option>Branding / logo</option>
+            <option>Merch design</option>
+            <option>Album or poster art</option>
+            <option>Animation</option>
+            <option>Character design</option>
+            <option>Painting</option>
+            <option>Something else</option>
+          </select>
+        </div>
+        <div class="field"><label for="where">Where (for murals)</label><input id="where" name="where" type="text" placeholder="City, country"></div>
+      </div>
+      <div class="field"><label for="message">Tell me about it</label><textarea id="message" name="message" required placeholder="The idea, size or format, timeline, budget if you have one"></textarea></div>
+      <div><button class="button" type="submit">Send message <span aria-hidden="true">↗</span></button></div>
+      <p class="form-status" role="status" aria-live="polite"></p>
+    </form>
+  </div>
+  <aside class="split-cell contact-aside">
+    <figure class="slot" data-slot="contact-critter" data-size="400×400" data-alt="" style="--ratio: 1 / 1;max-width:240px"></figure>
+    <div>
+      <h2>Email</h2>
+      <p class="big">cosmicdroidworld@gmail.com</p>
+    </div>
+    <div>
+      <h2>Instagram</h2>
+      <p class="big"><a href="https://www.instagram.com/cosmicdroid/" rel="noopener">@cosmicdroid</a></p>
+    </div>
+    <div>
+      <h2>Murals abroad</h2>
+      <p>I'm based in Colombia and travel for murals. Tell me the city and rough dates.</p>
+    </div>
+  </aside>
+</section>
+
+</main>
+<footer class="site-footer">
+  <div class="foot-cell foot-critter"><figure class="slot" data-slot="footer-critter" data-size="480×300" data-alt="A frog working on a laptop" style="--ratio: 16 / 10;"></figure></div>
+  <div class="foot-cell foot-text foot-facts" data-frog-facts>
+    <p class="fact-label">frog fact</p>
+    <p class="fact-text" aria-live="polite">A group of frogs is called an army.</p>
+  </div>
+  <div class="foot-cell foot-links">
+    <a href="mailto:cosmicdroidworld@gmail.com">cosmicdroidworld@gmail.com</a>
+    <a href="https://www.instagram.com/cosmicdroid/" rel="noopener">@cosmicdroid ↗</a>
+  </div>
+</footer>
+</div>
+<script src="js/media.js"></script>
+<script src="js/projects.js"></script>
+<script src="js/main.js"></script>
+</body>
+</html>
