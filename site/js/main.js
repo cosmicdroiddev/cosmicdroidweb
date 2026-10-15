@@ -82,8 +82,9 @@
   });
 
   // Lightbox for project galleries
-  var gallery = document.querySelector(".gallery");
-  if (gallery) {
+  // (works for every .gallery on the page; a button's data-full is the big version)
+  var galleries = document.querySelectorAll(".gallery");
+  if (galleries.length) {
     var box = document.createElement("div");
     box.className = "lightbox";
     box.hidden = true;
@@ -100,17 +101,18 @@
       document.body.style.overflow = "";
       if (lastFocus) lastFocus.focus();
     }
-    gallery.addEventListener("click", function (e) {
+    function open(e) {
       var btn = e.target.closest("button");
       if (!btn) return;
       var img = btn.querySelector("img");
-      big.src = img.src;
+      big.src = btn.getAttribute("data-full") || img.currentSrc || img.src;
       big.alt = img.alt;
       lastFocus = btn;
       box.hidden = false;
       document.body.style.overflow = "hidden";
       closeBtn.focus();
-    });
+    }
+    galleries.forEach(function (g) { g.addEventListener("click", open); });
     box.addEventListener("click", function (e) {
       if (e.target === box || e.target === closeBtn) close();
     });

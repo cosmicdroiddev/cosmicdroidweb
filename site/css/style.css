@@ -1394,3 +1394,73 @@ html.is-loading .loader.is-done { opacity: 0; visibility: hidden; }
   .home-intro > .castle-intro, .home-intro > .lk-cell, .home-intro > .guide-all { border-right: 0; }
   .home-intro > .lk-cell { border-bottom: 1px solid var(--line); }
 }
+
+/* ---------- Oct 15: Instagram icon matches the mail icon's height ---------- */
+.socials svg.ic-ig { width: 20px; height: 20px; }
+/* home room list: no numbers any more, just name / description / arrow */
+.room-list a { grid-template-columns: minmax(0, 1fr) auto 1.4em; }
+
+/* ---------- Oct 15: project page galleries (All the Cores, Juno) ---------- */
+.gallery.gallery-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.gallery.gallery-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.gallery button { position: relative; display: block; }
+.gallery-photo img { aspect-ratio: 4 / 3; object-fit: cover; }
+.gallery-tall img { aspect-ratio: 3 / 4; }
+/* artwork: show the whole drawing on the cream panel, never cropped */
+.gallery-art button { background: var(--panel); }
+.gallery-art img { aspect-ratio: 1 / 1; object-fit: contain; padding: clamp(14px, 3vw, 36px); }
+.gallery-art.gallery-tall img { aspect-ratio: 3 / 4; }
+.gallery .g-cap {
+  position: absolute; left: 0; bottom: 0;
+  display: flex; gap: 8px; align-items: baseline;
+  padding: 6px 10px;
+  background: var(--paper); border-top: 1px solid var(--line); border-right: 1px solid var(--line);
+  font-family: var(--mono); font-size: 0.75rem; color: var(--ink);
+}
+.gallery .g-cap .num { color: var(--muted); }
+.gallery button:hover .g-cap { background: var(--lime); }
+.project-intro .project-intro-art { padding: 0; background: var(--line); }
+.project-intro-art img { aspect-ratio: 3 / 4; object-fit: cover; max-height: 80vh; }
+.project-intro .stack { align-content: space-between; }
+.project-hero img { aspect-ratio: 16 / 9; object-position: center 30%; }
+@media (max-width: 760px) {
+  .gallery.gallery-3 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .gallery-art.gallery-3 { grid-template-columns: minmax(0, 1fr); }
+  .project-hero img { aspect-ratio: 1 / 1; }
+}
+
+/* ---------- Oct 15: about portrait (real photo) ---------- */
+.about-portrait { padding: 0; background: var(--panel); }
+.about-portrait img { width: 100%; height: 100%; max-height: 720px; object-fit: cover; object-position: center 35%; display: block; }
+@media (max-width: 760px) { .about-portrait img { aspect-ratio: 4 / 5; height: auto; } }
+
+/* ---------- Oct 15: contact, the animated room instead of the info column ---------- */
+.contact-room { padding: 0; background: var(--paper); display: grid; place-items: center; overflow: hidden; }
+.contact-room video { width: 100%; height: 100%; max-height: 760px; object-fit: contain; display: block; }
+
+/* ---------- Oct 15: phone footer — fact across the top, laptop frog + links underneath ---------- */
+@media (max-width: 760px) {
+  .site-footer {
+    grid-template-columns: 112px minmax(0, 1fr);
+    grid-template-areas: "facts facts" "critter links";
+  }
+  .foot-facts { grid-area: facts; min-height: 0; height: 116px; padding: 14px 16px; border-left: 0 !important; }
+  .foot-facts .fact-text { max-width: none; }
+  .foot-critter { grid-area: critter; border-top: 1px solid var(--line); padding: 10px; }
+  .foot-critter .slot { width: 100%; }
+  .foot-links { grid-area: links; grid-column: auto; border-top: 1px solid var(--line); border-left: 1px solid var(--line) !important; padding: 14px 16px; align-content: center; }
+}
+.project-intro .project-intro-art.gallery { display: block; }
+.project-intro-art button { width: 100%; height: 100%; }
+.project-intro-art img { width: 100%; height: 100%; min-height: 420px; }
+/* phones: the sketch → process → final steps become a swipeable row */
+@media (max-width: 760px) {
+  .gallery-art.gallery-3 {
+    display: flex; overflow-x: auto; scroll-snap-type: x mandatory; gap: 1px;
+    -webkit-overflow-scrolling: touch; scrollbar-width: none;
+  }
+  .gallery-art.gallery-3::-webkit-scrollbar { display: none; }
+  .gallery-art.gallery-3 button { flex: 0 0 82%; scroll-snap-align: start; }
+}
+@media (min-width: 761px) { .project-intro-art img { aspect-ratio: auto; min-height: 0; height: min(72vh, 720px); } }
+.gallery-art.gallery-2 img { aspect-ratio: 4 / 3; padding: clamp(10px, 2vw, 24px); }

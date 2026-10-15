@@ -40,7 +40,7 @@
   </nav>
   <div class="socials">
     <a href="mailto:cosmicdroidworld@gmail.com" aria-label="Email cosmicdroid"><svg viewBox="0 0 32 24" aria-hidden="true"><rect x="1.5" y="1.5" width="29" height="21" fill="none" stroke="currentColor" stroke-width="2"/><path d="M2 3l14 11L30 3M2 21l10-9M30 21l-10-9" fill="none" stroke="currentColor" stroke-width="2"/></svg></a>
-    <a href="https://www.instagram.com/cosmicdroid/" rel="noopener" aria-label="cosmicdroid on Instagram"><svg viewBox="0 0 28 28" aria-hidden="true"><rect x="2" y="2" width="24" height="24" rx="6" fill="none" stroke="currentColor" stroke-width="2.4"/><circle cx="14" cy="14" r="5.6" fill="none" stroke="currentColor" stroke-width="2.4"/><circle cx="21" cy="7" r="1.6" fill="currentColor"/></svg></a>
+    <a href="https://www.instagram.com/cosmicdroid/" rel="noopener" aria-label="cosmicdroid on Instagram"><svg class="ic-ig" viewBox="0 0 28 28" aria-hidden="true"><rect x="2" y="2" width="24" height="24" rx="6" fill="none" stroke="currentColor" stroke-width="2.4"/><circle cx="14" cy="14" r="5.6" fill="none" stroke="currentColor" stroke-width="2.4"/><circle cx="21" cy="7" r="1.6" fill="currentColor"/></svg></a>
   </div>
   <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="site-nav" aria-label="Open menu"><span class="burger" aria-hidden="true"><i></i><i></i><i></i></span></button>
 </header>
@@ -51,41 +51,43 @@
 </section>
 <section class="block">
   <figure class="project-hero">
-    <img src="../assets/img/juno-mural/hero.jpg" alt="The finished Juno mural" width="1600" height="1000">
+    <img src="../assets/img/juno-mural/hero.webp" alt="The finished Juno mural" width="1384" height="1394">
   </figure>
-  <dl class="facts">
-    <div><dt>client</dt><dd>Juno youth refuge</dd></div>
-    <div><dt>location</dt><dd>Villach, Austria</dd></div>
-    <div><dt>year</dt><dd>2024</dd></div>
-    <div><dt>size</dt><dd class="todo">add size</dd></div>
-    <div><dt>with</dt><dd class="todo">add artist name</dd></div>
-  </dl>
+  <dl class="facts"><div><dt>client</dt><dd>Juno youth refuge</dd></div><div><dt>location</dt><dd>Villach, Austria</dd></div><div><dt>year</dt><dd>2024</dd></div><div><dt>size</dt><dd class="todo">add size</dd></div><div><dt>with</dt><dd class="todo">add artist name</dd></div></dl>
   <div class="pad-cell prose">
     <p class="placeholder-note">Add a few lines about the idea and the process.</p>
-    <p>The wall was painted over a few days in late May and early June 2024. The photos below follow it from the first sketch lines to the finished piece.</p>
+    <p>The wall was painted over a few days in late May and early June 2024. Below it goes from the first sketch over a photo of the house to the finished piece.</p>
   </div>
 </section>
 <section class="block">
-  <div class="bar"><h2 class="bar-title">Timelapse</h2></div>
-  <div class="pad-cell"><figure class="slot" data-slot="juno-timelapse" data-size="16:9 video .mp4" data-alt="Juno mural timelapse" style="--ratio: 16 / 9;"></figure></div>
+  <div class="bar"><h2 class="bar-title">The design</h2></div>
+  <div class="gallery gallery-art gallery-2">
+    <button type="button" data-full="../assets/img/juno-mural/sketch.webp" aria-label="Enlarge: Juno mural, sketch over a photo of the house"><img src="../assets/img/juno-mural/sketch.webp" alt="Juno mural, sketch over a photo of the house" loading="lazy"><span class="g-cap"><span class="num">01</span>sketch</span></button>
+    <button type="button" data-full="../assets/img/juno-mural/design.webp" aria-label="Enlarge: Juno mural, digital color design"><img src="../assets/img/juno-mural/design.webp" alt="Juno mural, digital color design" loading="lazy"><span class="g-cap"><span class="num">02</span>digital design</span></button>
+  </div>
 </section>
 <section class="block">
   <div class="bar"><h2 class="bar-title">Process</h2></div>
-  <div class="gallery">
-    <button type="button" aria-label="Enlarge photo 1"><img src="../assets/img/juno-mural/01.jpg" alt="Juno mural, photo 1" loading="lazy" width="800" height="600"></button>
-    <button type="button" aria-label="Enlarge photo 2"><img src="../assets/img/juno-mural/02.jpg" alt="Juno mural, photo 2" loading="lazy" width="800" height="600"></button>
-    <button type="button" aria-label="Enlarge photo 3"><img src="../assets/img/juno-mural/03.jpg" alt="Juno mural, photo 3" loading="lazy" width="800" height="600"></button>
-    <button type="button" aria-label="Enlarge photo 4"><img src="../assets/img/juno-mural/04.jpg" alt="Juno mural, photo 4" loading="lazy" width="800" height="600"></button>
-    <button type="button" aria-label="Enlarge photo 5"><img src="../assets/img/juno-mural/05.jpg" alt="Juno mural, photo 5" loading="lazy" width="800" height="600"></button>
-    <button type="button" aria-label="Enlarge photo 6"><img src="../assets/img/juno-mural/06.jpg" alt="Juno mural, photo 6" loading="lazy" width="800" height="600"></button>
-    <button type="button" aria-label="Enlarge photo 7"><img src="../assets/img/juno-mural/07.jpg" alt="Juno mural, photo 7" loading="lazy" width="800" height="600"></button>
-    <button type="button" aria-label="Enlarge photo 8"><img src="../assets/img/juno-mural/08.jpg" alt="Juno mural, photo 8" loading="lazy" width="800" height="600"></button>
-    <button type="button" aria-label="Enlarge photo 9"><img src="../assets/img/juno-mural/09.jpg" alt="Juno mural, photo 9" loading="lazy" width="800" height="600"></button>
+  <div class="gallery gallery-photo gallery-tall gallery-3">
+    <button type="button" data-full="../assets/img/juno-mural/process-1.webp" aria-label="Enlarge: Juno mural in progress, photo 1"><img src="../assets/img/juno-mural/process-1.webp" alt="Juno mural in progress, photo 1" loading="lazy"></button>
+    <button type="button" data-full="../assets/img/juno-mural/process-2.webp" aria-label="Enlarge: Juno mural in progress, photo 2"><img src="../assets/img/juno-mural/process-2.webp" alt="Juno mural in progress, photo 2" loading="lazy"></button>
+    <button type="button" data-full="../assets/img/juno-mural/process-3.webp" aria-label="Enlarge: Juno mural in progress, photo 3"><img src="../assets/img/juno-mural/process-3.webp" alt="Juno mural in progress, photo 3" loading="lazy"></button>
+    <button type="button" data-full="../assets/img/juno-mural/process-4.webp" aria-label="Enlarge: Juno mural in progress, photo 4"><img src="../assets/img/juno-mural/process-4.webp" alt="Juno mural in progress, photo 4" loading="lazy"></button>
+    <button type="button" data-full="../assets/img/juno-mural/process-5.webp" aria-label="Enlarge: Juno mural in progress, photo 5"><img src="../assets/img/juno-mural/process-5-sm.webp" alt="Juno mural in progress, photo 5" loading="lazy"></button>
+    <button type="button" data-full="../assets/img/juno-mural/process-6.webp" aria-label="Enlarge: Juno mural in progress, photo 6"><img src="../assets/img/juno-mural/process-6.webp" alt="Juno mural in progress, photo 6" loading="lazy"></button>
+  </div>
+</section>
+<section class="block">
+  <div class="bar"><h2 class="bar-title">Finished</h2></div>
+  <div class="gallery gallery-photo gallery-3">
+    <button type="button" data-full="../assets/img/juno-mural/final-1.webp" aria-label="Enlarge: The Juno lettering wall"><img src="../assets/img/juno-mural/final-1.webp" alt="The Juno lettering wall" loading="lazy"></button>
+    <button type="button" data-full="../assets/img/juno-mural/final-2.webp" aria-label="Enlarge: The finished house, front"><img src="../assets/img/juno-mural/final-2.webp" alt="The finished house, front" loading="lazy"></button>
+    <button type="button" data-full="../assets/img/juno-mural/final-3.webp" aria-label="Enlarge: The finished house and courtyard"><img src="../assets/img/juno-mural/final-3.webp" alt="The finished house and courtyard" loading="lazy"></button>
   </div>
 </section>
 <section class="pager">
   <a href="../work.html">← all works</a>
-  <a href="../contact.html">paint something with me ↗</a>
+  <a href="../contact.html">make something with me ↗</a>
 </section>
 
 </main>

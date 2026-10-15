@@ -48,7 +48,7 @@ INTRO = '''<div class="intro" id="intro" role="dialog" aria-modal="true" aria-la
 '''
 
 ICON_MAIL = '<svg viewBox="0 0 32 24" aria-hidden="true"><rect x="1.5" y="1.5" width="29" height="21" fill="none" stroke="currentColor" stroke-width="2"/><path d="M2 3l14 11L30 3M2 21l10-9M30 21l-10-9" fill="none" stroke="currentColor" stroke-width="2"/></svg>'
-ICON_IG = '<svg viewBox="0 0 28 28" aria-hidden="true"><rect x="2" y="2" width="24" height="24" rx="6" fill="none" stroke="currentColor" stroke-width="2.4"/><circle cx="14" cy="14" r="5.6" fill="none" stroke="currentColor" stroke-width="2.4"/><circle cx="21" cy="7" r="1.6" fill="currentColor"/></svg>'
+ICON_IG = '<svg class="ic-ig" viewBox="0 0 28 28" aria-hidden="true"><rect x="2" y="2" width="24" height="24" rx="6" fill="none" stroke="currentColor" stroke-width="2.4"/><circle cx="14" cy="14" r="5.6" fill="none" stroke="currentColor" stroke-width="2.4"/><circle cx="21" cy="7" r="1.6" fill="currentColor"/></svg>'
 # placeholder frog mark until the real logo goes into js/media.js ("logo-icon")
 FROG_MARK = '''<svg viewBox="0 0 64 64" aria-hidden="true" class="frog-mark">
   <ellipse cx="32" cy="40" rx="22" ry="16" fill="#4fe0b8" stroke="#2a1fb0" stroke-width="3"/>
@@ -136,7 +136,7 @@ def ticker(words):
   <div class="ticker-track" aria-hidden="true">{run}{run}{run}</div>
 </div>'''
 
-TICK = ticker(["illustration", "murals", "animation", "branding", "character design", "merch", "painting walls worldwide"])
+TICK = ticker(["illustration", "murals", "animation", "branding", "character design", "merch"])
 
 
 def bar(title, link=None, base="", tag="h2"):
@@ -171,11 +171,11 @@ svc = "\n".join(
 best = "\n".join(
     f'    <figure class="cell-fig">{slot(f"bestiary-{i}", "400×400 loop", alt=f"Creature {i}")}</figure>'
     for i in range(1, 7))
-rooms = [("work.html", "Library", "my work", ""), ("murals.html", "Mural studio", "murals", ""),
-         ("index.html#play", "Arcade", "play Frog Jump", " data-play-frogjump"), ("about.html", "My room", "about me", ""),
-         ("contact.html", "Post room", "contact", "")]
+rooms = [("work.html", "Works", "check out my latest work", ""), ("murals.html", "Murals", "fantasy on a bigger canvas", ""),
+         ("index.html#play", "Arcade", "play Frog Jump", " data-play-frogjump"), ("about.html", "About", "random stuff about me", ""),
+         ("contact.html", "Contact", "waiting for your idea!", "")]
 room_list = "\n".join(
-    f'      <li><a href="{h}"{x} data-room-art="room-{i + 1}"><span class="room-art" aria-hidden="true"><span class="runner room-runner"></span></span><span class="num">0{i + 1}</span><b>{r}</b><span class="what">{w}</span><span class="arrow" aria-hidden="true">↗</span></a></li>'
+    f'      <li><a href="{h}"{x} data-room-art="room-{i + 1}"><span class="room-art" aria-hidden="true"><span class="runner room-runner"></span></span><b>{r}</b><span class="what">{w}</span><span class="arrow" aria-hidden="true">↗</span></a></li>'
     for i, (h, r, w, x) in enumerate(rooms))
 room_lines = room_list.split("\n")
 rooms_top, rooms_bottom = "\n".join(room_lines[:3]), "\n".join(room_lines[3:])
@@ -397,7 +397,7 @@ page("frog.html", "The Frog | cosmicdroid", "The Frog, a bounty hunter frog and 
 # ---------- ABOUT ----------
 about = page_head("About") + f'''
 <section class="split">
-  <div class="split-cell">{slot("about-portrait", "800×1000", ratio="4 / 5", alt="cosmicdroid painting a wall")}</div>
+  <div class="split-cell about-portrait"><img src="assets/img/about/portrait-sm.webp" srcset="assets/img/about/portrait-sm.webp 600w, assets/img/about/portrait.webp 1067w" sizes="(max-width: 760px) 100vw, 45vw" alt="cosmicdroid sitting outside, drawing in a sketchbook" width="600" height="900"></div>
   <div class="split-cell prose">
     <p class="placeholder-note">Draft bio. Edit it to sound like you.</p>
     <p>I'm cosmicdroid, an illustrator, animator and muralist based in Colombia. I draw weird characters, haunted colors and small dark worlds, and I put them on walls, shirts, posters, album covers and screens.</p>
@@ -409,16 +409,7 @@ about = page_head("About") + f'''
       <li><span class="year">2023</span><span>Master in Illustration &amp; Animation</span></li>
       <li><span class="year">2018</span><span>Bachelor in Computer Engineering</span></li>
     </ul>
-    <h2>Hire me for</h2>
-    <ul class="tag-list">
-      <li>murals</li><li>illustration</li><li>branding &amp; logos</li><li>merch</li>
-      <li>album &amp; poster art</li><li>animation</li><li>character design</li><li>paintings</li>
-    </ul>
   </div>
-</section>
-<section class="block">
-  {bar("In the studio")}
-  <div class="pad-cell">{slot("about-studio", "16:9, 1280×720", ratio="16 / 9", alt="In the studio")}</div>
 </section>
 ''' + cta()
 page("about.html", "About | cosmicdroid", "About cosmicdroid, illustrator, animator and muralist based in Colombia.", about, "about.html")
@@ -456,61 +447,100 @@ contact = page_head("Contact", "Tell me about your wall, brand or idea. I usuall
       <p class="form-status" role="status" aria-live="polite"></p>
     </form>
   </div>
-  <aside class="split-cell contact-aside">
-    {slot("contact-critter", "400×400", alt="", style="max-width:240px")}
-    <div>
-      <h2>Email</h2>
-      <p class="big">cosmicdroidworld@gmail.com</p>
-    </div>
-    <div>
-      <h2>Instagram</h2>
-      <p class="big"><a href="https://www.instagram.com/cosmicdroid/" rel="noopener">@cosmicdroid</a></p>
-    </div>
-    <div>
-      <h2>Murals abroad</h2>
-      <p>I'm based in Colombia and travel for murals. Tell me the city and rough dates.</p>
-    </div>
-  </aside>
+  <div class="split-cell contact-room">
+    <video autoplay muted loop playsinline preload="auto" poster="assets/img/contact-room-poster.webp" aria-label="Animation: the frog's room in the castle">
+      <source src="assets/img/contact-room.mp4" type="video/mp4">
+    </video>
+  </div>
 </section>
 '''
 page("contact.html", "Contact | cosmicdroid", "Commission a mural, illustration, branding or animation from cosmicdroid.", contact, "contact.html")
 
-# ---------- JUNO ----------
-gal = "\n".join(
-    f'    <button type="button" aria-label="Enlarge photo {i}"><img src="../assets/img/juno-mural/{i:02d}.jpg" alt="Juno mural, photo {i}" loading="lazy" width="800" height="600"></button>'
-    for i in range(1, 10))
-juno = page_head("Juno mural", "A mural for Juno, a non-profit youth refuge in Villach, Austria. I designed and painted it together with a local artist.",
-                 extra='<p class="crumb"><a href="../work.html">← all works</a></p>') + f'''
-<section class="block">
-  <figure class="project-hero">
-    <img src="../assets/img/juno-mural/hero.jpg" alt="The finished Juno mural" width="1600" height="1000">
-  </figure>
-  <dl class="facts">
-    <div><dt>client</dt><dd>Juno youth refuge</dd></div>
-    <div><dt>location</dt><dd>Villach, Austria</dd></div>
-    <div><dt>year</dt><dd>2024</dd></div>
-    <div><dt>size</dt><dd class="todo">add size</dd></div>
-    <div><dt>with</dt><dd class="todo">add artist name</dd></div>
-  </dl>
-  <div class="pad-cell prose">
-    <p class="placeholder-note">Add a few lines about the idea and the process.</p>
-    <p>The wall was painted over a few days in late May and early June 2024. The photos below follow it from the first sketch lines to the finished piece.</p>
+# ---------- PROJECT PAGES ----------
+# Images live in site/assets/img/<slug>/ as WebP, made with tools/webimg.py
+# (NAME.webp is the big one for the zoom view, NAME-sm.webp the lighter one shown on the page).
+def gallery(slug, items, cls=""):
+    """items: (file name without .webp, alt text, caption or None)"""
+    out = []
+    d = os.path.join(ROOT, "assets", "img", slug)
+    for i, (name, alt, cap) in enumerate(items):
+        small = name + ("-sm" if os.path.exists(os.path.join(d, name + "-sm.webp")) else "")
+        c = f'<span class="g-cap"><span class="num">0{i + 1}</span>{cap}</span>' if cap else ""
+        out.append(f'    <button type="button" data-full="../assets/img/{slug}/{name}.webp" aria-label="Enlarge: {alt}">'
+                   f'<img src="../assets/img/{slug}/{small}.webp" alt="{alt}" loading="lazy">{c}</button>')
+    return f'<div class="gallery {cls}">\n' + "\n".join(out) + "\n  </div>"
+
+
+def facts(rows):
+    cells = []
+    for k, v in rows:
+        todo = ' class="todo"' if v.startswith("add ") else ""
+        cells.append(f'<div><dt>{k}</dt><dd{todo}>{v}</dd></div>')
+    return '<dl class="facts">' + "".join(cells) + '</dl>'
+
+
+PAGER = """<section class="pager">
+  <a href="../work.html">← all works</a>
+  <a href="../contact.html">make something with me ↗</a>
+</section>
+"""
+CRUMB = '<p class="crumb"><a href="../work.html">← all works</a></p>'
+
+# All the Cores and More
+atc = page_head("All the Cores and More", "A shirt for All the Cores and More, who interview artists from the alternative and heavy music scene.", extra=CRUMB) + f"""
+<section class="split project-intro">
+  <div class="split-cell project-intro-art gallery gallery-photo">
+    <button type="button" data-full="../assets/img/all-the-cores/shirts.webp" aria-label="Enlarge: the finished shirts">
+      <img src="../assets/img/all-the-cores/shirts-sm.webp" alt="The finished All the Cores and More shirts, front and back" width="750" height="1000">
+    </button>
+  </div>
+  <div class="split-cell stack">
+    <div class="prose">
+      <p>All the Cores and More is a brand that interviews artists from the alternative and heavy music scene. We teamed up on a merch drop: a shirt with a crest on the front and a full mosh pit of weird little guys on the back.</p>
+      <p>Below is how each side came together, from the first sketch to the printed shirt.</p>
+    </div>
+    {facts([("client", "All the Cores and More"), ("project", "Merch, shirt design"), ("year", "2026"), ("prints", "front + back")])}
   </div>
 </section>
 <section class="block">
-  {bar("Timelapse")}
-  <div class="pad-cell">{slot("juno-timelapse", "16:9 video .mp4", ratio="16 / 9", alt="Juno mural timelapse")}</div>
+  {bar("Front")}
+  {gallery("all-the-cores", [("sketch-front", "Front crest, first sketch", "sketch"), ("process-front", "Front crest, inked line art", "process"), ("digital-front", "Front crest, final digital art", "final digital")], "gallery-art gallery-3")}
+</section>
+<section class="block">
+  {bar("Back")}
+  {gallery("all-the-cores", [("sketch-back", "Back mosh pit, first sketch", "sketch"), ("process-back", "Back mosh pit, inked line art", "process"), ("digital-back", "Back mosh pit, final digital art", "final digital")], "gallery-art gallery-tall gallery-3")}
+</section>
+<section class="block">
+  {bar("The shirt")}
+  {gallery("all-the-cores", [("final-front", "The printed shirt, front", "front"), ("final-back", "The printed shirt, back", "back")], "gallery-photo gallery-tall gallery-2")}
+</section>
+""" + PAGER
+page("projects/all-the-cores.html", "All the Cores and More | cosmicdroid", "A shirt design by cosmicdroid for All the Cores and More, who interview artists from the alternative and heavy music scene.", atc, "work.html", base="../")
+
+# Juno mural
+juno = page_head("Juno mural", "A mural for Juno, a non-profit youth refuge in Villach, Austria. I designed and painted it together with a local artist.", extra=CRUMB) + f"""
+<section class="block">
+  <figure class="project-hero">
+    <img src="../assets/img/juno-mural/hero.webp" alt="The finished Juno mural" width="1384" height="1394">
+  </figure>
+  {facts([("client", "Juno youth refuge"), ("location", "Villach, Austria"), ("year", "2024"), ("size", "add size"), ("with", "add artist name")])}
+  <div class="pad-cell prose">
+    <p class="placeholder-note">Add a few lines about the idea and the process.</p>
+    <p>The wall was painted over a few days in late May and early June 2024. Below it goes from the first sketch over a photo of the house to the finished piece.</p>
+  </div>
+</section>
+<section class="block">
+  {bar("The design")}
+  {gallery("juno-mural", [("sketch", "Juno mural, sketch over a photo of the house", "sketch"), ("design", "Juno mural, digital color design", "digital design")], "gallery-art gallery-2")}
 </section>
 <section class="block">
   {bar("Process")}
-  <div class="gallery">
-{gal}
-  </div>
+  {gallery("juno-mural", [(f"process-{i}", f"Juno mural in progress, photo {i}", None) for i in range(1, 7)], "gallery-photo gallery-tall gallery-3")}
 </section>
-<section class="pager">
-  <a href="../work.html">← all works</a>
-  <a href="../contact.html">paint something with me ↗</a>
+<section class="block">
+  {bar("Finished")}
+  {gallery("juno-mural", [("final-1", "The Juno lettering wall", None), ("final-2", "The finished house, front", None), ("final-3", "The finished house and courtyard", None)], "gallery-photo gallery-3")}
 </section>
-'''
+""" + PAGER
 page("projects/juno-mural.html", "Juno mural | cosmicdroid", "A mural for Juno, a youth refuge in Villach, Austria, painted by cosmicdroid in 2024.", juno, "work.html", base="../")
 print("ok")

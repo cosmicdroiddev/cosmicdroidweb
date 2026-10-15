@@ -13,13 +13,24 @@
 */
 window.PROJECTS = [
   {
+    slug: "all-the-cores",
+    title: "All the Cores and More",
+    type: "work",
+    tag: "Merch design",
+    location: "",
+    year: "2026",          // CHECK year
+    cover: "assets/img/all-the-cores/cover.webp",
+    page: "projects/all-the-cores.html",
+    featured: true
+  },
+  {
     slug: "juno-mural",
     title: "Juno mural",
     type: "mural",
     tag: "Mural",
     location: "Villach, Austria",
     year: "2024",
-    cover: "assets/img/juno-mural/cover.jpg",
+    cover: "assets/img/juno-mural/cover.webp",
     page: "projects/juno-mural.html",
     featured: true
   },
