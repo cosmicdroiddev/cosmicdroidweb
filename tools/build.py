@@ -415,10 +415,11 @@ about = page_head("About") + f'''
 page("about.html", "About | cosmicdroid", "About cosmicdroid, illustrator, animator and muralist based in Colombia.", about, "about.html")
 
 # ---------- CONTACT ----------
-contact = page_head("Contact", "Tell me about your wall, brand or idea. I usually reply within a few days.") + f'''
+contact = page_head("Contact") + f'''
 <section class="split">
   <div class="split-cell">
     <form class="form" name="contact" method="POST" data-netlify="true" netlify-honeypot="bot-field" data-contact>
+      <p class="form-intro">Tell me about your wall, brand or idea. I usually reply within a few days.</p>
       <input type="hidden" name="form-name" value="contact">
       <p class="hidden-field"><label>Leave this empty <input name="bot-field" id="bot-field"></label></p>
       <div class="form-row">
