@@ -1471,3 +1471,164 @@ html.is-loading .loader.is-done { opacity: 0; visibility: hidden; }
   .contact-room { position: relative; }
   .contact-room video { position: absolute; inset: 0; width: 100%; height: 100%; max-height: none; padding: 24px; box-sizing: border-box; }
 }
+
+/* ---------- Oct 16: more gallery shapes for project pages ---------- */
+.gallery.gallery-4 { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+.gallery-free { align-items: stretch; }
+.gallery-free button { background: var(--panel); display: grid; place-items: center; }
+.gallery-free img { aspect-ratio: auto; height: auto; max-height: 70vh; object-fit: contain; padding: clamp(10px, 2vw, 24px); }
+.gallery-hero { grid-template-columns: minmax(0, 1fr); }
+.gallery-hero button { display: grid; place-items: center; }
+.gallery-hero img { aspect-ratio: auto; width: auto; max-width: 100%; max-height: 86vh; }
+.gallery-phones img { max-height: 620px; }
+.gallery-steps { grid-template-columns: repeat(7, minmax(0, 1fr)); }
+.project-intro.intro-wide { grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr); }
+@media (min-width: 761px) {
+  .intro-wide .project-intro-art img { aspect-ratio: auto; height: auto; max-height: min(72vh, 720px); object-fit: contain; background: var(--panel); }
+}
+@media (max-width: 1100px) { .gallery-steps { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
+@media (max-width: 760px) {
+  .gallery.gallery-4, .gallery-steps { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .gallery-free.gallery-3, .gallery-free.gallery-2 { grid-template-columns: minmax(0, 1fr); }
+  .project-intro.intro-wide { grid-template-columns: minmax(0, 1fr); }
+}
+
+/* videos that loop on project pages (they only play while on screen) */
+.vid-row { display: grid; gap: 1px; background: var(--line); grid-template-columns: repeat(auto-fit, minmax(min(260px, 100%), 1fr)); }
+.vid-cell { position: relative; margin: 0; background: #120d24; display: grid; place-items: center; overflow: hidden; }
+.vid-cell video { display: block; width: 100%; height: 100%; max-height: 80vh; object-fit: contain; }
+.vid-single .vid-cell video { max-height: 78vh; }
+.vid-portrait .vid-cell video, .vid-portrait-row .vid-cell video { max-height: 78vh; width: auto; max-width: 100%; }
+.vid-portrait-row { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.vid-mixed { grid-template-columns: 2fr 1fr; }
+.vid-mixed .vid-cell video { max-height: 70vh; }
+@media (max-width: 760px) { .vid-mixed { grid-template-columns: minmax(0, 1fr); } }
+
+/* ---------- Oct 16: Big cats viewer — the whole section takes the color of the cat you're looking at ---------- */
+.cats {
+  display: grid; grid-template-columns: minmax(0, 1.35fr) minmax(0, 1fr);
+  background: var(--cat-bg); transition: background-color 0.45s ease;
+  border-bottom: 1px solid var(--line);
+}
+.cats-stage { position: relative; padding: clamp(18px, 3vw, 40px); display: grid; place-items: center; border-right: 1px solid var(--line); min-width: 0; }
+.cats-main { margin: 0; width: min(100%, 620px); aspect-ratio: 1 / 1; touch-action: pan-y; }
+.cats-main img { width: 100%; height: 100%; object-fit: contain; display: block; border: 1px solid var(--line); box-shadow: 10px 10px 0 var(--line); background: var(--cat-bg); }
+.cats-main img.is-pop { animation: cat-pop 0.38s cubic-bezier(0.2, 0.9, 0.3, 1.35); }
+@keyframes cat-pop { from { transform: scale(0.94) rotate(-1.5deg); opacity: 0.4; } to { transform: none; opacity: 1; } }
+.cats-arrow {
+  position: absolute; top: 50%; transform: translateY(-50%); z-index: 2;
+  width: 44px; height: 44px; border: 1px solid var(--line); background: var(--panel); color: var(--line);
+  font: 700 1.1rem/1 var(--mono); cursor: pointer;
+}
+.cats-arrow:hover { background: var(--lime); }
+.cats-prev { left: 12px; } .cats-next { right: 12px; }
+.cats-hud { position: absolute; left: 12px; right: 12px; bottom: 12px; display: flex; justify-content: space-between; gap: 8px; pointer-events: none; }
+.cats-hud > * { pointer-events: auto; }
+.cats-count, .cats-shuffle { background: var(--panel); border: 1px solid var(--line); padding: 6px 10px; font: 400 0.85rem/1 var(--mono); color: var(--ink); }
+.cats-count b { font-weight: 700; }
+.cats-shuffle { cursor: pointer; }
+.cats-shuffle:hover { background: var(--lime); }
+.cats-strip {
+  display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 1px; background: var(--line);
+  align-content: start; max-height: calc(min(620px, 100vw) + 2 * clamp(18px, 3vw, 40px)); overflow-y: auto; scrollbar-width: thin;
+}
+.cat-thumb { padding: 0; border: 0; background: var(--c); cursor: pointer; position: relative; aspect-ratio: 1 / 1; overflow: hidden; }
+.cat-thumb img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform 0.25s ease, opacity 0.25s; opacity: 0.85; }
+.cat-thumb:hover img, .cat-thumb:focus-visible img { transform: scale(1.12); opacity: 1; }
+.cat-thumb.is-on { outline: 3px solid var(--lime); outline-offset: -3px; z-index: 1; }
+.cat-thumb.is-on img { opacity: 1; }
+@media (max-width: 760px) {
+  .cats { grid-template-columns: minmax(0, 1fr); }
+  .cats-stage { border-right: 0; border-bottom: 1px solid var(--line); padding: 16px 16px 60px; }
+  .cats-arrow { top: auto; bottom: 12px; transform: none; width: 40px; height: 36px; }
+  .cats-prev { left: auto; right: 64px; }
+  .cats-hud { right: 112px; }
+  .cats-strip { display: flex; overflow-x: auto; overflow-y: hidden; max-height: none; scrollbar-width: none; }
+  .cats-strip::-webkit-scrollbar { display: none; }
+  .cat-thumb { flex: 0 0 72px; scroll-snap-align: center; }
+}
+@media (prefers-reduced-motion: reduce) { .cats-main img.is-pop { animation: none; } .cats { transition: none; } }
+/* facts: the last box stretches to fill its row, so no empty blue gap is left */
+.facts div:last-child { grid-column: auto / -1; }
+/* big cats strip: tiles float on the cat's color instead of a blue grid */
+.cats-strip { background: transparent; gap: 6px; padding: 10px; }
+.cat-thumb { border: 1px solid var(--line); }
+@media (max-width: 760px) { .cats-strip { padding: 10px 12px; } }
+/* captions on videos match the gallery captions */
+.vid-cell .g-cap {
+  position: absolute; left: 0; bottom: 0; display: flex; gap: 8px; align-items: baseline;
+  padding: 6px 10px; background: var(--paper); border-top: 1px solid var(--line); border-right: 1px solid var(--line);
+  font-family: var(--mono); font-size: 0.75rem; color: var(--ink);
+}
+.vid-cell .g-cap .num { color: var(--muted); }
+
+/* ---------- Oct 16: home "my comic" box — a photo of the comic fades in behind the title on hover ---------- */
+.lk-cell { overflow: hidden; isolation: isolate; }
+.lk-cell::before {
+  content: ""; position: absolute; inset: 0; z-index: -1;
+  background: url(../assets/img/leapkill/hover.webp) center 60% / cover no-repeat;
+  opacity: 0; transform: scale(1.08); transition: opacity 0.4s ease, transform 0.6s ease;
+}
+.lk-cell:hover::before, .lk-cell:focus-visible::before { opacity: 0.35; transform: scale(1); }
+@media (hover: none) { .lk-cell::before { opacity: 0.18; transform: none; } }
+
+/* ---------- Oct 16: Leap Kill "packed by hand" — speed-ramped video in a camcorder frame ---------- */
+.lk-pack {
+  display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); align-items: center;
+  gap: clamp(24px, 5vw, 80px); padding: clamp(36px, 6vw, 90px) clamp(20px, 5vw, 80px);
+  background:
+    linear-gradient(rgba(179, 119, 255, 0.13) 1px, transparent 1px) 0 0 / 48px 48px,
+    linear-gradient(90deg, rgba(179, 119, 255, 0.13) 1px, transparent 1px) 0 0 / 48px 48px,
+    #120d24;
+  color: #efe3cc; border-bottom: 1px solid var(--line); overflow: hidden;
+}
+.lk-pack-screen { display: grid; place-items: center; }
+.lk-pack-frame {
+  position: relative; width: min(100%, 400px); aspect-ratio: 9 / 16; max-height: 78vh;
+  border: 3px solid var(--lime); box-shadow: 12px 12px 0 var(--violet), 0 0 60px rgba(230, 244, 60, 0.12);
+  transform: rotate(-2deg); transition: transform 0.4s cubic-bezier(0.2, 0.9, 0.3, 1.2); background: #000; overflow: hidden;
+}
+.lk-pack-frame:hover { transform: rotate(0deg) scale(1.02); }
+.lk-pack-frame video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+.lk-pack-scan {
+  position: absolute; inset: 0; pointer-events: none; mix-blend-mode: multiply;
+  background: repeating-linear-gradient(0deg, rgba(0, 0, 0, 0.18) 0 1px, transparent 1px 3px);
+  box-shadow: inset 0 0 70px rgba(0, 0, 0, 0.55);
+}
+.lk-pack-rec, .lk-pack-speed, .lk-pack-time {
+  position: absolute; z-index: 1; font-family: "VT323", var(--mono); font-size: 1.35rem; line-height: 1; color: #fff;
+  text-shadow: 0 0 6px rgba(0, 0, 0, 0.8), 2px 2px 0 rgba(0, 0, 0, 0.6); letter-spacing: 0.04em; text-transform: uppercase;
+}
+.lk-pack-rec { top: 14px; left: 14px; display: flex; align-items: center; gap: 6px; }
+.lk-pack-rec i { width: 10px; height: 10px; border-radius: 50%; background: #ff3b5c; box-shadow: 0 0 8px #ff3b5c; }
+@media (prefers-reduced-motion: no-preference) { .lk-pack-rec i { animation: rec-blink 1s steps(2) infinite; } }
+@keyframes rec-blink { 50% { opacity: 0; } }
+.lk-pack-speed { top: 12px; right: 12px; padding: 4px 7px 2px; background: rgba(0, 0, 0, 0.45); transition: background-color 0.2s, color 0.2s; }
+.lk-pack-speed.is-fast { background: var(--lime); color: #120d24; text-shadow: none; }
+.lk-pack-time { bottom: 22px; left: 14px; }
+.lk-pack-bar { position: absolute; left: 0; right: 0; bottom: 0; height: 6px; background: rgba(255, 255, 255, 0.18); z-index: 1; }
+.lk-pack-bar span { display: block; height: 100%; width: 0; background: var(--lime); }
+.lk-pack-kicker { font-family: var(--mono); font-size: 0.85rem; color: var(--lime); margin: 0 0 10px; text-transform: lowercase; }
+.lk-pack-title {
+  margin: 0 0 22px; font-family: var(--sans); font-stretch: 125%; font-weight: 900; font-style: italic; text-transform: uppercase;
+  font-size: clamp(2.6rem, 7vw, 6rem); line-height: 0.92; color: var(--lime);
+  text-shadow: 4px 4px 0 var(--violet);
+}
+.lk-pack-text > p:not(.lk-pack-kicker) { max-width: 42ch; font-size: 1.08rem; line-height: 1.6; color: #efe3cc; margin: 0 0 24px; }
+.lk-pack-list { list-style: none; margin: 0; padding: 0; border-top: 1px solid rgba(179, 119, 255, 0.4); max-width: 420px; }
+.lk-pack-list li {
+  display: flex; gap: 16px; padding: 12px 0; border-bottom: 1px solid rgba(179, 119, 255, 0.4);
+  font-family: var(--mono); font-size: 0.95rem; transition: color 0.25s, padding-left 0.25s;
+}
+.lk-pack-list li b { color: var(--logo, #b377ff); font-weight: 700; }
+.lk-pack-list li:hover { color: var(--lime); padding-left: 8px; }
+@media (max-width: 760px) {
+  .lk-pack { grid-template-columns: minmax(0, 1fr); padding: 40px 16px 48px; }
+  .lk-pack-frame { width: min(78vw, 340px); }
+  .lk-pack-text { order: -1; }
+}
+
+/* ---------- Oct 16: Frog Jump tilt warning + Instagram icon 5% bigger ---------- */
+.intro-card .intro-warn { color: #d9485f; font-size: 2.6rem; text-transform: uppercase; }
+.intro-card .intro-skip { margin-top: 6px; }
+.socials svg.ic-ig { width: 21px; height: 21px; }

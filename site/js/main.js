@@ -399,3 +399,126 @@
   window.addEventListener("resize", function () { measure(); update(); });
   window.addEventListener("load", function () { measure(); update(); });
 })();
+
+// ---- project pages: looping videos play only while they're on screen ----
+(function () {
+  var vids = document.querySelectorAll("video[data-autoplay]");
+  if (!vids.length) return;
+  var reduce = window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches;
+  if (reduce) { vids.forEach(function (v) { v.controls = true; }); return; }
+  if (!("IntersectionObserver" in window)) { vids.forEach(function (v) { v.autoplay = true; v.play && v.play().catch(function () {}); }); return; }
+  var io = new IntersectionObserver(function (entries) {
+    entries.forEach(function (e) {
+      var v = e.target;
+      if (e.isIntersecting) { if (v.preload === "none") v.preload = "auto"; var p = v.play(); if (p) p.catch(function () {}); }
+      else v.pause();
+    });
+  }, { threshold: 0.25 });
+  vids.forEach(function (v) { io.observe(v); });
+})();
+
+// ---- Big cats viewer: hover / tap / swipe / arrows; the section takes each cat's background color ----
+(function () {
+  var root = document.querySelector("[data-cats]");
+  if (!root) return;
+  var img = root.querySelector("[data-cat-img]");
+  var num = root.querySelector("[data-cat-n]");
+  var strip = root.querySelector("[data-cat-strip]");
+  var thumbs = Array.prototype.slice.call(root.querySelectorAll(".cat-thumb"));
+  var total = thumbs.length, cur = 1, shuffling = false;
+  var base = "../assets/img/big-cats-collection/cats/";
+  var pad = function (n) { return (n < 10 ? "0" : "") + n; };
+  var coarse = window.matchMedia && matchMedia("(hover: none)").matches;
+
+  function show(n, scroll) {
+    n = ((n - 1 + total) % total) + 1;
+    if (n === cur && img.getAttribute("src").indexOf(pad(n) + ".webp") > -1) return;
+    cur = n;
+    var t = thumbs[n - 1];
+    root.style.setProperty("--cat-bg", t.getAttribute("data-bg"));
+    img.src = base + pad(n) + ".webp";
+    img.alt = "Big cat " + pad(n) + " of " + total;
+    img.classList.remove("is-pop"); void img.offsetWidth; img.classList.add("is-pop");
+    num.textContent = pad(n);
+    thumbs.forEach(function (x) { x.classList.toggle("is-on", x === t); });
+    if (scroll) {
+      // keep the active thumb visible without scrolling the page
+      var sr = strip.getBoundingClientRect(), tr = t.getBoundingClientRect();
+      if (getComputedStyle(strip).display === "flex") strip.scrollTo({ left: strip.scrollLeft + tr.left - sr.left - (sr.width - tr.width) / 2, behavior: "smooth" });
+      else if (tr.top < sr.top || tr.bottom > sr.bottom) strip.scrollTo({ top: strip.scrollTop + tr.top - sr.top - (sr.height - tr.height) / 2, behavior: "smooth" });
+    }
+    // warm up the neighbours
+    [n + 1, n - 1].forEach(function (k) { var i = new Image(); i.src = base + pad(((k - 1 + total) % total) + 1) + ".webp"; });
+  }
+  thumbs[0].classList.add("is-on");
+  thumbs.forEach(function (t) {
+    var n = +t.getAttribute("data-cat");
+    if (!coarse) t.addEventListener("mouseenter", function () { if (!shuffling) show(n); });
+    t.addEventListener("click", function () { shuffling = false; show(n, true); });
+    t.addEventListener("focus", function () { if (!shuffling) show(n); });
+  });
+  root.querySelectorAll("[data-cat-step]").forEach(function (b) {
+    b.addEventListener("click", function () { shuffling = false; show(cur + +b.getAttribute("data-cat-step"), true); });
+  });
+  // shuffle: flicks through a few cats like a slot machine, then lands
+  root.querySelector("[data-cat-random]").addEventListener("click", function () {
+    if (shuffling) return;
+    shuffling = true;
+    var steps = 9 + Math.floor(Math.random() * 6), i = 0;
+    (function spin() {
+      if (!shuffling) return;
+      var n; do { n = 1 + Math.floor(Math.random() * total); } while (n === cur);
+      show(n, i === steps);
+      if (++i <= steps) setTimeout(spin, 50 + i * i * 2.2); else shuffling = false;
+    })();
+  });
+  // swipe on the big cat (phones)
+  var sx = null, sy = null;
+  img.addEventListener("touchstart", function (e) { sx = e.touches[0].clientX; sy = e.touches[0].clientY; }, { passive: true });
+  img.addEventListener("touchend", function (e) {
+    if (sx === null) return;
+    var dx = e.changedTouches[0].clientX - sx, dy = e.changedTouches[0].clientY - sy;
+    if (Math.abs(dx) > 40 && Math.abs(dx) > Math.abs(dy)) show(cur + (dx < 0 ? 1 : -1), true);
+    sx = null;
+  });
+  // keyboard arrows while the viewer is on screen
+  var visible = false;
+  if ("IntersectionObserver" in window) new IntersectionObserver(function (e) { visible = e[0].isIntersecting; }, { threshold: 0.4 }).observe(root);
+  document.addEventListener("keydown", function (e) {
+    if (!visible || e.target.closest("input, textarea, select")) return;
+    if (e.key === "ArrowRight") { e.preventDefault(); show(cur + 1, true); }
+    if (e.key === "ArrowLeft") { e.preventDefault(); show(cur - 1, true); }
+  });
+})();
+
+// ---- Leap Kill "packed by hand": camcorder readout synced to the speed-ramped video ----
+(function () {
+  var root = document.querySelector("[data-lk-pack]");
+  if (!root) return;
+  var v = root.querySelector("video"), spd = root.querySelector("[data-pack-speed]"),
+      tm = root.querySelector("[data-pack-time]"), bar = root.querySelector("[data-pack-bar]");
+  // same curve the video was edited with: 1x, ease to 4x at 0:04, back to 1x for the last 4 seconds of footage
+  function ease(x) { x = Math.min(1, Math.max(0, x)); return 0.5 - 0.5 * Math.cos(Math.PI * x); }
+  function speed(t) {
+    if (t < 4) return 1;
+    if (t < 4.8) return 1 + 3 * ease((t - 4) / 0.8);
+    if (t < 20.5) return 4;
+    if (t < 21.3) return 1 + 3 * ease((21.3 - t) / 0.8);
+    return 1;
+  }
+  // real footage time for each moment of the edited clip
+  var real = [0], step = 1 / 60;
+  for (var i = 1; i < 60 * 30; i++) real[i] = real[i - 1] + speed(i * step) * step;
+  function fmt(s) { s = Math.floor(s); return (s < 600 ? "0" : "") + Math.floor(s / 60) + ":" + (s % 60 < 10 ? "0" : "") + (s % 60); }
+  var raf = null;
+  function tick() {
+    var t = v.currentTime || 0, sp = speed(t);
+    spd.textContent = (sp > 1.05 ? "▶▶ x" : "▶ x") + sp.toFixed(1);
+    spd.classList.toggle("is-fast", sp > 1.05);
+    tm.textContent = fmt(real[Math.min(real.length - 1, Math.round(t / step))]);
+    if (v.duration) bar.style.width = (100 * t / v.duration) + "%";
+    raf = v.paused ? null : requestAnimationFrame(tick);
+  }
+  v.addEventListener("play", function () { if (!raf) raf = requestAnimationFrame(tick); });
+  v.addEventListener("seeked", tick);
+})();

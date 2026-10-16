@@ -34,8 +34,20 @@
           <button class="button" type="button" data-action="play">Play</button>
           <button class="button ghost" type="button" data-action="enter">Back to the castle</button>
         </div>
-        <p class="intro-keys">← → to steer, space to lick<br>phones: tilt, tap the tongue</p>
+        <p class="intro-keys">← → to steer, click to aim the tongue<br>phones: tilt to steer, tap to aim</p>
         <p class="intro-keys">best: <span data-best>0</span></p>
+      </div>
+    </div>
+    <div class="intro-screen" data-screen="tilt" hidden>
+      <div class="intro-card">
+        <p class="intro-big intro-warn">tilt is off</p>
+        <p>Frog Jump is played by tilting your phone left and right. Without motion access the Frog can't steer, so the game won't work as intended.</p>
+        <p class="intro-keys">If you said no by mistake, tap "try again". On iPhone you may need to close and reopen the page first.</p>
+        <div class="intro-actions">
+          <button class="button" type="button" data-action="tilt-retry">Try again</button>
+          <button class="button ghost" type="button" data-action="tilt-anyway">Play anyway</button>
+        </div>
+        <button class="intro-skip" type="button" data-action="enter">back to the castle</button>
       </div>
     </div>
     <div class="intro-screen" data-screen="over" hidden>

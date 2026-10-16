@@ -21,8 +21,20 @@ INTRO = '''<div class="intro" id="intro" role="dialog" aria-modal="true" aria-la
           <button class="button" type="button" data-action="play">Play</button>
           <button class="button ghost" type="button" data-action="enter">Back to the castle</button>
         </div>
-        <p class="intro-keys">← → to steer, space to lick<br>phones: tilt, tap the tongue</p>
+        <p class="intro-keys">← → to steer, click to aim the tongue<br>phones: tilt to steer, tap to aim</p>
         <p class="intro-keys">best: <span data-best>0</span></p>
+      </div>
+    </div>
+    <div class="intro-screen" data-screen="tilt" hidden>
+      <div class="intro-card">
+        <p class="intro-big intro-warn">tilt is off</p>
+        <p>Frog Jump is played by tilting your phone left and right. Without motion access the Frog can't steer, so the game won't work as intended.</p>
+        <p class="intro-keys">If you said no by mistake, tap "try again". On iPhone you may need to close and reopen the page first.</p>
+        <div class="intro-actions">
+          <button class="button" type="button" data-action="tilt-retry">Try again</button>
+          <button class="button ghost" type="button" data-action="tilt-anyway">Play anyway</button>
+        </div>
+        <button class="intro-skip" type="button" data-action="enter">back to the castle</button>
       </div>
     </div>
     <div class="intro-screen" data-screen="over" hidden>
@@ -326,6 +338,31 @@ leapkill = f'''<section class="lk-hero">
 </section>
 {ticker(["leap kill", "vol. 01", "comic", "holographic stickers", "videogame", "by cosmicdroid"])}
 
+<section class="lk-pack" data-lk-pack>
+  <div class="lk-pack-screen">
+    <div class="lk-pack-frame">
+      <video muted loop playsinline preload="none" data-autoplay poster="assets/img/leapkill/pack-poster.webp" aria-label="Video: packing a Leap Kill pack by hand">
+        <source src="assets/img/leapkill/pack.mp4" type="video/mp4">
+      </video>
+      <span class="lk-pack-scan" aria-hidden="true"></span>
+      <span class="lk-pack-rec" aria-hidden="true"><i></i>rec</span>
+      <span class="lk-pack-speed" aria-hidden="true" data-pack-speed>▶ x1.0</span>
+      <span class="lk-pack-time" aria-hidden="true" data-pack-time>00:00</span>
+      <span class="lk-pack-bar" aria-hidden="true"><span data-pack-bar></span></span>
+    </div>
+  </div>
+  <div class="lk-pack-text">
+    <p class="lk-pack-kicker">behind the pack</p>
+    <h2 class="lk-pack-title">Packed<br>by hand</h2>
+    <p>Every Vol. 01 pack is put together on my desk: the comic, a sheet of holographic stickers and the game, slipped into a bag and sealed with a little castle sticker.</p>
+    <ol class="lk-pack-list">
+      <li><b>01</b> the comic</li>
+      <li><b>02</b> holo stickers</li>
+      <li><b>03</b> the game</li>
+      <li><b>04</b> sealed &amp; signed</li>
+    </ol>
+  </div>
+</section>
 <section class="block">
   {bar("The hero")}
   <div class="lk-hero-row">
@@ -544,4 +581,191 @@ juno = page_head("Juno mural", "A mural for Juno, a non-profit youth refuge in V
 </section>
 """ + PAGER
 page("projects/juno-mural.html", "Juno mural | cosmicdroid", "A mural for Juno, a youth refuge in Villach, Austria, painted by cosmicdroid in 2024.", juno, "work.html", base="../")
+
+# ---------- MORE PROJECT PAGES (Oct 16) ----------
+def vids(slug, items, cls=""):
+    """Muted looping videos. items: (file name without .mp4, caption). They play only while on screen (main.js)."""
+    out = []
+    for i, (name, cap) in enumerate(items):
+        c = f'<span class="g-cap"><span class="num">0{i + 1}</span>{cap}</span>' if cap else ""
+        out.append(f'    <figure class="vid-cell"><video muted loop playsinline preload="none" data-autoplay '
+                   f'poster="../assets/img/{slug}/{name}-poster.webp"><source src="../assets/img/{slug}/{name}.mp4" type="video/mp4"></video>{c}</figure>')
+    return f'<div class="vid-row {cls}">\n' + "\n".join(out) + "\n  </div>"
+
+
+def intro(slug, img, alt, paras, fact_rows, tall=True):
+    small = img + ("-sm" if os.path.exists(os.path.join(ROOT, "assets", "img", slug, img + "-sm.webp")) else "")
+    ps = "".join(f"<p>{p}</p>" for p in paras)
+    return f'''<section class="split project-intro{"" if tall else " intro-wide"}">
+  <div class="split-cell project-intro-art gallery gallery-photo">
+    <button type="button" data-full="../assets/img/{slug}/{img}.webp" aria-label="Enlarge: {alt}">
+      <img src="../assets/img/{slug}/{small}.webp" alt="{alt}">
+    </button>
+  </div>
+  <div class="split-cell stack">
+    <div class="prose">{ps}</div>
+    {facts(fact_rows)}
+  </div>
+</section>
+'''
+
+
+def block(title, inner):
+    return f'''<section class="block">
+  {bar(title)}
+  {inner}
+</section>
+'''
+
+
+def project(slug, title, lede, desc, body):
+    html = page_head(title, lede, extra=CRUMB) + "\n" + body + PAGER
+    page(f"projects/{slug}.html", f"{title} | cosmicdroid", desc, html, "work.html", base="../")
+
+
+# Brutal Burger Quest
+project("brutal-burger-quest", "Brutal Burger Quest", "Pixel-art characters, bosses and tiles for a burger-fuelled game.",
+        "Game art by cosmicdroid for Brutal Burger Quest: the player, enemies, mage bosses, tiles and effects.",
+        intro("brutal-burger-quest", "cover", "Brutal Burger Quest title art: a horned mage holding a burger",
+              ["Brutal Burger Quest is a little game about fighting your way to the ultimate burger. I drew the whole cast: the hero, the creatures that get in the way, a council of burger-hoarding mages, and the tiles and effects that hold the world together."],
+              [("project", "Game art"), ("year", "2023"), ("made", "characters, tiles, effects")], tall=False)
+        + block("In motion", vids("brutal-burger-quest", [("gameplay", "gameplay"), ("phone", "on the phone")], "vid-mixed"))
+        + block("The cast", gallery("brutal-burger-quest", [("player", "The hero's sprite sheet", "hero"), ("enemies", "Enemy sprites: gorilla, bat and beetle", "enemies"), ("mages", "Twelve burger mages", "mages")], "gallery-free gallery-3"))
+        + block("The world", gallery("brutal-burger-quest", [("tiles", "Ground and wall tiles", "tiles"), ("extras", "Explosions and breakable blocks", "effects")], "gallery-free gallery-2")))
+
+# Big cats: interactive viewer
+CATS = __import__("json").load(open(os.path.join(os.path.dirname(os.path.abspath(__file__)), "big_cats.json")))
+cat_thumbs = "\n".join(
+    f'      <button type="button" class="cat-thumb" data-cat="{c["n"]}" data-bg="{c["bg"]}" style="--c:{c["bg"]}" aria-label="Cat {c["n"]:02d}">'
+    f'<img src="../assets/img/big-cats-collection/cats/{c["n"]:02d}-sm.webp" alt="" loading="lazy" width="560" height="560"></button>'
+    for c in CATS)
+first = CATS[0]
+cats_viewer = f'''<section class="cats" data-cats style="--cat-bg:{first["bg"]}">
+  <div class="cats-stage">
+    <button type="button" class="cats-arrow cats-prev" data-cat-step="-1" aria-label="Previous cat">←</button>
+    <figure class="cats-main">
+      <img src="../assets/img/big-cats-collection/cats/01.webp" alt="Big cat 01 of {len(CATS)}" width="1400" height="1400" data-cat-img>
+    </figure>
+    <button type="button" class="cats-arrow cats-next" data-cat-step="1" aria-label="Next cat">→</button>
+    <div class="cats-hud">
+      <span class="cats-count"><b data-cat-n>01</b> / {len(CATS)}</span>
+      <button type="button" class="cats-shuffle" data-cat-random>shuffle ⚄</button>
+    </div>
+  </div>
+  <div class="cats-strip" data-cat-strip>
+{cat_thumbs}
+  </div>
+</section>
+'''
+project("big-cats-collection", "Big cats collection", f"{len(CATS)} wild cats, each in its own little world. Hover or swipe through them.",
+        "An illustration series by cosmicdroid: wild cats from around the world, each in its own landscape.",
+        cats_viewer
+        + intro("big-cats-collection", "sketches", "Pencil sketches for the big cats series",
+                [f"A personal series of {len(CATS)} wild cats, from the snow leopard to the tiny sand cat. Each one sits in a landscape from where it lives, drawn with the same flat colors and a background that's all its own.",
+                 "Everything started as pencil sketches, laid out together so the whole family would feel like one set."],
+                [("project", "Illustration series"), ("cats", str(len(CATS))), ("year", "2023"), ("format", "square prints")], tall=False))
+
+# Borea
+project("borea", "Borea", "Packaging illustration for Borea: a box wrapped in a glowing undersea garden.",
+        "Packaging illustration by cosmicdroid for Borea.",
+        intro("borea", "cover", "The printed Borea box",
+              ["A box for Borea, covered edge to edge in coral, kelp and little hidden creatures. The art wraps around every face, so the box reads as one scene when you turn it in your hands."],
+              [("client", "Borea"), ("project", "Packaging"), ("year", "2024")])
+        + block("Unboxing", vids("borea", [("box", None)], "vid-single"))
+        + block("From line to box", gallery("borea", [("lineart", "Borea box, line art for each panel", "line art"), ("flat", "Borea box, the flat colored art", "color"), ("dieline", "Borea box, color test on the dieline", "dieline")], "gallery-art gallery-3")))
+
+# Botanica mural
+project("botanica-mural", "Botánica mural", "A castle tower, two dragons and a hooded wizard, painted big on a yellow wall.",
+        "A mural painted by cosmicdroid: a castle tower guarded by dragons and bats.",
+        intro("botanica-mural", "cover", "cosmicdroid in front of the finished mural",
+              ["A wall I painted from a white sketch to a full castle: bats circling the tower, two dragons climbing it, and a hooded wizard holding the star at the bottom."],
+              [("project", "Mural"), ("location", "add location"), ("year", "2022"), ("size", "add size")])
+        + block("Timelapse", vids("botanica-mural", [("timelapse", None)], "vid-single vid-portrait"))
+        + block("Step by step", gallery("botanica-mural", [(f"step-{i}", f"The mural, step {i}", f"step {i}") for i in range(1, 7)] + [("step-7", "The finished mural", "finished")], "gallery-photo gallery-tall gallery-steps")))
+
+# Cage of Destiny
+project("cage-of-destiny", "Cage of Destiny", "A game jam game made with Ash Badas. I did the art; it ranked #23 in presentation.",
+        "Cage of Destiny, a game jam game by cosmicdroid and Ash Badas.",
+        intro("cage-of-destiny", "cover", "Cage of Destiny cover art: a lizard king and a caged knight",
+              ["A short game made for a game jam with Ash Badas: a knight locked in a cage has to escape a lizard king. I drew the characters, items, cutscenes and the title lettering.",
+               "Out of the whole jam it ranked #23 for presentation and #34 for enjoyment, 72nd overall with 47 ratings."],
+              [("with", "Ash Badas"), ("project", "Game art"), ("year", "2023"), ("presentation", "#23")], tall=False)
+        + block("Gameplay", vids("cage-of-destiny", [("gameplay", None)], "vid-single"))
+        + block("Art", gallery("cage-of-destiny", [("cutscene", "A cutscene: the king, the princess and the lizard", "cutscene"), ("sprites", "Characters and items", "sprites"), ("title", "Title lettering", "title"), ("ranking", "The jam results", "results")], "gallery-free gallery-2")))
+
+# Cannabicultores
+project("cannabicultores", "Cannabicultores", "The poster for the 2024 Cannabicultores festival in Manizales, Colombia.",
+        "Festival poster illustration by cosmicdroid for Cannabicultores 2024 in Manizales, Colombia.",
+        intro("cannabicultores", "cover", "The Cannabicultores banner hanging on a wall",
+              ["A tower of little shops, plants and characters for the 2024 Cannabicultores festival, October 19 and 20 in Manizales. The art went on banners, posters and screens around the event."],
+              [("client", "Cannabicultores"), ("event", "Oct 19–20, 2024"), ("location", "Manizales, Colombia"), ("project", "Poster")])
+        + block("The illustration", gallery("cannabicultores", [("illustration", "The full Cannabicultores illustration", "illustration"), ("banner", "The printed banner", "banner"), ("posters", "Posters around town", "posters")], "gallery-free gallery-3"))
+        + block("At the festival", vids("cannabicultores", [("festival", None)], "vid-single")))
+
+# Imprint Rolling
+project("imprint-rolling", "Imprint Rolling", "Wavy logos and packaging art for Imprint Rolling.",
+        "Branding and packaging illustration by cosmicdroid for Imprint Rolling.",
+        intro("imprint-rolling", "cover", "Imprint Rolling tubes with the printed art",
+              ["A set of logos, stickers and packaging art for Imprint Rolling: melting letters, comic panels and a few strange creatures, made to work in one color or in full."],
+              [("client", "Imprint Rolling"), ("project", "Branding, packaging"), ("year", "2026")])
+        + block("The art", gallery("imprint-rolling", [(f"art-{i}", f"Imprint Rolling artwork {i}", None) for i in range(1, 9)], "gallery-art gallery-4")))
+
+# No Known Weakness
+project("no-known-weakness", "No Known Weakness", "Cover art for Tales From The Clydeside, the EP by Glasgow's No Known Weakness.",
+        "Album cover art by cosmicdroid for No Known Weakness, Tales From The Clydeside.",
+        intro("no-known-weakness", "cover", "The singer of No Known Weakness in front of the cover art",
+              ["A cover for Tales From The Clydeside: Glasgow's river Clyde overrun by monsters, with the Squinty Bridge, the Finnieston Crane and the Armadillo all getting wrecked.",
+               "It started from photos of the real places, then a sketch, line art and the final colors."],
+              [("client", "No Known Weakness"), ("from", "Glasgow, UK"), ("release", "Tales From The Clydeside"), ("year", "2026")])
+        + block("The cover", gallery("no-known-weakness", [("final", "Tales From The Clydeside, final cover", "final")], "gallery-art gallery-hero"))
+        + block("Process", gallery("no-known-weakness", [("references", "Reference photos and first layout", "references"), ("sketch", "The sketch", "sketch"), ("lineart", "Line art", "line art")], "gallery-art gallery-3"))
+        + block("Out there", gallery("no-known-weakness", [("bandcamp", "The EP on Bandcamp", "bandcamp"), ("spotify", "The EP on Spotify", "spotify")], "gallery-free gallery-2 gallery-phones")))
+
+# Orgánico
+project("organico", "Orgánico", "“Menos ego, más alma”: a shirt with a tiger and a crocodile tangled in a jungle wave.",
+        "Shirt design by cosmicdroid for Orgánico.",
+        intro("organico", "lineart", "Orgánico, the line art",
+              ["A shirt design for Orgánico: a tiger and a crocodile spiralling through leaves and water, under the motto “menos ego, más alma” (less ego, more soul). Screen printed by hand."],
+              [("client", "Orgánico"), ("project", "Shirt design"), ("year", "2023")], tall=False)
+        + block("Line to color", gallery("organico", [("lineart", "Orgánico line art", "line art"), ("final", "Orgánico final colors", "final")], "gallery-art gallery-2"))
+        + block("Printing it", vids("organico", [("process-1", "screen printing"), ("process-2", "the shirt")], "vid-portrait-row")))
+
+# Pizzaneta
+project("pizzaneta", "Pizzaneta", "“Let's munch”: a pizza wizard, a logo and a lot of tie-dye shirts.",
+        "Branding and merch by cosmicdroid for Pizzaneta.",
+        intro("pizzaneta", "cover", "The Let's Munch shirt",
+              ["Pizzaneta needed a character to go with the logo, so I drew a pizza wizard chilling in his oven tower with a dragon. It ended up on shirts, tie-dye and all."],
+              [("client", "Pizzaneta"), ("project", "Mascot, logo, merch"), ("year", "2022")])
+        + block("The art", gallery("pizzaneta", [("art", "The Let's Munch artwork", "artwork"), ("logo", "The Pizzaneta logo", "logo")], "gallery-art gallery-2"))
+        + block("Shirts", gallery("pizzaneta", [("shirt-blue", "Tie-dye shirt, back", None), ("shirt-worn", "Tie-dye shirt, front logo", None), ("shirt-back", "Cream shirt, back", None), ("kitchen", "The Pizzaneta team at work", None)], "gallery-photo gallery-2"))
+        + block("Drawing it", vids("pizzaneta", [("promo", None)], "vid-single vid-portrait")))
+
+# Sluggore
+project("sluggore", "Sluggore", "A two-sided band shirt: sea monsters on the back, chrome lettering on the front.",
+        "Band merch by cosmicdroid for Sluggore.",
+        intro("sluggore", "band", "The band holding up the shirt",
+              ["A shirt for Sluggore: a kaiju and a sea serpent locked in a fight on the back, and a sharp chrome logo on the front."],
+              [("client", "Sluggore"), ("project", "Band merch"), ("year", "2024")], tall=False)
+        + block("From sketch to lines", gallery("sluggore", [("sketch", "First sketch", "sketch"), ("sketch-2", "Refined sketch", "refined"), ("lineart", "Final line art", "line art")], "gallery-art gallery-3"))
+        + block("The shirt", gallery("sluggore", [("shirt-back", "The shirt, back", "back"), ("shirt-front", "The shirt, front", "front")], "gallery-photo gallery-tall gallery-2"))
+        + block("In motion", vids("sluggore", [("shirt", None), ("shirt-2", None)], "vid-mixed")))
+
+# Terp Wizard: the cauldron
+project("terp-wizard", "Terp Wizard: the cauldron", "A hoodie print: three hooded wizards brewing something strong.",
+        "Merch design by cosmicdroid for Terp Wizard: the cauldron hoodie.",
+        intro("terp-wizard", "hoodie", "The Terp Wizard hoodie in the greenhouse",
+              ["A back print for Terp Wizard: three hooded wizards around a bubbling cauldron, with smoke curling all the way up the hood. From red pencil sketches to line art, the final colors and the print shop."],
+              [("client", "Terp Wizard"), ("project", "Hoodie print"), ("year", "2023")])
+        + block("Sketch to lines", gallery("terp-wizard", [("sketch-1", "First pencil sketch", "sketch"), ("sketch-2", "Second pencil sketch", "sketch 2"), ("lineart", "Line art", "line art")], "gallery-art gallery-tall gallery-3"))
+        + block("Color and print", gallery("terp-wizard", [("digital", "Final colors", "final"), ("printing", "Fresh off the press", "printing"), ("print-detail", "Print detail", "detail")], "gallery-photo gallery-tall gallery-3")))
+
+# Terp Wizard: the lab
+project("terp-wizard-lab", "Terp Wizard: the lab", "A wizard in his potion lab, for a second Terp Wizard drop.",
+        "Merch design by cosmicdroid for Terp Wizard: the lab.",
+        intro("terp-wizard-lab", "final", "Terp Wizard: the lab, final colors",
+              ["The second design for Terp Wizard: a wizard at his workbench, surrounded by skulls, jars and bubbling flasks, with dripping lettering underneath. It went on hoodies and tees with a small chest print on the front."],
+              [("client", "Terp Wizard"), ("project", "Hoodie + tee"), ("year", "2026")])
+        + block("Sketch to color", gallery("terp-wizard-lab", [("sketch", "Pencil sketch", "sketch"), ("final", "Final colors", "final")], "gallery-art gallery-tall gallery-2"))
+        + block("Worn", gallery("terp-wizard-lab", [(f"worn-{i}", f"The finished merch, photo {i}", None) for i in range(1, 5)], "gallery-photo gallery-tall gallery-4")))
+
 print("ok")

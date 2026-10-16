@@ -73,7 +73,8 @@ var GAME_FEEL = {
   var ctx = canvas.getContext("2d");
   var screens = {
     title: intro.querySelector('[data-screen="title"]'),
-    over: intro.querySelector('[data-screen="over"]')
+    over: intro.querySelector('[data-screen="over"]'),
+    tilt: intro.querySelector('[data-screen="tilt"]')
   };
   var scoreOut = intro.querySelector("[data-score]");
   var bestOut = intro.querySelectorAll("[data-best]");
@@ -360,7 +361,7 @@ var GAME_FEEL = {
   function reset() {
     frog = { x: W / 2 - FROG / 2, y: H - 50 - FROG, px: 0, py: 0, vx: 0, vy: -F.jump, face: 1, look: 1, squash: 0,
       power: null, powerT: 0, powerMax: 1, shield: 0, dead: null, deadT: 0, spin: 0, sx: 0, sy: 0,
-      tongue: -1, blink: 0 };
+      tongue: -1, tongueAng: Math.PI / 2, blink: 0 };
     frog.px = frog.x; frog.py = frog.y;
     plats = []; mons = []; flies = []; parts = []; texts = [];
     camY = prevCam = 0; score = 0; bonus = 0; floorIdx = 0; shake = 0;
@@ -646,20 +647,39 @@ var GAME_FEEL = {
 
   function tongueBase() { return { x: frog.x + FROG / 2 + frog.face * 3, y: frog.y + 16 }; }
   function tongueLen() { return frog.tongue < 0 ? 0 : Math.sin(Math.PI * frog.tongue / 0.26) * F.tongueReach; }
+  function tongueTip() {
+    var b = tongueBase(), len = tongueLen();
+    return { x: b.x + Math.cos(frog.tongueAng) * len, y: b.y - Math.sin(frog.tongueAng) * len };
+  }
   function tongueHits() {
-    var b = tongueBase(), len = tongueLen(), top = b.y - len;
-    for (var i = 0; i < mons.length; i++) {
-      var m = mons[i];
-      if (m.dead || m.kind === "maw") continue;
-      if (b.x > m.x - 6 && b.x < m.x + m.w + 6 && top < m.y + m.h && b.y > m.y) killMonster(m, "lick");
-    }
-    for (var j = 0; j < flies.length; j++) {
-      var f = flies[j];
-      if (!f.dead && Math.abs(f.x - b.x) < 16 && f.y > top && f.y < b.y) { f.dead = true; addBonus(25, f.x, f.y); }
+    // walk along the tongue in small steps so it can hit things at an angle
+    var b = tongueBase(), len = tongueLen();
+    var cx = Math.cos(frog.tongueAng), cy = -Math.sin(frog.tongueAng);
+    for (var d = 0; d <= len; d += 7) {
+      var px = b.x + cx * d, py = b.y + cy * d;
+      for (var i = 0; i < mons.length; i++) {
+        var m = mons[i];
+        if (m.dead || m.kind === "maw") continue;
+        if (px > m.x - 6 && px < m.x + m.w + 6 && py > m.y - 4 && py < m.y + m.h + 4) killMonster(m, "lick");
+      }
+      for (var j = 0; j < flies.length; j++) {
+        var f = flies[j];
+        if (!f.dead && Math.abs(f.x - px) < 16 && Math.abs(f.y - py) < 16) { f.dead = true; addBonus(25, f.x, f.y); }
+      }
     }
   }
-  function lick() {
+  // lick toward a point on the canvas (game coordinates); the angle is kept between 45° and 135°
+  function lick(tx, ty) {
     if (state !== "play" || frog.dead || frog.tongue >= 0) return;
+    var ang = Math.PI / 2;
+    if (tx !== undefined) {
+      var b = tongueBase(), dx = tx - b.x, dy = b.y - ty;
+      ang = Math.atan2(dy, dx);
+      if (ang < 0) ang = dx >= 0 ? 0 : Math.PI;             // pointed below the frog: snap to the nearest side
+      ang = clamp(ang, Math.PI / 4, Math.PI * 3 / 4);
+      if (Math.abs(dx) > 2) frog.face = dx > 0 ? 1 : -1;
+    }
+    frog.tongueAng = ang;
     frog.tongue = 0;
   }
 
@@ -1304,10 +1324,11 @@ var GAME_FEEL = {
       var b = tongueBase(), len = tongueLen();
       var bx = b.x - frog.x + x, by = b.y - frog.y + y;
       ctx.strokeStyle = C.tongue; ctx.lineWidth = 5; ctx.lineCap = "round";
-      ctx.beginPath(); ctx.moveTo(bx, by); ctx.lineTo(bx, by - len); ctx.stroke();
+      var tx = bx + Math.cos(frog.tongueAng) * len, ty = by - Math.sin(frog.tongueAng) * len;
+      ctx.beginPath(); ctx.moveTo(bx, by); ctx.lineTo(tx, ty); ctx.stroke();
       ctx.lineCap = "butt";
       ctx.fillStyle = "#ff9fbe";
-      ctx.beginPath(); ctx.arc(bx, by - len, 5, 0, 7); ctx.fill();
+      ctx.beginPath(); ctx.arc(tx, ty, 5, 0, 7); ctx.fill();
     }
 
     if (frog.shield > 0 && !frog.dead) {
@@ -1403,13 +1424,13 @@ var GAME_FEEL = {
   }
 
   function show(name) {
-    Object.keys(screens).forEach(function (k) { screens[k].hidden = k !== name; });
+    Object.keys(screens).forEach(function (k) { if (screens[k]) screens[k].hidden = k !== name; });
   }
 
   function setPlayingUi(on) {
     hint.hidden = !on;
-    if (tongueBtn) tongueBtn.hidden = !(on && coarse);
-    if (on) hint.textContent = coarse ? (tilt !== null ? "tilt to steer" : "hold a side to steer") : "← → steer, space or ↑ to lick";
+    if (tongueBtn) tongueBtn.hidden = true;
+    if (on) hint.textContent = coarse ? "tilt to steer, tap to aim the tongue" : "← → steer, click to aim the tongue";
   }
 
   function start() {
@@ -1480,7 +1501,10 @@ var GAME_FEEL = {
   intro.addEventListener("click", function (e) {
     var b = e.target.closest("[data-action]");
     if (!b) return;
-    if (b.getAttribute("data-action") === "play") start();
+    var a = b.getAttribute("data-action");
+    if (a === "play") start();
+    else if (a === "tilt-retry") { tiltState = "unknown"; askTilt(true); resume(); }
+    else if (a === "tilt-anyway") resume();
     else enterSite();
   });
 
@@ -1489,90 +1513,92 @@ var GAME_FEEL = {
   });
 
   // ---- controls ----
+  // desktop: ← → (or A D) steer, click aims the tongue. phones: tilt steers, tap aims the tongue.
   var keys = { left: false, right: false };
-  var touchDir = 0;
   function syncInput() {
     var k = (keys.right ? 1 : 0) - (keys.left ? 1 : 0);
     if (k !== 0) input = k;
-    else if (touchDir !== 0) input = touchDir;
     else if (tilt !== null) input = clamp(tilt / F.tiltRange, -1, 1);
     else input = 0;
   }
   function isLeft(e) { return e.key === "ArrowLeft" || e.key === "a" || e.key === "A"; }
   function isRight(e) { return e.key === "ArrowRight" || e.key === "d" || e.key === "D"; }
-  function isLick(e) { return e.key === " " || e.key === "ArrowUp" || e.key === "w" || e.key === "W"; }
   document.addEventListener("keydown", function (e) {
     if (intro.hidden) return;
     if (e.key === "Escape") { enterSite(); return; }
     if (state !== "play") return;
     if (isLeft(e)) { keys.left = true; syncInput(); e.preventDefault(); }
     if (isRight(e)) { keys.right = true; syncInput(); e.preventDefault(); }
-    if (isLick(e)) { lick(); e.preventDefault(); }
+    if (e.key === " ") e.preventDefault(); // space does nothing now (and shouldn't scroll)
   });
   document.addEventListener("keyup", function (e) {
     if (isLeft(e)) { keys.left = false; syncInput(); }
     if (isRight(e)) { keys.right = false; syncInput(); }
   });
 
-  // touch: hold a side to steer. mouse: click to lick.
-  var pointers = {};
-  function pointerSide(e) {
-    var r = canvas.getBoundingClientRect();
-    return e.clientX < r.left + r.width / 2 ? -1 : 1;
-  }
-  function syncPointers() {
-    var l = false, rgt = false;
-    Object.keys(pointers).forEach(function (id) { if (pointers[id] < 0) l = true; else rgt = true; });
-    touchDir = (rgt ? 1 : 0) - (l ? 1 : 0);
-    syncInput();
-  }
   var stage = canvas.parentElement;
   stage.addEventListener("pointerdown", function (e) {
     if (state !== "play" || e.target.closest("button")) return;
-    if (e.pointerType === "mouse") { lick(); return; }
-    pointers[e.pointerId] = pointerSide(e);
-    syncPointers();
+    var r = canvas.getBoundingClientRect();
+    lick((e.clientX - r.left) * W / r.width, (e.clientY - r.top) * H / r.height);
     e.preventDefault();
   });
-  stage.addEventListener("pointermove", function (e) {
-    if (pointers[e.pointerId] === undefined) return;
-    pointers[e.pointerId] = pointerSide(e);
-    syncPointers();
-  });
-  ["pointerup", "pointercancel", "pointerleave"].forEach(function (ev) {
-    stage.addEventListener(ev, function (e) { delete pointers[e.pointerId]; syncPointers(); });
-  });
-  if (tongueBtn) {
-    tongueBtn.addEventListener("pointerdown", function (e) { e.preventDefault(); e.stopPropagation(); lick(); });
-    tongueBtn.addEventListener("click", function (e) { e.preventDefault(); });
-  }
 
   // phones: tilt to steer. iPhones ask permission once, from the Play tap.
-  var tiltAsked = false;
+  // If motion is refused (or the phone never sends any), the game pauses and explains why.
+  var tiltAsked = false, tiltState = "unknown", tiltTimer = 0;
   function onTilt(e) {
     if (e.gamma === null || e.gamma === undefined) return;
     var g = e.gamma;
     var o = (screen.orientation && screen.orientation.angle) || window.orientation || 0;
     if (o === 90) g = e.beta; else if (o === -90 || o === 270) g = -e.beta;
-    var first = tilt === null;
+    tiltState = "on";
+    clearTimeout(tiltTimer);
     tilt = Math.abs(g) < 3 ? 0 : g;
-    if (state === "play") { if (first) setPlayingUi(true); syncInput(); }
+    if (state === "play") syncInput();
   }
-  function askTilt() {
-    if (tiltAsked || !("ontouchstart" in window) || !window.DeviceOrientationEvent) return;
+  function tiltRefused() {
+    if (tiltState === "on") return;
+    tiltState = "off";
+    if (state !== "play") return;
+    state = "paused";
+    cancelAnimationFrame(raf);
+    setPlayingUi(false);
+    show("tilt");
+    var retry = screens.tilt && screens.tilt.querySelector('[data-action="tilt-retry"]');
+    if (retry) retry.focus();
+  }
+  function listen() {
+    window.removeEventListener("deviceorientation", onTilt);
+    window.addEventListener("deviceorientation", onTilt);
+    clearTimeout(tiltTimer);
+    tiltTimer = setTimeout(tiltRefused, 2500); // granted, but no motion data ever arrives
+  }
+  function askTilt(force) {
+    if (!coarse) return;
+    if (tiltAsked && !force) { if (tiltState === "off") setTimeout(tiltRefused, 50); return; }
     tiltAsked = true;
     var D = window.DeviceOrientationEvent;
+    if (!D) { setTimeout(tiltRefused, 50); return; }
     if (typeof D.requestPermission === "function") {
-      D.requestPermission().then(function (r) {
-        if (r === "granted") window.addEventListener("deviceorientation", onTilt);
-      }).catch(function () {});
-    } else {
-      window.addEventListener("deviceorientation", onTilt);
-    }
+      try {
+        D.requestPermission().then(function (r) {
+          if (r === "granted") listen(); else tiltRefused();
+        }).catch(tiltRefused);
+      } catch (err) { tiltRefused(); }
+    } else listen();
+  }
+  function resume() {
+    if (state !== "paused") return;
+    state = "play";
+    show(null);
+    setPlayingUi(true);
+    last = performance.now(); acc = 0;
+    raf = requestAnimationFrame(loop);
   }
 
   document.addEventListener("visibilitychange", function () {
-    if (document.hidden) { keys.left = keys.right = false; pointers = {}; touchDir = 0; syncInput(); }
+    if (document.hidden) { keys.left = keys.right = false; syncInput(); }
     if (!document.hidden && state === "play") { last = performance.now(); acc = 0; }
   });
 
