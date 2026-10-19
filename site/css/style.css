@@ -1632,3 +1632,9 @@ html.is-loading .loader.is-done { opacity: 0; visibility: hidden; }
 .intro-card .intro-warn { color: #d9485f; font-size: 2.6rem; text-transform: uppercase; }
 .intro-card .intro-skip { margin-top: 6px; }
 .socials svg.ic-ig { width: 21px; height: 21px; }
+
+/* ---------- Oct 18: drawn castle — on phones the castle section hugs the castle + controls ---------- */
+@media (max-width: 760px) {
+  .castle-hero { height: auto; min-height: 0; }
+  .castle-stage { height: auto; justify-content: flex-start; padding-bottom: 22px; }
+}

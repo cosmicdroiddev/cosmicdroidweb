@@ -19,7 +19,8 @@
   part the page shows). Keep the sky transparent and export at that size.
 */
 var CASTLE_ART = {
-  castle: null,        // e.g. "assets/castle/castle.png", the whole castle, transparent sky
+  castle: "assets/castle/castle.webp", // cosmicdroid's drawing (transparent sky), scaled to the 360-wide world
+  castleBox: [0, 0, 360, 473.6],       // where the drawing sits in the world: x, y, width, height
   frog: null,          // 40×40, facing right (a single still picture; the hero below wins when set)
   // the player: one strip of square frames, facing right. Frames: idle, run, attack (stomp).
   hero: { src: "assets/castle/hero-sheet.png", cell: 96, size: 37.5,
@@ -27,18 +28,17 @@ var CASTLE_ART = {
   slime: null,         // 32×24
   bat: null,           // 32×20
   spider: null,        // 28×24
-  drawnDetails: true,  // animated extras (TV screen, sleeping cat, torches…). Turn off if your art has its own.
+  drawnDetails: false, // animated extras from the old placeholder castle (off: the drawing has its own)
   title: { show: false, big: "cosmicdroid", small: "portfolio" } // the big name behind the castle (off for now)
 };
 
 // Each glowing thing: where it is (in tiles: column, row, width, height) and where it goes.
 var CASTLE_SPOTS = [
-  { id: "library", room: "Library",      label: "My work",        href: "work.html",    zone: [10, 12, 2, 2] },
-  { id: "mural",   room: "Mural studio", label: "Murals",         href: "murals.html",  zone: [13, 17, 3, 3] },
-  { id: "arcade",  room: "Arcade",       label: "Play Frog Jump", action: "frogjump",   zone: [1, 17, 2, 3] },
-  { id: "bedroom", room: "My room",      label: "About me",       href: "about.html",   zone: [1, 12, 3, 2] },
-  { id: "hall",    room: "Great hall",   label: "The Frog",       href: "frog.html",    zone: [5, 22, 2, 4] },
-  { id: "post",    room: "Post room",    label: "Contact",        href: "contact.html", zone: [15, 23, 2, 3] }
+  { id: "bedroom", room: "My room",  label: "About me",       href: "about.html",   zone: [52.4, 24, 15.2, 7] },   // the bed with the cat
+  { id: "mural",   room: "Studio",   label: "Murals",         href: "murals.html",  zone: [9, 37, 14, 13] },       // the big framed painting over the drums
+  { id: "library", room: "Studio",   label: "My work",        href: "work.html",    zone: [53.6, 37, 14, 13] },    // the bookshelf
+  { id: "arcade",  room: "Arcade",   label: "Play Frog Jump", action: "frogjump",   zone: [19.6, 58, 10.4, 11] },  // the TV
+  { id: "post",    room: "Hall",     label: "Contact",        href: "contact.html", zone: [58.4, 80, 9.2, 9] }      // the mailbox
 ];
 
 (function () {
@@ -59,43 +59,111 @@ var CASTLE_SPOTS = [
   };
   var LW = 1.6;
 
-  // ---- world: 18 × 30 tiles of 20 px ----
-  // '#' stone   '=' wooden plank or shelf (stand on it, jump up through it)   ' ' open
-  var T = 20, COLS = 18, ROWS = 30, W = 360, H = 600;
-  // the part of the world on screen: skip the empty sky (unless the title is on) and most of the ground
-  var VY0 = CASTLE_ART.title.show ? 0 : 58, VY1 = 552, VH = VY1 - VY0;
+  // ---- world: 72 × 95 tiles of 5 px, traced from the drawing (assets/castle/castle.webp) ----
+  // '#' stone   '=' wooden plank (stand on it, jump up through it, ↓ drops through)   ' ' open
+  // Re-trace it after redrawing the castle: tools/castle_trace.py
+  var T = 5, COLS = 72, W = 360, H = 475;
+  // the part of the world on screen: from just above the battlements down to the bottom of the castle.
+  // The tower roof above VY0 sticks out over the menu bar (see SPIRE).
+  var VY0 = CASTLE_ART.title.show ? 0 : 38, VY1 = 475, VH = VY1 - VY0;
   var MAP = [
-    "                  ", //  0  sky (title lives here)
-    "                  ", //  1
-    "                  ", //  2
-    "                  ", //  3
-    "###               ", //  4  tower
-    "###               ", //  5
-    "###            ###", //  6  turret
-    "###            ###", //  7
-    "######  ##===#####", //  8  roof: hole down to my room, trapdoor up from the library
-    "#        #       #", //  9  my room | library
-    "#        #       #", // 10
-    "#          ==    #", // 11  library book shelf, right under the roof trapdoor
-    "#                #", // 12
-    "#                #", // 13
-    "##===##########  #", // 14  trapdoor up from the arcade, hole down to the mural studio
-    "#        #       #", // 15  arcade | mural studio
-    "#        #       #", // 16
-    "#  ===           #", // 17  game shelf, right under the trapdoor to my room
-    "#                #", // 18
-    "#                #", // 19
-    "###  ########===##", // 20  hole down to the hall, trapdoor up from the post room
-    "#        #       #", // 21  great hall | post room
-    "#        #       #", // 22
-    "#            ==  #", // 23  letter shelf, right under the trapdoor to the mural studio
-    "#                #", // 24
-    "#                #", // 25
-    "##################", // 26  ground floor
-    "##################", // 27
-    "##################", // 28
-    "##################"  // 29
+    "                                                                        ",
+    "                                                                        ",
+    "                                                                        ",
+    "                                                                        ",
+    "                                                                        ",
+    "                                                                        ",
+    "                                                                        ",
+    "                                                                        ",
+    "                              #####  #####  #####   #####  #####   #####",
+    "                              ####   #####  #####   #####  #####   #####",
+    "                              ####   #####  #####   #####  #####  ######",
+    "                              #####  #####  #####   #####  #####  ######",
+    "                              ##########################################",
+    "                              ######################################### ",
+    "                              ######################################### ",
+    "                              ####                                 #### ",
+    "                              ####                                  ### ",
+    "                              ####                                  ####",
+    "   ###############            ####                                  ####",
+    "   ###############            ####                                  ####",
+    "   ###############            ####                                  ####",
+    "   ######  #######            ####                                  ####",
+    "   #####    #####             ####                                  ####",
+    "   ####      ####             ####                                  ####",
+    "   ####      ####             ####                                  ####",
+    "   ####      ####             ####                                  ### ",
+    "   ###        ###             ####                                  ### ",
+    "   ###        ###             ####                                  ### ",
+    "  ####        ###             ####                                  ### ",
+    "  ####        ###             ####                                  ### ",
+    "  ####        ########    #############                            #### ",
+    "  #######################################===========####################",
+    "  #######################################           ####################",
+    "  #######################################           ####################",
+    "   ####                                                             ####",
+    "   ####                                                             ####",
+    "   ####                                                             ### ",
+    "   ####                                                             ### ",
+    "   ####                                                             ### ",
+    "   ####                                                             ### ",
+    "   ####                                   ==========                ### ",
+    "   ####                                                             ####",
+    "   ####                                                             ### ",
+    "   ####                                                             ### ",
+    "   ####                                                             ### ",
+    "   ####                                                             ### ",
+    "   ####                                                             ### ",
+    "   ####                                                             ### ",
+    "   ####                                                             ### ",
+    "   ####                                                             ### ",
+    "   ########===========######################################========### ",
+    "   #######            ######################################        ### ",
+    "   #######            ######################################        ### ",
+    "   ####                              ####                           ### ",
+    "   ####                              ####                           ### ",
+    "   ####                              ####                           ####",
+    "   ####                              ####                           ####",
+    "   ####                              ####                           ####",
+    "   ####                              ####                           ### ",
+    "   ####                              ####                           ### ",
+    "   ####                                                             ### ",
+    "   ####===========                                                 #### ",
+    "   ####                                                            #### ",
+    "   ####                                                             ### ",
+    "   ####                                                             ### ",
+    "  #####                                                             ### ",
+    "   ####                                                             ### ",
+    "  #####                                                            #### ",
+    "   ####                                                            #####",
+    "   #################################################============########",
+    "   #################################################           #########",
+    "   #################################################           #########",
+    "  ##################################################            ########",
+    "  #####                              ####                           ####",
+    "  #####                              ####                           ### ",
+    "   ####                              ####                           ### ",
+    "   ####                              ####                           ### ",
+    "   ####                              ####                           ### ",
+    "   ####                              ####                           ### ",
+    "   ####                                                             ### ",
+    "   ####                                                             ### ",
+    "   ####                                         ==========          ### ",
+    "   ####                                                             ### ",
+    "   ####                                                             ### ",
+    "   ####                                                             ### ",
+    "   ####                                                             ### ",
+    "   ####                                                             ### ",
+    "   ####                                                             ### ",
+    "   ####                                                             ####",
+    "  ######################################################################",
+    "   #####################################################################",
+    "  ######################################################################",
+    "  ######################################################################",
+    "  ######################################################################",
+    "   ############    #######                     ##############   # ##    "
   ];
+  var ROWS = MAP.length;
   function tile(c, r) {
     if (c < 0 || c >= COLS) return "#";
     if (r < 0) return " ";
@@ -105,13 +173,10 @@ var CASTLE_SPOTS = [
 
   // rooms: checkpoints and wall colors (tile columns c0..c1, rows r0..r1, floor row, spawn column)
   var ROOMS = [
-    { id: "roof",    c0: 3,  c1: 17, r0: 0,  r1: 7,  floor: 8,  spawn: 9 },
-    { id: "bedroom", c0: 1,  c1: 8,  r0: 9,  r1: 13, floor: 14, spawn: 3,  color: "#f3eefe", sign: "my room" },
-    { id: "library", c0: 10, c1: 16, r0: 9,  r1: 13, floor: 14, spawn: 11, color: "#eceafc", sign: "library" },
-    { id: "arcade",  c0: 1,  c1: 8,  r0: 15, r1: 19, floor: 20, spawn: 6,  color: "#e6f5fb", sign: "arcade" },
-    { id: "mural",   c0: 10, c1: 16, r0: 15, r1: 19, floor: 20, spawn: 15, color: "#fafbe2", sign: "mural studio" },
-    { id: "hall",    c0: 1,  c1: 8,  r0: 21, r1: 25, floor: 26, spawn: 2,  color: "#efedfc", sign: "great hall" },
-    { id: "post",    c0: 10, c1: 16, r0: 21, r1: 25, floor: 26, spawn: 10, color: "#e8f1fd", sign: "post room" }
+    { id: "top",    c0: 34, c1: 67, r0: 16, r1: 30, floor: 31, spawn: 38 },
+    { id: "studio", c0: 4,  c1: 67, r0: 34, r1: 49, floor: 50, spawn: 30 },
+    { id: "arcade", c0: 4,  c1: 67, r0: 53, r1: 68, floor: 69, spawn: 36 },
+    { id: "hall",   c0: 4,  c1: 67, r0: 73, r1: 88, floor: 89, spawn: 24 }
   ];
   function roomAt(c, r) {
     for (var i = 0; i < ROOMS.length; i++) {
@@ -131,14 +196,16 @@ var CASTLE_SPOTS = [
   var STEP = 1 / 120;
 
   // ---- traps and mobs ----
-  var BED = { x: 100, y: 262, w: 60, h: 18 };
-  var SPIKES = [{ x: 242, y: 511, w: 36, h: 9 }];
-  var MACE = { px: 212, py: 300, len: 80, amp: 1.05, speed: 2.4, r: 8.5 };
-  var MOB_DEFS = [
-    { kind: "slime",  x: 118, y: 505, w: 20, h: 15, vx: 22, min: 84,  max: 158 },
-    { kind: "bat",    x: 118, y: 117, w: 20, h: 12.5, vx: 42, min: 66, max: 276 },
-    { kind: "spider", x: 276, y: 210, w: 17.5, h: 15, top: 198, low: 206, high: 234 }
+  var BED = { x: 266, y: 136, w: 66, h: 19 };
+  var SPIKES = [{ x: 43, y: 332, w: 38, h: 13 }];
+  // the pink things in the drawing hurt: spider, snake on the bookshelf, spiky ball
+  var HAZARDS = [
+    { x: 170, y: 180, w: 24, h: 22 },
+    { x: 268, y: 171, w: 66, h: 13 },
+    { x: 152, y: 286, w: 20, h: 20 }
   ];
+  var MACE = null;
+  var MOB_DEFS = []; // no extra monsters: the drawn ones are the traps
 
   // ---- state ----
   var frog, mobs, parts = [], checkpoint, active = null, t = 0;
@@ -163,12 +230,12 @@ var CASTLE_SPOTS = [
       return m;
     });
   }
-  checkpoint = spawnPoint(ROOMS[5]);
+  checkpoint = spawnPoint(ROOMS[3]);
   resetFrog(checkpoint);
   resetMobs();
 
   // ---- coming back from a page: the frog is where you left him ----
-  var SAVE_KEY = "cd-castle-frog";
+  var SAVE_KEY = "cd-castle-frog-2"; // new castle, new saves
   function saveSpot() {
     if (!frog || frog.dead > 0) return;
     try {
@@ -195,7 +262,7 @@ var CASTLE_SPOTS = [
     var src = CASTLE_ART[k];
     if (typeof src !== "string" || !src) return;
     var im = new Image();
-    im.onload = function () { IMG[k] = im; buildStatic(); };
+    im.onload = function () { IMG[k] = im; staticLayer = null; buildStatic(); if (k === 'castle' && typeof drawSpire === 'function') drawSpire(); };
     im.src = base + src;
   });
   if (CASTLE_ART.hero && CASTLE_ART.hero.src) {
@@ -256,7 +323,7 @@ var CASTLE_SPOTS = [
     var g = staticLayer.getContext("2d");
     g.setTransform(canvas.width / W, 0, 0, canvas.height / VH, 0, -VY0 * canvas.height / VH);
     if (CASTLE_ART.title.show) drawTitle(g);
-    if (IMG.castle) { g.drawImage(IMG.castle, 0, 0, W, H); return; }
+    if (IMG.castle) { var cb = CASTLE_ART.castleBox || [0, 0, W, H]; g.drawImage(IMG.castle, cb[0], cb[1], cb[2], cb[3]); return; }
 
     var c, r, ch;
     // room walls
@@ -345,7 +412,7 @@ var CASTLE_SPOTS = [
   // ---- the tip of the tower roof sticks out above the castle (and over the menu bar) ----
   // The castle picture is cropped at VY0, so the part of the roof above that is drawn
   // on its own little canvas sitting on top of the castle frame.
-  var SPIRE = { x0: -9, x1: 69, y0: 10 };
+  var SPIRE = { x0: 0, x1: 66, y0: 0 };
   var spire = document.createElement("canvas");
   spire.className = "castle-spire";
   spire.setAttribute("aria-hidden", "true");
@@ -365,7 +432,12 @@ var CASTLE_SPOTS = [
     var g = spire.getContext("2d");
     g.setTransform(dpr * scale, 0, 0, dpr * scale, -SPIRE.x0 * scale * dpr, -SPIRE.y0 * scale * dpr);
     g.clearRect(SPIRE.x0, SPIRE.y0, SPIRE.x1 - SPIRE.x0, VY0 - SPIRE.y0);
-    drawTowerRoof(g);
+    if (IMG.castle) {
+      // the top of the drawn tower roof, cut from the drawing
+      var cb = CASTLE_ART.castleBox || [0, 0, W, H], k = IMG.castle.width / cb[2];
+      g.drawImage(IMG.castle, (SPIRE.x0 - cb[0]) * k, (SPIRE.y0 - cb[1]) * k, (SPIRE.x1 - SPIRE.x0) * k, (VY0 - SPIRE.y0) * k,
+        SPIRE.x0, SPIRE.y0, SPIRE.x1 - SPIRE.x0, VY0 - SPIRE.y0);
+    } else drawTowerRoof(g);
   }
   // As the page scrolls, the tip slides in behind the menu bar: the part of it allowed
   // above the bar's bottom edge shrinks by however far you've scrolled, so at rest it
@@ -607,6 +679,7 @@ var CASTLE_SPOTS = [
   function maceAngle() { return MACE.amp * Math.sin(t * MACE.speed); }
   function macePos(a) { return { x: MACE.px + Math.sin(a) * MACE.len, y: MACE.py + 4 + Math.cos(a) * MACE.len }; }
   function drawMace(g) {
+    if (!MACE) return;
     var p = macePos(maceAngle());
     line(g, [MACE.px, MACE.py + 4, p.x, p.y], C.cobalt, 1.6);
     for (var k = 1; k < 6; k++) {
@@ -911,9 +984,15 @@ var CASTLE_SPOTS = [
       var sp = SPIKES[s];
       if (overlap(frog.x, frog.y, FW, FH, sp.x, sp.y, sp.w, sp.h)) { hurt(); return; }
     }
-    var mp = macePos(maceAngle());
-    var nx = Math.max(frog.x, Math.min(mp.x, frog.x + FW)), ny = Math.max(frog.y, Math.min(mp.y, frog.y + FH));
-    if ((nx - mp.x) * (nx - mp.x) + (ny - mp.y) * (ny - mp.y) < (MACE.r + 2) * (MACE.r + 2)) { hurt(); return; }
+    for (var hz = 0; hz < HAZARDS.length; hz++) {
+      var hh = HAZARDS[hz];
+      if (overlap(frog.x + 1, frog.y + 1, FW - 2, FH - 2, hh.x, hh.y, hh.w, hh.h)) { hurt(); return; }
+    }
+    if (MACE) {
+      var mp = macePos(maceAngle());
+      var nx = Math.max(frog.x, Math.min(mp.x, frog.x + FW)), ny = Math.max(frog.y, Math.min(mp.y, frog.y + FH));
+      if ((nx - mp.x) * (nx - mp.x) + (ny - mp.y) * (ny - mp.y) < (MACE.r + 2) * (MACE.r + 2)) { hurt(); return; }
+    }
 
     // mobs: land on them to pop them, touch them any other way and you poof
     for (var k = 0; k < mobs.length; k++) {
@@ -1007,7 +1086,10 @@ var CASTLE_SPOTS = [
     var padY = (parseFloat(cs.paddingTop) || 0) + (parseFloat(cs.paddingBottom) || 0);
     var padX = (parseFloat(cs.paddingLeft) || 0) + (parseFloat(cs.paddingRight) || 0);
     var padH = padShown() ? padEl.offsetHeight + (parseFloat(cs.rowGap) || 0) : 0;
-    var availH = Math.max(200, stage.clientHeight - padY - padH - 2);
+    // phones: the castle section hugs the castle, so measure against the screen, not the section
+    var hdr = document.querySelector(".site-header");
+    var roomH = narrowMq.matches ? window.innerHeight - (hdr ? hdr.offsetHeight : 64) : stage.clientHeight;
+    var availH = Math.max(200, roomH - padY - padH - 2);
     var availW = stage.clientWidth - padX;
     scale = Math.min(availW / W, availH / VH);
     var cssW = Math.floor(W * scale), cssH = Math.floor(VH * scale);
