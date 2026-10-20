@@ -72,6 +72,21 @@ for x0, y0, x1, y1 in planks:
             cc = c0 - 1 if d < 0 else c1 + 1
             for _ in range(k):
                 grid[r][cc] = "="; cc += d
+# smooth the walls: little stone bumps (≤4 cells tall) sticking into a room become open,
+# otherwise the frog can stand on them (it happened next to the fridge)
+for side in (1, -1):
+    for c in range(1, COLS - 1):
+        r = 0
+        while r < ROWS:
+            bump = lambda rr: grid[rr][c] == "#" and grid[rr][c - side] == " " and grid[rr][c + side] == "#"
+            if bump(r):
+                r2 = r
+                while r2 + 1 < ROWS and bump(r2 + 1): r2 += 1
+                if r > 0 and grid[r - 1][c] == " " and r2 + 1 < ROWS and grid[r2 + 1][c] == " " and r2 - r < 4:
+                    for rr in range(r, r2 + 1): grid[rr][c] = " "
+                r = r2 + 1
+            else:
+                r += 1
 grid = ["".join(g) for g in grid]
 
 print("// castleBox: [0, 0, 360, %.1f]   world H: %d" % (im.height * s, ROWS * T))
