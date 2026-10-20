@@ -97,7 +97,7 @@ var CASTLE_SPOTS = [
     "   ###        ###             ####                                  ### ",
     "  ####        ###             ####                                  ### ",
     "  ####        ###             ####                                  ### ",
-    "  ####        ########    #############                            #### ",
+    "  ####        ########    ########                                 #### ",
     "  #######################################===========####################",
     "  #######################################           ####################",
     "  #######################################           ####################",
@@ -213,7 +213,7 @@ var CASTLE_SPOTS = [
     // hangs from the ceiling, drops on its thread every 4 s and climbs back up
     { id: "spider", frames: 2, fps: 3, box: [152.8, 167.9, 41.9, 47.1], threadX: 173.8, ceil: 170, drop: 34, stomp: true },
     // swings on a chain from the ceiling, like a pendulum
-    { id: "spike-ball", frames: 2, fps: 6, box: [149.9, 284.1, 26.5, 26.8], pivot: [163.2, 265], amp: 0.95, speed: 2.1 },
+    { id: "spike-ball", frames: 2, fps: 6, box: [193.8, 303.6, 26.5, 26.8], pivot: [207, 265], amp: 1.05, speed: 2.4 },
     { id: "spikes", frames: 2, fps: 4, box: [40.6, 323.3, 42.5, 21.9], hit: [43, 333, 38, 12] },
     // rests on the bookshelf; strikes left only after the frog has stood in reach for 1 s
     { id: "snake", frames: 2, fps: 3, box: [220.3, 166.3, 118.1, 22.9],
@@ -319,11 +319,11 @@ var CASTLE_SPOTS = [
       if (tr.id === "spike-ball") {
         var c = ballCenter(tr);
         // chain: a thin line with little links, from the ceiling to the ball
-        g.save(); g.strokeStyle = PINK; g.lineWidth = 1.3;
+        g.save(); g.strokeStyle = PINK; g.lineWidth = 2.1;
         g.beginPath(); g.moveTo(tr.pivot[0], tr.pivot[1]); g.lineTo(c.x, c.y); g.stroke();
         for (var k = 1; k < 5; k++) {
           var lx = tr.pivot[0] + (c.x - tr.pivot[0]) * k / 5, ly = tr.pivot[1] + (c.y - tr.pivot[1]) * k / 5;
-          g.beginPath(); g.ellipse(lx, ly, 1.2, 1.9, -tr.angle, 0, Math.PI * 2); g.fillStyle = "#ffb3ff"; g.fill(); g.stroke();
+          g.beginPath(); g.ellipse(lx, ly, 1.6, 2.4, -tr.angle, 0, Math.PI * 2); g.fillStyle = "#ffb3ff"; g.fill(); g.stroke();
         }
         g.restore();
         if (!im) return;

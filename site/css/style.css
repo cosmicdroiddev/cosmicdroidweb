@@ -1873,3 +1873,11 @@ body.bar-purple .site-header .nav a:hover { color: var(--lime); }
 @media (max-width: 760px) {
   body.bar-purple .site-header.is-open .nav a[aria-current="page"] { background: #b377ff !important; color: var(--lime); font-weight: 700; }
 }
+
+/* ---------- work pages: pictures and videos at most ~half the size they had (desktop) ---------- */
+@media (min-width: 761px) {
+  .proj-block .gallery img { max-height: 470px; width: 100%; object-fit: contain !important; }
+  .proj-block video, .proj-block .vid-cell video { max-height: 470px !important; object-fit: contain; }
+  .proj-block .vid-cell { background: #fff; }
+}
+@media (min-width: 761px) { .cats-main { width: min(100%, 470px); } }
