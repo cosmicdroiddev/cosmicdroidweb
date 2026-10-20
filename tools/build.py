@@ -5,7 +5,7 @@ ROOT = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "site")
 
 FONTS = ('<link rel="preconnect" href="https://fonts.googleapis.com">\n'
          '<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>\n'
-         '<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:ital,wdth,wght@0,62..125,100..900;1,62..125,100..900&family=Space+Mono:wght@400;700&family=Pirata+One&family=VT323&display=swap">')
+         '<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:ital,wdth,wght@0,62..125,100..900;1,62..125,100..900&family=Space+Mono:wght@400;700&family=Pirata+One&family=VT323&family=Germania+One&display=swap">')
 
 NAV = [("work.html", "Works"), ("about.html", "About"), ("contact.html", "Contact")]
 
@@ -95,7 +95,7 @@ def page(fname, title, desc, body, current, base="", home=False):
 <link rel="stylesheet" href="{base}css/style.css">
 {f'<link rel="stylesheet" href="{base}css/flipbook.css">' + chr(10) if fname == "leapkill.html" else ""}<script>try{{if(!sessionStorage.getItem("cd-loaded"))document.documentElement.classList.add("is-loading")}}catch(e){{document.documentElement.classList.add("is-loading")}}</script>
 </head>
-<body data-base="{base}">
+<body data-base="{base}"{"" if home else ' class="bar-purple"'}>
 <div class="loader" id="loader" aria-hidden="true">
   <div class="loader-inner">
     <span class="runner"></span>
@@ -480,58 +480,6 @@ PAGER = """<section class="pager">
 """
 CRUMB = '<p class="crumb"><a href="../work.html">← all works</a></p>'
 
-# All the Cores and More
-atc = page_head("All the Cores and More", "A shirt for All the Cores and More, who interview artists from the alternative and heavy music scene.", extra=CRUMB) + f"""
-<section class="split project-intro">
-  <div class="split-cell project-intro-art gallery gallery-photo">
-    <button type="button" data-full="../assets/img/all-the-cores/shirts.webp" aria-label="Enlarge: the finished shirts">
-      <img src="../assets/img/all-the-cores/shirts-sm.webp" alt="The finished All the Cores and More shirts, front and back" width="750" height="1000">
-    </button>
-  </div>
-  <div class="split-cell stack">
-    <div class="prose">
-      <p>All the Cores and More is a brand that interviews artists from the alternative and heavy music scene. We teamed up on a merch drop: a shirt with a crest on the front and a full mosh pit of weird little guys on the back.</p>
-      <p>Below is how each side came together, from the first sketch to the printed shirt.</p>
-    </div>
-    {facts([("client", "All the Cores and More"), ("project", "Merch, shirt design"), ("year", "2026"), ("prints", "front + back")])}
-  </div>
-</section>
-<section class="block proj-block" data-section="Front">
-  {gallery("all-the-cores", [("sketch-front", "Front crest, first sketch", "sketch"), ("process-front", "Front crest, inked line art", "process"), ("digital-front", "Front crest, final digital art", "final digital")], "gallery-art gallery-3")}
-</section>
-<section class="block proj-block" data-section="Back">
-  {gallery("all-the-cores", [("sketch-back", "Back mosh pit, first sketch", "sketch"), ("process-back", "Back mosh pit, inked line art", "process"), ("digital-back", "Back mosh pit, final digital art", "final digital")], "gallery-art gallery-tall gallery-3")}
-</section>
-<section class="block proj-block" data-section="The shirt">
-  {gallery("all-the-cores", [("final-front", "The printed shirt, front", "front"), ("final-back", "The printed shirt, back", "back")], "gallery-photo gallery-tall gallery-2")}
-</section>
-""" + PAGER
-page("projects/all-the-cores.html", "All the Cores and More | cosmicdroid", "A shirt design by cosmicdroid for All the Cores and More, who interview artists from the alternative and heavy music scene.", atc, "work.html", base="../")
-
-# Juno mural
-juno = page_head("Juno mural", "A mural for Juno, a non-profit youth refuge in Villach, Austria. I designed and painted it together with a local artist.", extra=CRUMB) + f"""
-<section class="block">
-  <figure class="project-hero">
-    <img src="../assets/img/juno-mural/hero.webp" alt="The finished Juno mural" width="1384" height="1394">
-  </figure>
-  {facts([("client", "Juno youth refuge"), ("location", "Villach, Austria"), ("year", "2024"), ("size", "add size"), ("with", "add artist name")])}
-  <div class="pad-cell prose">
-    <p class="placeholder-note">Add a few lines about the idea and the process.</p>
-    <p>The wall was painted over a few days in late May and early June 2024. Below it goes from the first sketch over a photo of the house to the finished piece.</p>
-  </div>
-</section>
-<section class="block proj-block" data-section="The design">
-  {gallery("juno-mural", [("sketch", "Juno mural, sketch over a photo of the house", "sketch"), ("design", "Juno mural, digital color design", "digital design")], "gallery-art gallery-2")}
-</section>
-<section class="block proj-block" data-section="Process">
-  {gallery("juno-mural", [(f"process-{i}", f"Juno mural in progress, photo {i}", None) for i in range(1, 7)], "gallery-photo gallery-tall gallery-3")}
-</section>
-<section class="block proj-block" data-section="Finished">
-  {gallery("juno-mural", [("final-1", "The Juno lettering wall", None), ("final-2", "The finished house, front", None), ("final-3", "The finished house and courtyard", None)], "gallery-photo gallery-3")}
-</section>
-""" + PAGER
-page("projects/juno-mural.html", "Juno mural | cosmicdroid", "A mural for Juno, a youth refuge in Villach, Austria, painted by cosmicdroid in 2024.", juno, "work.html", base="../")
-
 # ---------- MORE PROJECT PAGES (Oct 16) ----------
 def vids(slug, items, cls=""):
     """Muted looping videos. items: (file name without .mp4, caption). They play only while on screen (main.js)."""
@@ -543,7 +491,44 @@ def vids(slug, items, cls=""):
     return f'<div class="vid-row {cls}">\n' + "\n".join(out) + "\n  </div>"
 
 
+# what each project is (the "type" box on its page)
+TYPES = {
+    "all-the-cores": "merch design", "juno-mural": "mural", "brutal-burger-quest": "game art",
+    "big-cats-collection": "illustration series", "borea": "packaging", "botanica-mural": "mural",
+    "cage-of-destiny": "game art", "cannabicultores": "festival poster", "imprint-rolling": "branding",
+    "no-known-weakness": "album art", "organico": "shirt design", "pizzaneta": "mascot + merch",
+    "sluggore": "band merch", "terp-wizard": "hoodie print", "terp-wizard-lab": "merch design",
+}
+ARROW_BACK = '<svg viewBox="0 0 64 36" aria-hidden="true"><path d="M2 18 L24 2 V11 H62 V25 H24 V34 Z" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linejoin="round"/></svg>'
+
+
+def proj_head(title):
+    return f'''<section class="proj-head">
+  <h1 class="proj-title">{title}</h1>
+  <a class="proj-back" href="../work.html">{ARROW_BACK}<span>all works</span></a>
+</section>
+'''
+
+
 def intro(slug, img, alt, paras, fact_rows, tall=True):
+    small = img + ("-sm" if os.path.exists(os.path.join(ROOT, "assets", "img", slug, img + "-sm.webp")) else "")
+    ps = "".join(f"<p>{p}</p>" for p in paras)
+    year = dict(fact_rows).get("year", "")
+    boxes = f'<dl class="proj-facts"><div><dt>type</dt><dd>{TYPES.get(slug, "")}</dd></div><div><dt>year</dt><dd>{year}</dd></div></dl>'
+    return f'''<section class="proj-intro">
+  <div class="proj-intro-art gallery gallery-photo">
+    <button type="button" data-full="../assets/img/{slug}/{img}.webp" aria-label="Enlarge: {alt}">
+      <img src="../assets/img/{slug}/{small}.webp" alt="{alt}">
+    </button>
+  </div>
+  <div class="proj-intro-text prose">{ps}</div>
+  {boxes}
+</section>
+<div class="proj-band" aria-hidden="true"></div>
+'''
+
+
+def _old_intro(slug, img, alt, paras, fact_rows, tall=True):
     small = img + ("-sm" if os.path.exists(os.path.join(ROOT, "assets", "img", slug, img + "-sm.webp")) else "")
     ps = "".join(f"<p>{p}</p>" for p in paras)
     return f'''<section class="split project-intro{"" if tall else " intro-wide"}">
@@ -569,9 +554,32 @@ def block(title, inner):
 
 
 def project(slug, title, lede, desc, body):
-    html = page_head(title, lede, extra=CRUMB) + "\n" + body + PAGER
+    # (lede is kept as a note for the card/SEO text; the page shows just the title, like the design)
+    html = proj_head(title) + "\n" + body + PAGER
     page(f"projects/{slug}.html", f"{title} | cosmicdroid", desc, html, "work.html", base="../")
 
+
+# All the Cores and More
+project("all-the-cores", "All the Cores and More", "A shirt for All the Cores and More, who interview artists from the alternative and heavy music scene.",
+        "A shirt design by cosmicdroid for All the Cores and More, who interview artists from the alternative and heavy music scene.",
+        intro("all-the-cores", "shirts", "The finished All the Cores and More shirts, front and back",
+              ["All the Cores and More is a brand that interviews artists from the alternative and heavy music scene. We teamed up on a merch drop: a shirt with a crest on the front and a full mosh pit of weird little guys on the back.",
+               "Below is how each side came together, from the first sketch to the printed shirt."],
+              [("year", "2026")])
+        + block("Front", gallery("all-the-cores", [("sketch-front", "Front crest, first sketch", "sketch"), ("process-front", "Front crest, inked line art", "process"), ("digital-front", "Front crest, final digital art", "final digital")], "gallery-art gallery-3"))
+        + block("Back", gallery("all-the-cores", [("sketch-back", "Back mosh pit, first sketch", "sketch"), ("process-back", "Back mosh pit, inked line art", "process"), ("digital-back", "Back mosh pit, final digital art", "final digital")], "gallery-art gallery-tall gallery-3"))
+        + block("The shirt", gallery("all-the-cores", [("final-front", "The printed shirt, front", "front"), ("final-back", "The printed shirt, back", "back")], "gallery-photo gallery-tall gallery-2")))
+
+# Juno mural
+project("juno-mural", "Juno mural", "A mural for Juno, a non-profit youth refuge in Villach, Austria.",
+        "A mural for Juno, a youth refuge in Villach, Austria, painted by cosmicdroid in 2024.",
+        intro("juno-mural", "hero", "The finished Juno mural",
+              ["A mural for Juno, a non-profit youth refuge in Villach, Austria. I designed and painted it together with a local artist.",
+               "The wall was painted over a few days in late May and early June 2024. Below it goes from the first sketch over a photo of the house to the finished piece."],
+              [("year", "2024")])
+        + block("The design", gallery("juno-mural", [("sketch", "Juno mural, sketch over a photo of the house", "sketch"), ("design", "Juno mural, digital color design", "digital design")], "gallery-art gallery-2"))
+        + block("Process", gallery("juno-mural", [(f"process-{i}", f"Juno mural in progress, photo {i}", None) for i in range(1, 7)], "gallery-photo gallery-tall gallery-3"))
+        + block("Finished", gallery("juno-mural", [("final-1", "The Juno lettering wall", None), ("final-2", "The finished house, front", None), ("final-3", "The finished house and courtyard", None)], "gallery-photo gallery-3")))
 
 # Brutal Burger Quest
 project("brutal-burger-quest", "Brutal Burger Quest", "Pixel-art characters, bosses and tiles for a burger-fuelled game.",
@@ -609,11 +617,11 @@ cats_viewer = f'''<section class="cats" data-cats style="--cat-bg:{first["bg"]}"
 '''
 project("big-cats-collection", "Big cats collection", f"{len(CATS)} wild cats, each in its own little world. Hover or swipe through them.",
         "An illustration series by cosmicdroid: wild cats from around the world, each in its own landscape.",
-        cats_viewer
-        + intro("big-cats-collection", "sketches", "Pencil sketches for the big cats series",
+        intro("big-cats-collection", "sketches", "Pencil sketches for the big cats series",
                 [f"A personal series of {len(CATS)} wild cats, from the snow leopard to the tiny sand cat. Each one sits in a landscape from where it lives, drawn with the same flat colors and a background that's all its own.",
                  "Everything started as pencil sketches, laid out together so the whole family would feel like one set."],
-                [("project", "Illustration series"), ("cats", str(len(CATS))), ("year", "2023"), ("format", "square prints")], tall=False))
+                [("project", "Illustration series"), ("cats", str(len(CATS))), ("year", "2023"), ("format", "square prints")], tall=False)
+        + cats_viewer)
 
 # Borea
 project("borea", "Borea", "Packaging illustration for Borea: a box wrapped in a glowing undersea garden.",

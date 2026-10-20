@@ -520,6 +520,8 @@
     var html = document.documentElement, prev = html.style.scrollBehavior;
     html.style.scrollBehavior = "auto";
     window.scrollTo(0, 0);
+    // when the site is shown inside another page (like a preview), ask that page to scroll to the top too
+    if (window.self !== window.top) { try { document.body.scrollIntoView({ block: "start", behavior: "auto" }); } catch (e) {} }
     html.style.scrollBehavior = prev;
   }
   top();

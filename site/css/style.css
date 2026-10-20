@@ -1676,3 +1676,110 @@ html.is-loading .loader.is-done { opacity: 0; visibility: hidden; }
   /* 2-up photo grids with an odd number of photos: the last one takes the full row (no empty box) */
   .gallery-photo.gallery-3 button:last-child:nth-child(odd), .gallery-photo.gallery-4 button:last-child:nth-child(odd) { grid-column: 1 / -1; }
 }
+
+/* ---------- Germania One for every big title, solid blue (owner's Oct 20 design) ---------- */
+.page-title, .bar-title, .castle-hello, .cta p, .proj-title {
+  font-family: "Germania One", var(--sans);
+  font-style: normal;
+  font-weight: 400;
+  letter-spacing: 0.01em;
+  text-transform: none;
+  -webkit-text-stroke: 0;
+  text-shadow: none;
+  color: var(--line);
+}
+.page-title { font-size: clamp(2.4rem, 5vw, 4rem); line-height: 0.95; }
+.bar-title { font-size: clamp(2rem, 4vw, 3.2rem); line-height: 1; }
+/* titles sitting on the purple/violet blocks keep their yellow so they stay readable */
+.works-block .bar-title, .cta p { color: var(--lime); text-shadow: none; -webkit-text-stroke: 0; }
+
+/* ---------- purple menu bar with yellow links on every page except the castle home ---------- */
+body.bar-purple .site-header { --hdr-bg: #b377ff; background: #b377ff; }
+body.bar-purple .site-header .socials { background: #9d5cf5; }
+body.bar-purple .site-header .nav a {
+  color: var(--lime);
+  font-weight: 700;
+  -webkit-text-stroke: 1px var(--line);
+  paint-order: stroke fill;
+}
+body.bar-purple .site-header .nav a:hover,
+body.bar-purple .site-header .nav a[aria-current="page"] { background-image: linear-gradient(var(--line), var(--line)); }
+body.bar-purple .site-header .nav-num,
+body.bar-purple .site-header .nav-arrow { color: var(--line); -webkit-text-stroke: 0; }
+body.bar-purple .site-header .socials a { color: var(--lime); }
+body.bar-purple .site-header .socials a:hover { color: var(--panel); }
+@media (max-width: 760px) {
+  body.bar-purple .site-header .menu-toggle { color: var(--lime); background: #b377ff; }
+  body.bar-purple .site-header.is-open,
+  body.bar-purple .site-header.is-open .menu-toggle,
+  body.bar-purple .site-header.is-open .nav,
+  body.bar-purple .site-header.is-open .nav a { background: #b377ff !important; }
+  body.bar-purple .site-header.is-open .socials { background: #9d5cf5 !important; }
+  body.bar-purple .site-header.is-open .nav a[aria-current="page"] { background: var(--violet) !important; }
+}
+
+/* ---------- individual work pages (owner's Oct 20 design) ---------- */
+.proj-head {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  border-bottom: 1px solid var(--line);
+  background: var(--paper);
+}
+.proj-title { margin: 0; padding: 18px var(--pad); font-size: clamp(2.6rem, 6vw, 4.6rem); line-height: 0.95; align-self: center; }
+.proj-back {
+  display: flex; align-items: center; gap: 14px;
+  padding: 14px calc(var(--pad) + 8px);
+  border-left: 1px solid var(--line);
+  color: var(--line); text-decoration: none;
+  font: 700 1.05rem/1 var(--mono);
+}
+.proj-back svg { width: 64px; height: 36px; transition: transform 0.2s ease; }
+.proj-back:hover { background: var(--lime); }
+.proj-back:hover svg { transform: translateX(-6px); }
+
+.proj-intro {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  grid-template-rows: 1fr auto;
+  grid-template-areas: "art text" "art facts";
+  border-bottom: 1px solid var(--line);
+  background: var(--panel);
+}
+.proj-intro-art { grid-area: art; display: block; border-right: 1px solid var(--line); min-height: 100%; }
+.proj-intro-art button { display: block; width: 100%; height: 100%; background: #fff; }
+.proj-intro-art img { width: 100%; height: 100%; aspect-ratio: auto; object-fit: cover; min-height: 340px; max-height: calc(100vh - 200px); }
+.proj-intro-text { grid-area: text; padding: clamp(20px, 3vw, 44px) var(--pad); align-self: start; }
+.proj-intro-text p { max-width: 60ch; }
+.proj-facts { grid-area: facts; display: grid; grid-template-columns: 1fr 1fr; margin: 0; border-top: 1px solid var(--line); }
+.proj-facts > div { padding: 18px var(--pad); }
+.proj-facts > div + div { border-left: 1px solid var(--line); }
+.proj-facts dt { font: 700 1.05rem/1.2 var(--mono); color: var(--line); margin-bottom: 6px; }
+.proj-facts dd { margin: 0; font: 400 1rem/1.3 var(--mono); color: var(--ink); text-transform: lowercase; }
+
+.proj-band { height: 46px; border-bottom: 1px solid var(--line); background: var(--paper); }
+
+/* galleries on work pages sit flush: white behind, no padding, pictures at their own shape */
+.proj-block { padding: 0 !important; border-bottom: 1px solid var(--line); }
+.proj-block .gallery { gap: 0 !important; margin: 0 !important; padding: 0 !important; background: #fff; }
+.proj-block .gallery button { background: #fff; box-shadow: 0 0 0 0.5px var(--line); }
+.proj-block .gallery img { aspect-ratio: auto !important; height: auto; object-fit: contain; padding: 0 !important; }
+.proj-block .gallery-art button { background: #fff; }
+
+@media (max-width: 760px) {
+  .proj-back { display: none; }
+  .proj-head { grid-template-columns: 1fr; }
+  .proj-title { padding: 16px; font-size: clamp(2.3rem, 11vw, 3.2rem); }
+  .proj-intro {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    grid-template-rows: auto auto;
+    grid-template-areas: "art facts" "text text";
+  }
+  .proj-intro-art { border-right: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+  .proj-intro-art img { min-height: 0; aspect-ratio: 1 / 1; }
+  .proj-facts { grid-template-columns: 1fr; grid-template-rows: 1fr 1fr; border-top: 0; border-bottom: 1px solid var(--line); gap: 10px; padding: 10px; }
+  .proj-facts > div { border: 4px solid #b377ff !important; padding: 10px 12px; background: var(--panel); align-content: center; display: grid; }
+  .proj-facts dt { font-size: 0.95rem; }
+  .proj-facts dd { font-size: 0.9rem; }
+  .proj-intro-text { padding: 18px 16px; }
+  .proj-band { height: 32px; }
+}
