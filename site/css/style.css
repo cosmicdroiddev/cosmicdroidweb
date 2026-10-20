@@ -1899,3 +1899,24 @@ body.bar-purple .site-header .nav a:hover { color: var(--lime); }
 }
 /* contact: the frog's room animation 10% bigger */
 .contact-room video { scale: 1.1; }
+
+/* ---------- Oct 20 (e) ---------- */
+/* About: the cosmicdroid logo over the top of the photo, half see-through */
+.about-portrait { position: relative; overflow: hidden; }
+.about-logo { position: absolute; left: 50%; top: 4%; width: 72%; height: auto !important; max-height: none !important; transform: translateX(-50%); opacity: 0.5; pointer-events: none; object-fit: contain !important; }
+
+/* work pages on phones: same gap on both sides of the type/year boxes, and bigger text */
+@media (max-width: 760px) {
+  .proj-facts { margin-left: 14px; margin-right: 14px; }
+  .proj-facts > div { border: 1px solid var(--line) !important; }
+  .proj-facts > div + div { border-top: 0 !important; }
+  .proj-facts { border-bottom: 0; margin-bottom: 14px; }
+  .proj-facts dt { font-size: 0.95rem; }
+  .proj-facts dd { font-size: 0.9rem; }
+  .proj-intro-text { padding: 16px 14px 28px; }
+  .proj-intro-text p { font-size: 0.92rem; line-height: 1.55; }
+  .proj-title { font-size: clamp(1.9rem, 8.5vw, 2.4rem); }
+}
+@media (min-width: 761px) {
+  .proj-intro-text p { font-size: 1.02rem; line-height: 1.5; }
+}

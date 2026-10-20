@@ -350,3 +350,14 @@
   .lk-hero-logo img { margin: 0 auto; }
   .lk-hero .lk-facts { width: 100%; text-align: left; }
 }
+
+/* ---------- Oct 20 (e): info text left-aligned, a line between the 4 facts, video centered ---------- */
+.lk-hero-text .page-lede { text-align: left; align-self: stretch; }
+.lk-hero .lk-facts { gap: 0; }
+.lk-hero .lk-facts div { border: 0; box-shadow: none; }
+.lk-hero .lk-facts div:nth-child(odd) { border-right: 1px solid var(--line); }
+.lk-hero .lk-facts div:nth-child(-n+2) { border-bottom: 1px solid var(--line); }
+@media (max-width: 1100px) {
+  .lk-hero-video { display: flex; justify-content: center; align-items: center; aspect-ratio: auto !important; min-height: 0; padding: 16px; }
+  .lk-hero-video video { position: static; inset: auto; width: auto; max-width: 100%; height: min(78vh, 640px); aspect-ratio: 9 / 16; }
+}

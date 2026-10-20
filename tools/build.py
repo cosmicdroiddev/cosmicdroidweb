@@ -347,7 +347,7 @@ leapkill = f'''<section class="lk-hero">
       <div><dt>issue</dt><dd>Vol. 01</dd></div>
       <div><dt>pages</dt><dd>16</dd></div>
       <div><dt>comes with</dt><dd>stickers + videogame</dd></div>
-      <div><dt>by</dt><dd>cosmicdroid</dd></div>
+      <div><dt>year</dt><dd>2025</dd></div>
     </dl>
   </div>
   <div class="lk-hero-video">
@@ -430,7 +430,7 @@ page("frog.html", "The Frog | cosmicdroid", "The Frog, a bounty hunter frog and 
 # ---------- ABOUT ----------
 about = page_head("About") + f'''
 <section class="split">
-  <div class="split-cell about-portrait"><img src="assets/img/about/portrait-sm.webp" srcset="assets/img/about/portrait-sm.webp 600w, assets/img/about/portrait.webp 1067w" sizes="(max-width: 760px) 100vw, 45vw" alt="cosmicdroid sitting outside, drawing in a sketchbook" width="600" height="900"></div>
+  <div class="split-cell about-portrait"><img src="assets/img/about/portrait-sm.webp" srcset="assets/img/about/portrait-sm.webp 600w, assets/img/about/portrait.webp 1067w" sizes="(max-width: 760px) 100vw, 45vw" alt="cosmicdroid sitting outside, drawing in a sketchbook" width="600" height="900"><img class="about-logo" src="assets/img/about/logo-overlay.webp" alt="" aria-hidden="true" width="1200" height="811"></div>
   <div class="split-cell prose">
     <p class="placeholder-note">Draft bio. Edit it to sound like you.</p>
     <p>I'm cosmicdroid, an illustrator, animator and muralist based in Colombia. I draw weird characters, haunted colors and small dark worlds, and I put them on walls, shirts, posters, album covers and screens.</p>
