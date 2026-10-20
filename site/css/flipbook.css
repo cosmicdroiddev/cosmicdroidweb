@@ -341,3 +341,12 @@
 .lk-sketch img { position: absolute; inset: 0; }
 .lk-label, .lk-sketch { grid-template-columns: minmax(0, 1fr) !important; background: var(--panel); }
 .lk-label button, .lk-sketch button { width: 100%; }
+
+/* ---------- phones: same order as desktop (book → info → video), everything centered ---------- */
+@media (max-width: 760px) {
+  .lk-hero-text { order: 0; border-bottom: 1px solid var(--line); border-top: 0; align-items: center; text-align: center; }
+  .lk-hero-art.lk-reader { border-bottom: 1px solid var(--line); }
+  .lk-hero-logo { text-align: center; }
+  .lk-hero-logo img { margin: 0 auto; }
+  .lk-hero .lk-facts { width: 100%; text-align: left; }
+}

@@ -1881,3 +1881,21 @@ body.bar-purple .site-header .nav a:hover { color: var(--lime); }
   .proj-block .vid-cell { background: #fff; }
 }
 @media (min-width: 761px) { .cats-main { width: min(100%, 470px); } }
+
+/* ---------- Oct 20 (d) ---------- */
+/* work pages: title in Title Case, and no white behind pictures — the same light blue as the page */
+.proj-title { text-transform: capitalize; }
+.proj-block .gallery,
+.proj-block .gallery button,
+.proj-block .gallery-art button,
+.proj-block .gallery-art button:nth-child(3n),
+.proj-block .vid-cell,
+.proj-intro-art button { background: var(--paper) !important; }
+/* About / Contact: the middle line of the title row and the one below are the same line
+   (both drawn on the right edge of the left column) */
+@media (min-width: 761px) {
+  .split > .split-cell + .split-cell { border-left: 0; }
+  .split > .split-cell:first-child { border-right: 1px solid var(--line); }
+}
+/* contact: the frog's room animation 10% bigger */
+.contact-room video { scale: 1.1; }
