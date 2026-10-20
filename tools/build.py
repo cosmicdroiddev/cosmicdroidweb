@@ -275,12 +275,12 @@ page("murals.html", "Murals | cosmicdroid", "Murals painted by cosmicdroid in Co
 
 
 # ---------- LEAP KILL ----------
-def lk_gallery(items, cls):
+def lk_gallery(items, cls, start=1):
     """items: (file in assets/img/leapkill without .webp, alt, caption or None)"""
     d = os.path.join(ROOT, "assets", "img", "leapkill"); out = []
     for i, (name, alt, cap) in enumerate(items):
         small = name + ("-sm" if os.path.exists(os.path.join(d, name + "-sm.webp")) else "")
-        c = f'<span class="g-cap"><span class="num">0{i + 1}</span>{cap}</span>' if cap else ""
+        c = f'<span class="g-cap"><span class="num">0{i + start}</span>{cap}</span>' if cap else ""
         out.append(f'    <button type="button" data-full="assets/img/leapkill/{name}.webp" aria-label="Enlarge: {alt}">'
                    f'<img src="assets/img/leapkill/{small}.webp" alt="{alt}" loading="lazy">{c}</button>')
     return f'<div class="gallery {cls}">\n' + "\n".join(out) + "\n  </div>"
@@ -295,10 +295,9 @@ lk_photos = lk_gallery([
 lk_stickers = lk_gallery([
     ("sticker-1", "Leap Kill sticker: the logo and the sleeping hero", "logo"),
     ("sticker-2", "Leap Kill sticker: the vampire in a ring of thorns", "vampire"),
-    ("sticker-3", "Leap Kill sticker: the robot with a screen", "robot")], "gallery-art gallery-3")
-lk_make = lk_gallery([
-    ("sketch", "Thumbnail sketches for every page of the comic", "sketches"),
-    ("packaging", "The Leap Kill pack label: includes a videogame", "pack label")], "gallery-art gallery-2 lk-make")
+    ("sticker-3", "Leap Kill sticker: the robot with a screen", "robot")], "gallery-art gallery-3 lk-stickers", start=3)
+lk_sketch = lk_gallery([("sketch", "Thumbnail sketches for every page of the comic", "sketches")], "gallery-art lk-sketch")
+lk_label = lk_gallery([("packaging", "The Leap Kill pack label: includes a videogame", "pack label")], "gallery-art lk-label", start=2)
 lk_sprites = "\n".join(
     f'    <figure class="lk-sprite"><img src="assets/img/leapkill/game-{f}.gif" alt="{alt}" width="100" height="100" loading="lazy"><figcaption><span class="num">0{i + 1}</span>{cap}</figcaption></figure>'
     for i, (f, alt, cap) in enumerate([
@@ -364,12 +363,14 @@ leapkill = f'''<section class="lk-hero">
   {lk_photos}
 </section>
 <section class="block">
-  {bar("The stickers")}
-  {lk_stickers}
-</section>
-<section class="block">
   {bar("Sketches & pack")}
-  {lk_make}
+  <div class="lk-make">
+    {lk_sketch}
+    <div class="lk-make-right">
+      {lk_label}
+      {lk_stickers}
+    </div>
+  </div>
 </section>
 <section class="block">
   {bar("The videogame")}

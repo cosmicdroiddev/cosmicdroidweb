@@ -1852,3 +1852,24 @@ body.bar-purple .site-header .nav a[aria-current="page"] { background-image: lin
   .proj-block .gallery { grid-template-columns: minmax(0, 1fr) !important; }
   .proj-block .gallery button { grid-column: auto !important; }
 }
+
+/* ---------- Oct 20 (c) ---------- */
+/* Works / About / Contact: the title row is exactly as tall as the menu bar */
+.page-head-title, .page-head-text { min-height: var(--hh); }
+@media (min-width: 761px) {
+  .page-head-title, .page-head-text { height: var(--hh); padding-top: 0; padding-bottom: 0; }
+  .page-head-text { overflow: hidden; }
+  .page-title { font-size: clamp(2rem, 3.4vw, 3rem); line-height: 1; }
+}
+@media (max-width: 760px) {
+  .page-head-title { height: var(--hh); padding-top: 0; padding-bottom: 0; }
+  .page-title { font-size: clamp(1.8rem, 9vw, 2.4rem); line-height: 1; }
+}
+/* purple menu bar: the page you're on is yellow and bold, no yellow block behind it */
+body.bar-purple .site-header .nav a:hover,
+body.bar-purple .site-header .nav a[aria-current="page"] { background-image: none; }
+body.bar-purple .site-header .nav a[aria-current="page"] { color: var(--lime); font-weight: 700; }
+body.bar-purple .site-header .nav a:hover { color: var(--lime); }
+@media (max-width: 760px) {
+  body.bar-purple .site-header.is-open .nav a[aria-current="page"] { background: #b377ff !important; color: var(--lime); font-weight: 700; }
+}

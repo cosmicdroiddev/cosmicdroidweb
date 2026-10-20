@@ -318,3 +318,26 @@
   .lk-game-video { border-right: 0; border-bottom: 1px solid var(--line); }
   .lk-sprite img { width: 72px; height: 72px; }
 }
+
+/* ---------- Oct 20 (c): sketches on the left; pack label on top + the 3 stickers below on the right ---------- */
+.lk-make { display: grid; grid-template-columns: minmax(0, 38fr) minmax(0, 62fr) !important; }
+.lk-make > .gallery { border-right: 1px solid var(--line); }
+.lk-make .gallery { margin: 0; }
+.lk-make img { max-height: none; }
+.lk-sketch, .lk-sketch button { height: 100%; }
+.lk-sketch img { width: 100%; height: 100%; object-fit: contain; aspect-ratio: auto !important; padding: clamp(14px, 3vw, 48px) !important; }
+.lk-make-right { display: grid; grid-template-rows: auto 1fr; }
+.lk-label { border-bottom: 1px solid var(--line); }
+.lk-label img { aspect-ratio: auto !important; height: auto; object-fit: contain; padding: clamp(14px, 2vw, 28px) clamp(14px, 4vw, 64px) !important; }
+.lk-stickers img { aspect-ratio: 1 / 1 !important; object-fit: contain; padding: clamp(10px, 2vw, 28px) !important; }
+@media (max-width: 760px) {
+  .lk-make { grid-template-columns: minmax(0, 1fr) !important; }
+  .lk-make > .gallery { border-right: 0; border-bottom: 1px solid var(--line); }
+  .lk-stickers { grid-template-columns: repeat(3, minmax(0, 1fr)) !important; }
+  .lk-stickers .g-cap { font-size: 0.6rem; }
+}
+/* the sketch sheet follows the height of the right column instead of stretching it */
+.lk-sketch button { position: relative; min-height: 320px; }
+.lk-sketch img { position: absolute; inset: 0; }
+.lk-label, .lk-sketch { grid-template-columns: minmax(0, 1fr) !important; background: var(--panel); }
+.lk-label button, .lk-sketch button { width: 100%; }

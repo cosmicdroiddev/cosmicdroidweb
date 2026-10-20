@@ -55,7 +55,7 @@ var CASTLE_SPOTS = [
   var C = {
     paper: "#fcfaea", wash: "#efeefc", lav: "#c7c4f4", lavDark: "#a39ee9", lavLight: "#dedcf9",
     ink: "#2a1c9a", cobalt: "#3d23d6", cyan: "#33c4e6", cyanLight: "#9be6f4",
-    lime: "#e4f23f", white: "#ffffff", pink: "#ff8fb8"
+    lime: "#e4f23f", white: "#ffffff", pink: "#ff8fb8", red: "#ff2a3d", redDark: "#b3001b"
   };
   var LW = 1.6;
 
@@ -206,58 +206,139 @@ var CASTLE_SPOTS = [
   var SPIKES = [];   // (old drawn traps; the animated ones below replace them)
   var HAZARDS = [];
   // ---- animated traps, from castle_assets.psd (frames side by side in assets/castle/traps/) ----
-  // box = where the sprite sits in the world [x, y, w, h]; hit = the part that kills [x, y, w, h]
+  // box = where the sprite sits in the world [x, y, w, h] (its resting spot); hit = the part that kills
+  // stomp: land on it from above to pop it (comes back after a few seconds)
+  var PINK = "#c400ff";            // the outline color of the trap drawings (web thread, chain)
   var TRAPS = [
-    { id: "spider", frames: 2, fps: 3, box: [152.8, 167.9, 41.9, 47.1], hit: [160, 185, 27, 25] },
-    { id: "spike-ball", frames: 2, fps: 6, box: [149.9, 284.1, 26.5, 26.8], hit: [152, 286, 22, 22] },
+    // hangs from the ceiling, drops on its thread every 4 s and climbs back up
+    { id: "spider", frames: 2, fps: 3, box: [152.8, 167.9, 41.9, 47.1], threadX: 173.8, ceil: 170, drop: 34, stomp: true },
+    // swings on a chain from the ceiling, like a pendulum
+    { id: "spike-ball", frames: 2, fps: 6, box: [149.9, 284.1, 26.5, 26.8], pivot: [163.2, 265], amp: 0.95, speed: 2.1 },
     { id: "spikes", frames: 2, fps: 4, box: [40.6, 323.3, 42.5, 21.9], hit: [43, 333, 38, 12] },
-    // the snake rests, then strikes to the left: each attack frame reaches further (lefts = where its head is)
-    { id: "snake", frames: 2, fps: 3, box: [220.3, 166.3, 118.1, 22.9], hit: [266, 171, 70, 16],
-      lefts: [263.8, 258.9, 242.5, 228.4, 220.3], rest: 2.4 },
-    // the knight helmet walks left and right in the hall; touching it is a poof
-    { id: "knight", frames: 3, fps: 8, box: [146.3, 409.4, 38, 36.3], min: 92, max: 186, speed: 28 }
+    // rests on the bookshelf; strikes left only after the frog has stood in reach for 1 s
+    { id: "snake", frames: 2, fps: 3, box: [220.3, 166.3, 118.1, 22.9],
+      lefts: [263.8, 258.9, 242.5, 228.4, 220.3], reach: [214, 150, 54, 52], stomp: true },
+    // the knight helmet walks left and right in the hall
+    { id: "knight", frames: 3, fps: 8, box: [146.3, 409.4, 38, 36.3], min: 92, max: 186, speed: 28, stomp: true }
   ];
   TRAPS.forEach(function (tr) {
-    tr.x = tr.box[0]; tr.vx = -(tr.speed || 0); tr.frame = 0; tr.attack = 0;
+    tr.x = tr.box[0]; tr.vx = -(tr.speed || 0); tr.attack = 0; tr.dy = 0; tr.alive = true; tr.respawn = 0;
+    tr.watch = 0; tr.strike = -1; tr.angle = 0;
     (tr.id === "snake" ? ["-idle", "-attack"] : [""]).forEach(function (suf) {
       var im = new Image(); im.onload = function () { tr["img" + suf] = im; };
       im.src = (document.body.dataset.base || "") + "assets/castle/traps/" + tr.id + suf + ".webp";
     });
   });
+  function ballCenter(tr) {
+    var len = tr.box[1] + tr.box[3] / 2 - tr.pivot[1];
+    return { x: tr.pivot[0] + Math.sin(tr.angle) * len, y: tr.pivot[1] + Math.cos(tr.angle) * len };
+  }
+  // the part that kills, [x, y, w, h] (the spike ball is a circle: [cx, cy, r])
   function trapHit(tr) {
-    if (tr.id === "knight") return [tr.x + 5, tr.box[1] + 6, tr.box[2] - 10, tr.box[3] - 6];
+    var b = tr.box;
+    if (tr.id === "knight") return [tr.x + 5, b[1] + 6, b[2] - 10, b[3] - 6];
     if (tr.id === "snake") { var l = tr.lefts[tr.attack]; return [l + 2, 171, 336 - l, 16]; }
+    if (tr.id === "spider") return [160, 185 + tr.dy, 27, 25];
+    if (tr.id === "spike-ball") { var c = ballCenter(tr); return [c.x, c.y, 10.5]; }
     return tr.hit;
   }
+  function frogIn(r) { return overlap(frog.x, frog.y, FW, FH, r[0], r[1], r[2], r[3]); }
   function updateTraps(dt) {
     TRAPS.forEach(function (tr) {
+      if (!tr.alive) {
+        tr.respawn -= dt;
+        if (tr.respawn <= 0) { tr.alive = true; tr.attack = 0; tr.strike = -1; tr.watch = 0; puff(tr.box[0] + tr.box[2] / 2, tr.box[1] + tr.box[3] / 2, C.lavLight, 6); }
+        return;
+      }
       if (tr.id === "knight") {
         tr.x += tr.vx * dt;
         if (tr.x < tr.min) { tr.x = tr.min; tr.vx = tr.speed; }
         if (tr.x > tr.max) { tr.x = tr.max; tr.vx = -tr.speed; }
       }
+      if (tr.id === "spike-ball") tr.angle = tr.amp * Math.sin(t * tr.speed);
+      if (tr.id === "spider") {
+        // every 4 s: rest 2 s → drop (0.7 s) → hang (0.5 s) → climb back (0.8 s)
+        var c = t % 4, e;
+        if (c < 2) e = 0;
+        else if (c < 2.7) { e = (c - 2) / 0.7; e = 1 - (1 - e) * (1 - e); }
+        else if (c < 3.2) e = 1;
+        else { e = 1 - (c - 3.2) / 0.8; e = e * e * (3 - 2 * e); }
+        tr.dy = e * tr.drop;
+      }
       if (tr.id === "snake") {
-        // rest (2 idle frames) → strike out (frames 0-4) → hold → pull back (4-0)
-        var c = t % (tr.rest + 1.45), a = c - tr.rest;
-        if (a < 0) tr.attack = 0;
-        else if (a < 0.45) tr.attack = Math.min(4, Math.floor(a / 0.09));
-        else if (a < 0.95) tr.attack = 4;
-        else tr.attack = Math.max(0, 4 - Math.floor((a - 0.95) / 0.1));
-        tr.striking = a >= 0;
+        if (tr.strike < 0) {
+          // count how long the frog stays in front of it; strike after 1 s
+          tr.watch = frog.dead <= 0 && frogIn(tr.reach) ? tr.watch + dt : 0;
+          if (tr.watch >= 1) { tr.strike = 0; tr.watch = 0; }
+          tr.attack = 0;
+        } else {
+          // strike out (frames 0-4), hold, pull back (4-0)
+          tr.strike += dt; var a = tr.strike;
+          if (a < 0.45) tr.attack = Math.min(4, Math.floor(a / 0.09));
+          else if (a < 0.95) tr.attack = 4;
+          else if (a < 1.45) tr.attack = Math.max(0, 4 - Math.floor((a - 0.95) / 0.1));
+          else { tr.attack = 0; tr.strike = -1; }
+        }
       }
     });
   }
+  // the frog touched a trap: land on a stompable one from above to pop it, anything else is a poof
+  function checkTraps() {
+    for (var i = 0; i < TRAPS.length; i++) {
+      var tr = TRAPS[i];
+      if (!tr.alive) continue;
+      var h = trapHit(tr), hitIt;
+      if (h.length === 3) {
+        var nx = Math.max(frog.x, Math.min(h[0], frog.x + FW)), ny = Math.max(frog.y, Math.min(h[1], frog.y + FH));
+        hitIt = (nx - h[0]) * (nx - h[0]) + (ny - h[1]) * (ny - h[1]) < h[2] * h[2];
+      } else hitIt = overlap(frog.x + 1, frog.y + 1, FW - 2, FH - 2, h[0], h[1], h[2], h[3]);
+      if (!hitIt) continue;
+      if (tr.stomp && frog.vy > 0 && frog.py + FH <= h[1] + 6) {
+        tr.alive = false; tr.respawn = 5;
+        puff(h[0] + h[2] / 2, h[1] + h[3] / 2, PINK, 12);
+        frog.vy = -F.stomp; frog.squash = 0.8; frog.attack = 0.32;
+        continue;
+      }
+      hurt(); return true;
+    }
+    return false;
+  }
   function drawTraps(g) {
     TRAPS.forEach(function (tr) {
-      var im = tr.img, n = tr.frames, f = Math.floor(t * tr.fps) % n;
+      if (!tr.alive) return;
+      var im = tr.img, n = tr.frames, f = Math.floor(t * tr.fps) % n, b = tr.box, x = b[0], y = b[1];
       if (tr.id === "snake") {
-        if (tr.striking) { im = tr["img-attack"]; n = 5; f = tr.attack; } else im = tr["img-idle"];
+        if (tr.strike >= 0) { im = tr["img-attack"]; n = 5; f = tr.attack; } else im = tr["img-idle"];
+      }
+      if (tr.id === "spider" && tr.dy > 0.5) {
+        // the web thread it lets out on the way down
+        g.save(); g.strokeStyle = PINK; g.lineWidth = 1.5; g.lineCap = "round";
+        g.beginPath(); g.moveTo(tr.threadX, tr.ceil - 1); g.lineTo(tr.threadX, y + tr.dy + 4); g.stroke(); g.restore();
+        y += tr.dy;
+      }
+      if (tr.id === "spike-ball") {
+        var c = ballCenter(tr);
+        // chain: a thin line with little links, from the ceiling to the ball
+        g.save(); g.strokeStyle = PINK; g.lineWidth = 1.3;
+        g.beginPath(); g.moveTo(tr.pivot[0], tr.pivot[1]); g.lineTo(c.x, c.y); g.stroke();
+        for (var k = 1; k < 5; k++) {
+          var lx = tr.pivot[0] + (c.x - tr.pivot[0]) * k / 5, ly = tr.pivot[1] + (c.y - tr.pivot[1]) * k / 5;
+          g.beginPath(); g.ellipse(lx, ly, 1.2, 1.9, -tr.angle, 0, Math.PI * 2); g.fillStyle = "#ffb3ff"; g.fill(); g.stroke();
+        }
+        g.restore();
+        if (!im) return;
+        var cw0 = im.width / n;
+        g.save(); g.translate(c.x, c.y); g.rotate(-tr.angle);
+        g.drawImage(im, f * cw0, 0, cw0, im.height, -b[2] / 2, -b[3] / 2, b[2], b[3]);
+        g.restore();
+        return;
       }
       if (!im) return;
-      var cw = im.width / n, b = tr.box, x = tr.id === "knight" ? tr.x : b[0];
+      var cw = im.width / n;
+      if (tr.id === "knight") x = tr.x;
       g.save();
-      if (tr.id === "knight" && tr.vx > 0) { g.translate(x + b[2], b[1]); g.scale(-1, 1); g.drawImage(im, f * cw, 0, cw, im.height, 0, 0, b[2], b[3]); }
-      else g.drawImage(im, f * cw, 0, cw, im.height, x, b[1], b[2], b[3]);
+      if (tr.id === "knight" && tr.vx > 0) { g.translate(x + b[2], y); g.scale(-1, 1); g.drawImage(im, f * cw, 0, cw, im.height, 0, 0, b[2], b[3]); }
+      else g.drawImage(im, f * cw, 0, cw, im.height, x, y, b[2], b[3]);
       g.restore();
     });
   }
@@ -989,8 +1070,8 @@ var CASTLE_SPOTS = [
 
   function hurt() {
     if (frog.dead > 0 || frog.invuln > 0) return;
-    puff(frog.x + FW / 2, frog.y + FH / 2, C.cyan, 12);
-    puff(frog.x + FW / 2, frog.y + FH / 2, C.cobalt, 6);
+    puff(frog.x + FW / 2, frog.y + FH / 2, C.red, 12);   // red when the frog dies
+    puff(frog.x + FW / 2, frog.y + FH / 2, C.redDark, 6);
     frog.dead = 0.7;
   }
 
@@ -1050,10 +1131,7 @@ var CASTLE_SPOTS = [
       var hh = HAZARDS[hz];
       if (overlap(frog.x + 1, frog.y + 1, FW - 2, FH - 2, hh.x, hh.y, hh.w, hh.h)) { hurt(); return; }
     }
-    for (var tq = 0; tq < TRAPS.length; tq++) {
-      var th = trapHit(TRAPS[tq]);
-      if (overlap(frog.x + 1, frog.y + 1, FW - 2, FH - 2, th[0], th[1], th[2], th[3])) { hurt(); return; }
-    }
+    if (checkTraps()) return;
     if (MACE) {
       var mp = macePos(maceAngle());
       var nx = Math.max(frog.x, Math.min(mp.x, frog.x + FW)), ny = Math.max(frog.y, Math.min(mp.y, frog.y + FH));
