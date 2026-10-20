@@ -529,3 +529,15 @@
   var userScrolled = false;
   ["wheel", "touchstart", "keydown"].forEach(function (ev) { window.addEventListener(ev, function () { userScrolled = true; }, { once: true, passive: true }); });
 })();
+
+// the purple banner above the footer is as tall as the frog fact row below it (desktop only)
+(function () {
+  var cta = document.querySelector(".cta"), facts = document.querySelector(".foot-facts");
+  if (!cta || !facts) return;
+  function fit() {
+    cta.style.minHeight = window.innerWidth > 760 ? facts.offsetHeight + "px" : "";
+  }
+  fit();
+  window.addEventListener("resize", fit);
+  if (window.ResizeObserver) new ResizeObserver(fit).observe(facts);
+})();

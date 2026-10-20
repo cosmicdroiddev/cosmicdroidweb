@@ -275,13 +275,36 @@ page("murals.html", "Murals | cosmicdroid", "Murals painted by cosmicdroid in Co
 
 
 # ---------- LEAP KILL ----------
-lk_gal = "\n".join(
-    f'    <button type="button" aria-label="Enlarge photo {i}"><img src="assets/img/leapkill/0{i}.jpg" alt="{alt}" loading="lazy" width="800" height="1000"></button>'
-    for i, alt in [(1, "Leap Kill vol. 01 with stickers"), (2, "The Leap Kill pack: comic, stickers and videogame"), (3, "A pile of Leap Kill holographic stickers")])
+def lk_gallery(items, cls):
+    """items: (file in assets/img/leapkill without .webp, alt, caption or None)"""
+    d = os.path.join(ROOT, "assets", "img", "leapkill"); out = []
+    for i, (name, alt, cap) in enumerate(items):
+        small = name + ("-sm" if os.path.exists(os.path.join(d, name + "-sm.webp")) else "")
+        c = f'<span class="g-cap"><span class="num">0{i + 1}</span>{cap}</span>' if cap else ""
+        out.append(f'    <button type="button" data-full="assets/img/leapkill/{name}.webp" aria-label="Enlarge: {alt}">'
+                   f'<img src="assets/img/leapkill/{small}.webp" alt="{alt}" loading="lazy">{c}</button>')
+    return f'<div class="gallery {cls}">\n' + "\n".join(out) + "\n  </div>"
+
+
+lk_photos = lk_gallery([
+    ("photo-pack", "The Leap Kill Vol. 01 pack, sealed", None),
+    ("photo-stickers", "The comic with its holographic stickers", None),
+    ("photo-holo", "A pile of packed Leap Kill comics and stickers", None),
+    ("photo-table", "Packing the comics on the cutting mat", None),
+    ("photo-comic", "Holding the printed comic", None)], "gallery-photo gallery-tall lk-photos")
+lk_stickers = lk_gallery([
+    ("sticker-1", "Leap Kill sticker: the logo and the sleeping hero", "logo"),
+    ("sticker-2", "Leap Kill sticker: the vampire in a ring of thorns", "vampire"),
+    ("sticker-3", "Leap Kill sticker: the robot with a screen", "robot")], "gallery-art gallery-3")
+lk_make = lk_gallery([
+    ("sketch", "Thumbnail sketches for every page of the comic", "sketches"),
+    ("packaging", "The Leap Kill pack label: includes a videogame", "pack label")], "gallery-art gallery-2 lk-make")
 lk_sprites = "\n".join(
-    f'    <figure class="sprite-cell"><span class="sprite sprite-{k}" role="img" aria-label="The Leap Kill guy, {k}"></span><figcaption><span class="num">0{i + 1}</span>{k}</figcaption></figure>'
-    for i, k in enumerate(["idle", "run", "attack"]))
-lk_world = "\n".join(f'    <figure class="cell-fig">{slot(f"leapkill-world-{i}", "800×800", alt=f"Leap Kill world {i}")}</figure>' for i in range(1, 4))
+    f'    <figure class="lk-sprite"><img src="assets/img/leapkill/game-{f}.gif" alt="{alt}" width="100" height="100" loading="lazy"><figcaption><span class="num">0{i + 1}</span>{cap}</figcaption></figure>'
+    for i, (f, alt, cap) in enumerate([
+        ("frog-idle", "The hero standing", "hero · idle"), ("frog-run", "The hero running", "hero · run"),
+        ("frog-attack", "The hero attacking", "hero · attack"), ("kermit-walk", "The bat frog walking", "bat frog · walk"),
+        ("kermit-fly", "The bat frog flying", "bat frog · fly"), ("kermit-attack", "The bat frog attacking", "bat frog · attack")]))
 leapkill = f'''<section class="lk-hero">
   <div class="lk-hero-art lk-reader" id="read" data-flipbook aria-label="Read Leap Kill Vol. 01">
   <div class="lk-stage">
@@ -328,36 +351,37 @@ leapkill = f'''<section class="lk-hero">
       <div><dt>by</dt><dd>cosmicdroid</dd></div>
     </dl>
   </div>
+  <div class="lk-hero-video">
+    <video muted loop playsinline autoplay preload="auto" data-autoplay poster="assets/img/leapkill/pack-poster.webp" aria-label="Video: packing a Leap Kill pack by hand">
+      <source src="assets/img/leapkill/pack.mp4" type="video/mp4">
+    </video>
+  </div>
 </section>
 {ticker(["leap kill", "vol. 01", "comic", "holographic stickers", "videogame", "by cosmicdroid"])}
 
-<section class="lk-pack">
-  <video muted loop playsinline preload="none" data-autoplay poster="assets/img/leapkill/pack-poster.webp" aria-label="Video: packing a Leap Kill pack by hand">
-    <source src="assets/img/leapkill/pack.mp4" type="video/mp4">
-  </video>
-</section>
-<section class="block">
-  {bar("The hero")}
-  <div class="lk-hero-row">
-    <div class="cells cells-3 sprite-cells">
-{lk_sprites}
-    </div>
-    <div class="pad-cell prose lk-bio">
-      <p class="placeholder-note">Add his name and a few lines about him: who he is, what he wants, why he's so angry.</p>
-      <p>He's the one running around the castle on the homepage. These are his sprites from the Leap Kill videogame.</p>
-    </div>
-  </div>
-</section>
 <section class="block">
   {bar("Vol. 01")}
-  <div class="gallery lk-gallery">
-{lk_gal}
-  </div>
+  {lk_photos}
 </section>
 <section class="block">
-  {bar("The world")}
-  <div class="cells cells-3">
-{lk_world}
+  {bar("The stickers")}
+  {lk_stickers}
+</section>
+<section class="block">
+  {bar("Sketches & pack")}
+  {lk_make}
+</section>
+<section class="block">
+  {bar("The videogame")}
+  <div class="lk-game">
+    <div class="lk-game-video">
+      <video muted loop playsinline preload="none" data-autoplay poster="assets/img/leapkill/game-poster.webp" aria-label="Video: playing the Leap Kill videogame">
+        <source src="assets/img/leapkill/game.mp4" type="video/mp4">
+      </video>
+    </div>
+    <div class="lk-sprites">
+{lk_sprites}
+    </div>
   </div>
 </section>
 <section class="cta">

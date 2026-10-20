@@ -1783,3 +1783,72 @@ body.bar-purple .site-header .socials a:hover { color: var(--panel); }
   .proj-intro-text { padding: 18px 16px; }
   .proj-band { height: 32px; }
 }
+
+/* ---------- Oct 20 (b): fixes from the owner's screenshots ---------- */
+/* About / Contact: the line in the title row and the line below both sit in the middle of the page */
+@media (min-width: 761px) { .split { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); } }
+/* purple menu bar: the menu words go back to the normal dark blue (icons stay yellow) */
+body.bar-purple .site-header .nav a {
+  color: var(--ink);
+  font-weight: 400;
+  -webkit-text-stroke: 0;
+}
+body.bar-purple .site-header .nav a:hover,
+body.bar-purple .site-header .nav a[aria-current="page"] { background-image: linear-gradient(var(--lime), var(--lime)); }
+@media (max-width: 760px) {
+  body.bar-purple .site-header.is-open .nav a { color: var(--ink); -webkit-text-stroke: 0; font-weight: 400; }
+}
+/* purple banner above the frog facts: text on 2 lines, same height as the frog fact row (desktop) */
+@media (min-width: 761px) {
+  .cta { min-height: 150px; padding-top: 0; padding-bottom: 0; flex-wrap: nowrap; }
+  .cta p { max-width: none; font-size: clamp(1.6rem, 2.7vw, 2.6rem); line-height: 1.05; max-width: 30ch; }
+}
+
+/* ---------- work pages, take 2: follows the owner's reference exactly ---------- */
+.proj-title { text-transform: uppercase; font-size: clamp(2rem, 3.4vw, 3rem); padding: 20px var(--pad); }
+.proj-back { gap: 10px; padding: 14px 18px; font-size: 1rem; }
+.proj-back svg { width: 46px; height: 26px; }
+.proj-intro {
+  grid-template-columns: minmax(0, 24%) minmax(0, 1fr);
+  grid-template-rows: auto 1fr;
+  grid-template-areas: "art text" "art facts";
+  background: var(--paper);
+}
+.proj-intro-art { border-right: 0; }
+.proj-intro-art img { aspect-ratio: 1 / 1; height: 100%; min-height: 0; max-height: none; }
+.proj-intro-text { padding: 14px var(--pad) 0; max-width: none; }
+.proj-intro-text p { font-family: var(--mono); font-size: 0.98rem; line-height: 1.4; max-width: 62ch; margin: 0; }
+.proj-facts {
+  justify-self: start; align-self: start;
+  margin: 14px var(--pad) 14px;
+  grid-template-columns: repeat(2, minmax(0, 182px));
+  border: 1px solid var(--line);
+}
+.proj-facts > div { padding: 12px 18px; }
+.proj-facts dt { font-size: 1rem; margin-bottom: 8px; }
+.proj-band { height: 16px; }
+.proj-block .gallery-art button:nth-child(3n) { background: var(--panel); }
+
+@media (max-width: 760px) {
+  .proj-title { padding: 14px 12px; font-size: clamp(1.6rem, 7vw, 2.2rem); }
+  .proj-intro { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); grid-template-areas: "art facts" "text text"; }
+  .proj-intro-art { border-bottom: 1px solid var(--line); border-right: 0; }
+  .proj-facts {
+    align-self: end; justify-self: stretch;
+    margin: 0; padding: 0; gap: 0;
+    grid-template-columns: 1fr; grid-template-rows: auto auto;
+    border: 0; border-bottom: 1px solid var(--line);
+    margin-left: 18px;
+  }
+  .proj-facts > div { border: 1px solid var(--line) !important; border-bottom: 0 !important; border-right: 0 !important; padding: 10px 12px; background: var(--paper); }
+  .proj-facts dt { font-size: 0.82rem; margin-bottom: 4px; }
+  .proj-facts dd { font-size: 0.78rem; }
+  .proj-intro-text { padding: 12px 12px 40px; }
+  .proj-intro-text p { font-size: 0.78rem; line-height: 1.45; }
+  .proj-band { height: 12px; }
+}
+@media (max-width: 760px) {
+  /* work pages on phones: one picture per row, like the reference */
+  .proj-block .gallery { grid-template-columns: minmax(0, 1fr) !important; }
+  .proj-block .gallery button { grid-column: auto !important; }
+}

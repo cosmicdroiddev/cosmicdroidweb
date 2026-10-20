@@ -277,3 +277,44 @@
   .lk-hero-text { order: -1; border-bottom: 1px solid var(--line); }
   .lk-hero-art.lk-reader { border-right: 0; border-bottom: 1px solid var(--line); }
 }
+
+/* ---------- Oct 20: top of the page = book | info | pack video (desktop); stacked on phones ---------- */
+.lk-hero { grid-template-columns: minmax(0, 2fr) minmax(0, 1fr) minmax(0, 1fr); }
+.lk-hero-text { border-right: 1px solid var(--line); }
+.lk-hero-video { position: relative; min-height: 420px; background: var(--paper); }
+.lk-hero-video video { position: absolute; inset: var(--pad); width: calc(100% - 2 * var(--pad)); height: calc(100% - 2 * var(--pad)); object-fit: cover; border: 1px solid var(--line); background: var(--line); }
+@media (min-width: 761px) and (max-width: 1100px) {
+  .lk-hero { grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr); }
+  .lk-hero-video { grid-column: 1 / -1; border-top: 1px solid var(--line); min-height: 0; aspect-ratio: 16 / 9; }
+  .lk-hero-text { border-right: 0; }
+}
+@media (max-width: 760px) {
+  .lk-hero { grid-template-columns: minmax(0, 1fr); }
+  .lk-hero-text { border-right: 0; }
+  .lk-hero-video { min-height: 0; aspect-ratio: 9 / 16; max-height: 80vh; }
+  .lk-hero-video video { inset: 16px; width: calc(100% - 32px); height: calc(100% - 32px); }
+}
+
+/* photos, stickers, sketches & pack, videogame */
+.lk-photos { grid-template-columns: repeat(5, minmax(0, 1fr)) !important; gap: 0; }
+.lk-photos img { aspect-ratio: 3 / 4 !important; object-fit: cover; }
+.lk-make { grid-template-columns: minmax(0, 1fr) minmax(0, 1.6fr) !important; }
+.lk-make img { aspect-ratio: auto !important; height: 100%; max-height: 640px; object-fit: contain; }
+.lk-game { display: grid; grid-template-columns: minmax(0, 1.6fr) minmax(0, 1fr); }
+.lk-game-video { border-right: 1px solid var(--line); background: var(--line); display: grid; place-items: center; }
+.lk-game-video video { width: 100%; height: auto; display: block; aspect-ratio: 16 / 9; object-fit: cover; }
+.lk-sprites { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.lk-sprite { margin: 0; display: grid; place-items: center; gap: 6px; padding: 14px 8px 10px; border-left: 1px solid var(--line); border-bottom: 1px solid var(--line); background: var(--panel); }
+.lk-sprite:nth-child(3n+1) { border-left: 0; }
+.lk-sprite:nth-last-child(-n+3) { border-bottom: 0; }
+.lk-sprite img { width: 96px; height: 96px; image-rendering: pixelated; }
+.lk-sprite figcaption { font: 0.78rem/1.2 var(--mono); color: var(--ink); }
+.lk-sprite .num { margin-right: 6px; opacity: 0.6; }
+@media (max-width: 760px) {
+  .lk-photos { grid-template-columns: repeat(2, minmax(0, 1fr)) !important; }
+  .lk-photos button:last-child { grid-column: 1 / -1; }
+  .lk-photos button:last-child img { aspect-ratio: 4 / 3 !important; }
+  .lk-make, .lk-game { grid-template-columns: minmax(0, 1fr) !important; }
+  .lk-game-video { border-right: 0; border-bottom: 1px solid var(--line); }
+  .lk-sprite img { width: 72px; height: 72px; }
+}

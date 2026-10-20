@@ -180,7 +180,7 @@ var CASTLE_SPOTS = [
     { id: "top",    c0: 34, c1: 67, r0: 16, r1: 30, floor: 31, spawn: 38 },
     { id: "studio", c0: 4,  c1: 67, r0: 34, r1: 49, floor: 50, spawn: 30 },
     { id: "arcade", c0: 4,  c1: 67, r0: 53, r1: 68, floor: 69, spawn: 36 },
-    { id: "hall",   c0: 4,  c1: 67, r0: 73, r1: 88, floor: 89, spawn: 24 }
+    { id: "hall",   c0: 4,  c1: 67, r0: 73, r1: 88, floor: 89, spawn: 10 }
   ];
   function roomAt(c, r) {
     for (var i = 0; i < ROOMS.length; i++) {
@@ -203,13 +203,64 @@ var CASTLE_SPOTS = [
 
   // ---- traps and mobs ----
   var BED = { x: 266, y: 136, w: 66, h: 19 };
-  var SPIKES = [{ x: 43, y: 332, w: 38, h: 13 }];
-  // the pink things in the drawing hurt: spider, snake on the bookshelf, spiky ball
-  var HAZARDS = [
-    { x: 170, y: 180, w: 24, h: 22 },
-    { x: 268, y: 171, w: 66, h: 13 },
-    { x: 152, y: 286, w: 20, h: 20 }
+  var SPIKES = [];   // (old drawn traps; the animated ones below replace them)
+  var HAZARDS = [];
+  // ---- animated traps, from castle_assets.psd (frames side by side in assets/castle/traps/) ----
+  // box = where the sprite sits in the world [x, y, w, h]; hit = the part that kills [x, y, w, h]
+  var TRAPS = [
+    { id: "spider", frames: 2, fps: 3, box: [152.8, 167.9, 41.9, 47.1], hit: [160, 185, 27, 25] },
+    { id: "spike-ball", frames: 2, fps: 6, box: [149.9, 284.1, 26.5, 26.8], hit: [152, 286, 22, 22] },
+    { id: "spikes", frames: 2, fps: 4, box: [40.6, 323.3, 42.5, 21.9], hit: [43, 333, 38, 12] },
+    // the snake rests, then strikes to the left: each attack frame reaches further (lefts = where its head is)
+    { id: "snake", frames: 2, fps: 3, box: [220.3, 166.3, 118.1, 22.9], hit: [266, 171, 70, 16],
+      lefts: [263.8, 258.9, 242.5, 228.4, 220.3], rest: 2.4 },
+    // the knight helmet walks left and right in the hall; touching it is a poof
+    { id: "knight", frames: 3, fps: 8, box: [146.3, 409.4, 38, 36.3], min: 92, max: 186, speed: 28 }
   ];
+  TRAPS.forEach(function (tr) {
+    tr.x = tr.box[0]; tr.vx = -(tr.speed || 0); tr.frame = 0; tr.attack = 0;
+    (tr.id === "snake" ? ["-idle", "-attack"] : [""]).forEach(function (suf) {
+      var im = new Image(); im.onload = function () { tr["img" + suf] = im; };
+      im.src = (document.body.dataset.base || "") + "assets/castle/traps/" + tr.id + suf + ".webp";
+    });
+  });
+  function trapHit(tr) {
+    if (tr.id === "knight") return [tr.x + 5, tr.box[1] + 6, tr.box[2] - 10, tr.box[3] - 6];
+    if (tr.id === "snake") { var l = tr.lefts[tr.attack]; return [l + 2, 171, 336 - l, 16]; }
+    return tr.hit;
+  }
+  function updateTraps(dt) {
+    TRAPS.forEach(function (tr) {
+      if (tr.id === "knight") {
+        tr.x += tr.vx * dt;
+        if (tr.x < tr.min) { tr.x = tr.min; tr.vx = tr.speed; }
+        if (tr.x > tr.max) { tr.x = tr.max; tr.vx = -tr.speed; }
+      }
+      if (tr.id === "snake") {
+        // rest (2 idle frames) → strike out (frames 0-4) → hold → pull back (4-0)
+        var c = t % (tr.rest + 1.45), a = c - tr.rest;
+        if (a < 0) tr.attack = 0;
+        else if (a < 0.45) tr.attack = Math.min(4, Math.floor(a / 0.09));
+        else if (a < 0.95) tr.attack = 4;
+        else tr.attack = Math.max(0, 4 - Math.floor((a - 0.95) / 0.1));
+        tr.striking = a >= 0;
+      }
+    });
+  }
+  function drawTraps(g) {
+    TRAPS.forEach(function (tr) {
+      var im = tr.img, n = tr.frames, f = Math.floor(t * tr.fps) % n;
+      if (tr.id === "snake") {
+        if (tr.striking) { im = tr["img-attack"]; n = 5; f = tr.attack; } else im = tr["img-idle"];
+      }
+      if (!im) return;
+      var cw = im.width / n, b = tr.box, x = tr.id === "knight" ? tr.x : b[0];
+      g.save();
+      if (tr.id === "knight" && tr.vx > 0) { g.translate(x + b[2], b[1]); g.scale(-1, 1); g.drawImage(im, f * cw, 0, cw, im.height, 0, 0, b[2], b[3]); }
+      else g.drawImage(im, f * cw, 0, cw, im.height, x, b[1], b[2], b[3]);
+      g.restore();
+    });
+  }
   var MACE = null;
   var MOB_DEFS = []; // no extra monsters: the drawn ones are the traps
 
@@ -859,6 +910,7 @@ var CASTLE_SPOTS = [
     ctx.setTransform(canvas.width / W, 0, 0, canvas.height / VH, 0, -VY0 * canvas.height / VH);
     if (CASTLE_ART.drawnDetails && !IMG.castle) drawDetails(ctx, time);
     drawMace(ctx);
+    drawTraps(ctx);
     for (var i = 0; i < mobs.length; i++) {
       var m = mobs[i];
       if (!m.alive) continue;
@@ -948,6 +1000,7 @@ var CASTLE_SPOTS = [
     for (var i = 0; i < mobs.length; i++) { mobs[i].px = mobs[i].x; mobs[i].py = mobs[i].y; }
 
     updateMobs(dt);
+    updateTraps(dt);
     for (var p = parts.length - 1; p >= 0; p--) {
       var q = parts[p];
       q.x += q.vx * dt; q.y += q.vy * dt; q.vy += 300 * dt; q.life -= dt;
@@ -996,6 +1049,10 @@ var CASTLE_SPOTS = [
     for (var hz = 0; hz < HAZARDS.length; hz++) {
       var hh = HAZARDS[hz];
       if (overlap(frog.x + 1, frog.y + 1, FW - 2, FH - 2, hh.x, hh.y, hh.w, hh.h)) { hurt(); return; }
+    }
+    for (var tq = 0; tq < TRAPS.length; tq++) {
+      var th = trapHit(TRAPS[tq]);
+      if (overlap(frog.x + 1, frog.y + 1, FW - 2, FH - 2, th[0], th[1], th[2], th[3])) { hurt(); return; }
     }
     if (MACE) {
       var mp = macePos(maceAngle());
@@ -1277,7 +1334,7 @@ var CASTLE_SPOTS = [
   // ---- testing helpers (browser console) ----
   window.castle = {
     get frog() { return frog; }, get active() { return active ? active.id : null; },
-    get room() { return checkpoint.room.id; }, get mobs() { return mobs; },
+    get room() { return checkpoint.room.id; }, get mobs() { return mobs; }, traps: TRAPS,
     pause: function () { stop(); }, resume: function () { start(); },
     put: function (col, row) { frog.x = frog.px = col * T + (T - FW) / 2; frog.y = frog.py = row * T - FH; frog.vx = frog.vy = 0; },
     step: function (n) { for (var i = 0; i < (n || 1); i++) step(STEP); draw(1, performance.now()); },

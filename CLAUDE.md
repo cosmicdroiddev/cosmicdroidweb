@@ -8,6 +8,7 @@ Portfolio of cosmicdroid (illustrator, animator, muralist from Colombia). Static
 - `tools/webimg.py` — turns big originals into light WebP (`NAME.webp` for zoom + `NAME-sm.webp` for the page). Use it for every new image; never commit print-size files.
 - Project pages are built in `tools/build.py` with `gallery()` / `facts()`; images go in `site/assets/img/<slug>/`. Only use files with real names (sketch, process, final…) from the owner's folders, never `Untitled_Artwork`/`IMG_` ones.
 - `tools/castle_trace.py` — after the owner redraws the castle: traces walls/planks from the drawing into MAP for castle.js (planks also need their exact tops in PLANKS).
+- Castle traps (spider, spike ball, spikes, snake idle/attack, knight helmet): frames from the owner's `castle_assets.psd`, one strip per animation in `site/assets/castle/traps/`; positions/hitboxes in `TRAPS` in castle.js (PSD canvas = the castle drawing canvas, castle starts at 268,320 px, 1100 px = 360 world units). The old drawn traps were erased from `castle.webp`.
 - `tools/castle_template.py` — makes the castle drawing templates in `site/assets/castle/`.
 - `site/css/style.css` — all styles. Later rules intentionally override earlier ones; append overrides at the end with a comment saying what they do.
 - `site/js/castle.js` — the playable castle (map, physics, rooms/doors, mobs, phone stick + buttons, frog position memory). `site/js/game.js` — Frog Jump (opened from the castle TV only; keep it, don't auto-show it).
