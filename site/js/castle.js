@@ -165,7 +165,9 @@ var CASTLE_SPOTS = [
   ];
   var ROWS = MAP.length;
   // the wooden planks at their exact height in the drawing: [left, right, top] (the '=' in MAP only shows where they are)
-  var PLANKS = [[205, 260, 153.5], [210, 260, 199.7], [300, 340, 249.4], [55, 110, 249.8], [35, 90, 303.8], [260, 320, 346.0], [240, 290, 402.9]];
+  // Planks that fill a gap in a stone floor use that floor's height, so you can walk straight from wood to stone;
+  // planks floating in a room use their exact drawn height.
+  var PLANKS = [[205, 260, 155], [210, 260, 199.7], [300, 340, 250], [55, 110, 250], [35, 90, 303.8], [260, 320, 345], [240, 290, 402.9]];
   function tile(c, r) {
     if (c < 0 || c >= COLS) return "#";
     if (r < 0) return " ";
@@ -878,12 +880,14 @@ var CASTLE_SPOTS = [
   function moveX(dt) {
     frog.x += frog.vx * dt;
     var r0 = Math.floor(frog.y / T), r1 = Math.floor((frog.y + FH - 0.01) / T), r, c;
-    if (frog.vx > 0) {
-      c = Math.floor((frog.x + FW - 0.01) / T);
-      for (r = r0; r <= r1; r++) if (solidAt(c, r)) { frog.x = c * T - FW; frog.vx = 0; break; }
-    } else if (frog.vx < 0) {
-      c = Math.floor(frog.x / T);
-      for (r = r0; r <= r1; r++) if (solidAt(c, r)) { frog.x = (c + 1) * T; frog.vx = 0; break; }
+    if (frog.vx !== 0) {
+      c = frog.vx > 0 ? Math.floor((frog.x + FW - 0.01) / T) : Math.floor(frog.x / T);
+      for (r = r0; r <= r1; r++) if (solidAt(c, r)) {
+        // a ledge only a few px high (wood next to stone): step up onto it instead of stopping
+        var lip = frog.y + FH - r1 * T;
+        if (r === r1 && frog.grounded && lip > 0 && lip <= 3 && !solidAt(c, r1 - 1) && !solidAt(c, Math.floor((frog.y - lip) / T))) { frog.y -= lip; break; }
+        frog.x = frog.vx > 0 ? c * T - FW : (c + 1) * T; frog.vx = 0; break;
+      }
     }
     // the bed is solid from the sides
     if (overlap(frog.x, frog.y, FW, FH, BED.x, BED.y, BED.w, BED.h)) {
