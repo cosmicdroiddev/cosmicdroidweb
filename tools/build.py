@@ -252,18 +252,11 @@ home = f'''<section class="castle-hero" aria-label="cosmicdroid castle">
 page("index.html", "cosmicdroid", "Illustrator, animator and muralist based in Colombia. Murals, characters, branding, merch and animation.", home, "index.html", home=True)
 
 # ---------- WORKS ----------
-loops = "\n".join(f'    <figure class="cell-fig">{slot(f"work-loop-{i}", "800×800 loop", alt=f"Animated loop {i}")}</figure>' for i in range(1, 4))
 
 works = page_head("Works", "Murals, illustration, branding, characters and merch, for clients and side quests. Hover a card to open it.") + f'''
 <section class="block">
   {filters}
   <div class="deck deck-tall" data-deck="all"></div>
-</section>
-<section class="block">
-  {bar("Loops")}
-  <div class="cells cells-3">
-{loops}
-  </div>
 </section>
 ''' + cta()
 page("work.html", "Works | cosmicdroid", "Murals, illustration, branding, character design and merch by cosmicdroid.", works, "work.html")
@@ -338,30 +331,10 @@ leapkill = f'''<section class="lk-hero">
 </section>
 {ticker(["leap kill", "vol. 01", "comic", "holographic stickers", "videogame", "by cosmicdroid"])}
 
-<section class="lk-pack" data-lk-pack>
-  <div class="lk-pack-screen">
-    <div class="lk-pack-frame">
-      <video muted loop playsinline preload="none" data-autoplay poster="assets/img/leapkill/pack-poster.webp" aria-label="Video: packing a Leap Kill pack by hand">
-        <source src="assets/img/leapkill/pack.mp4" type="video/mp4">
-      </video>
-      <span class="lk-pack-scan" aria-hidden="true"></span>
-      <span class="lk-pack-rec" aria-hidden="true"><i></i>rec</span>
-      <span class="lk-pack-speed" aria-hidden="true" data-pack-speed>▶ x1.0</span>
-      <span class="lk-pack-time" aria-hidden="true" data-pack-time>00:00</span>
-      <span class="lk-pack-bar" aria-hidden="true"><span data-pack-bar></span></span>
-    </div>
-  </div>
-  <div class="lk-pack-text">
-    <p class="lk-pack-kicker">behind the pack</p>
-    <h2 class="lk-pack-title">Packed<br>by hand</h2>
-    <p>Every Vol. 01 pack is put together on my desk: the comic, a sheet of holographic stickers and the game, slipped into a bag and sealed with a little castle sticker.</p>
-    <ol class="lk-pack-list">
-      <li><b>01</b> the comic</li>
-      <li><b>02</b> holo stickers</li>
-      <li><b>03</b> the game</li>
-      <li><b>04</b> sealed &amp; signed</li>
-    </ol>
-  </div>
+<section class="lk-pack">
+  <video muted loop playsinline preload="none" data-autoplay poster="assets/img/leapkill/pack-poster.webp" aria-label="Video: packing a Leap Kill pack by hand">
+    <source src="assets/img/leapkill/pack.mp4" type="video/mp4">
+  </video>
 </section>
 <section class="block">
   {bar("The hero")}
@@ -463,23 +436,6 @@ contact = page_head("Contact") + f'''
         <div class="field"><label for="name">Name</label><input id="name" name="name" type="text" autocomplete="name" required></div>
         <div class="field"><label for="email">Email</label><input id="email" name="email" type="email" autocomplete="email" required></div>
       </div>
-      <div class="form-row">
-        <div class="field">
-          <label for="type">What do you need?</label>
-          <select id="type" name="type">
-            <option>Mural</option>
-            <option>Illustration</option>
-            <option>Branding / logo</option>
-            <option>Merch design</option>
-            <option>Album or poster art</option>
-            <option>Animation</option>
-            <option>Character design</option>
-            <option>Painting</option>
-            <option>Something else</option>
-          </select>
-        </div>
-        <div class="field"><label for="where">Where (for murals)</label><input id="where" name="where" type="text" placeholder="City, country"></div>
-      </div>
       <div class="field"><label for="message">Tell me about it</label><textarea id="message" name="message" required placeholder="The idea, size or format, timeline, budget if you have one"></textarea></div>
       <div><button class="button" type="submit">Send message <span aria-hidden="true">↗</span></button></div>
       <p class="form-status" role="status" aria-live="polite"></p>
@@ -540,16 +496,13 @@ atc = page_head("All the Cores and More", "A shirt for All the Cores and More, w
     {facts([("client", "All the Cores and More"), ("project", "Merch, shirt design"), ("year", "2026"), ("prints", "front + back")])}
   </div>
 </section>
-<section class="block">
-  {bar("Front")}
+<section class="block proj-block" data-section="Front">
   {gallery("all-the-cores", [("sketch-front", "Front crest, first sketch", "sketch"), ("process-front", "Front crest, inked line art", "process"), ("digital-front", "Front crest, final digital art", "final digital")], "gallery-art gallery-3")}
 </section>
-<section class="block">
-  {bar("Back")}
+<section class="block proj-block" data-section="Back">
   {gallery("all-the-cores", [("sketch-back", "Back mosh pit, first sketch", "sketch"), ("process-back", "Back mosh pit, inked line art", "process"), ("digital-back", "Back mosh pit, final digital art", "final digital")], "gallery-art gallery-tall gallery-3")}
 </section>
-<section class="block">
-  {bar("The shirt")}
+<section class="block proj-block" data-section="The shirt">
   {gallery("all-the-cores", [("final-front", "The printed shirt, front", "front"), ("final-back", "The printed shirt, back", "back")], "gallery-photo gallery-tall gallery-2")}
 </section>
 """ + PAGER
@@ -567,16 +520,13 @@ juno = page_head("Juno mural", "A mural for Juno, a non-profit youth refuge in V
     <p>The wall was painted over a few days in late May and early June 2024. Below it goes from the first sketch over a photo of the house to the finished piece.</p>
   </div>
 </section>
-<section class="block">
-  {bar("The design")}
+<section class="block proj-block" data-section="The design">
   {gallery("juno-mural", [("sketch", "Juno mural, sketch over a photo of the house", "sketch"), ("design", "Juno mural, digital color design", "digital design")], "gallery-art gallery-2")}
 </section>
-<section class="block">
-  {bar("Process")}
+<section class="block proj-block" data-section="Process">
   {gallery("juno-mural", [(f"process-{i}", f"Juno mural in progress, photo {i}", None) for i in range(1, 7)], "gallery-photo gallery-tall gallery-3")}
 </section>
-<section class="block">
-  {bar("Finished")}
+<section class="block proj-block" data-section="Finished">
   {gallery("juno-mural", [("final-1", "The Juno lettering wall", None), ("final-2", "The finished house, front", None), ("final-3", "The finished house and courtyard", None)], "gallery-photo gallery-3")}
 </section>
 """ + PAGER
@@ -611,8 +561,8 @@ def intro(slug, img, alt, paras, fact_rows, tall=True):
 
 
 def block(title, inner):
-    return f'''<section class="block">
-  {bar(title)}
+    # (the title is kept in the code as a note, but not shown: project pages only show the project name on top)
+    return f'''<section class="block proj-block" data-section="{title}">
   {inner}
 </section>
 '''

@@ -1549,7 +1549,7 @@ html.is-loading .loader.is-done { opacity: 0; visibility: hidden; }
 }
 @media (prefers-reduced-motion: reduce) { .cats-main img.is-pop { animation: none; } .cats { transition: none; } }
 /* facts: the last box stretches to fill its row, so no empty blue gap is left */
-.facts div:last-child { grid-column: auto / -1; }
+/* (replaced Oct 20: see facts rules at the end) */
 /* big cats strip: tiles float on the cat's color instead of a blue grid */
 .cats-strip { background: transparent; gap: 6px; padding: 10px; }
 .cat-thumb { border: 1px solid var(--line); }
@@ -1637,4 +1637,42 @@ html.is-loading .loader.is-done { opacity: 0; visibility: hidden; }
 @media (max-width: 760px) {
   .castle-hero { height: auto; min-height: 0; }
   .castle-stage { height: auto; justify-content: flex-start; padding-bottom: 22px; }
+}
+
+/* ---------- Oct 20: drawn castle — just the drawing on the grid paper (no card, border or shadow), nudged up into the menu ---------- */
+.castle-frame::before { display: none; }
+.castle-frame canvas { background: none; border: 0; }
+.castle-frame { top: -16px; } /* (not a transform: that would put the tower tip behind the menu bar) */
+@media (max-width: 760px) { .castle-pad { margin-top: -16px; } }
+
+/* ---------- Oct 20 ---------- */
+/* Leap Kill: just the video, nothing added */
+.lk-pack { display: grid; grid-template-columns: minmax(0, 1fr); place-items: center; padding: clamp(20px, 4vw, 40px) 16px; background: var(--paper); gap: 0; }
+.lk-pack video { display: block; width: auto; max-width: 100%; max-height: 80vh; }
+/* Big cats: no blue shadow behind the big cat */
+.cats-main img { box-shadow: none; }
+/* Contact: the room animation a bit smaller */
+@media (min-width: 761px) { .contact-room video { padding: 56px; } }
+@media (max-width: 760px) { .contact-room video { max-width: 82%; margin: 0 auto; } }
+/* Instagram icon 2% bigger */
+.socials svg.ic-ig { width: 21.4px; height: 21.4px; }
+/* Phones: drawings on project pages use the full width (sketch / final / line art were tiny) */
+@media (max-width: 760px) {
+  .gallery-art.gallery-2, .gallery-art.gallery-4, .gallery-art.gallery-hero { grid-template-columns: minmax(0, 1fr); }
+  .gallery-art img, .gallery-art.gallery-2 img { padding: 12px; }
+  .gallery-art.gallery-3 button { flex-basis: 88%; }
+}
+
+/* portrait drawings stay portrait (the 4:3 box is only for the landscape Juno designs) */
+.gallery-art.gallery-2.gallery-tall img { aspect-ratio: 3 / 4; }
+@media (max-width: 760px) {
+  /* phones: every drawing at its own shape, full width */
+  .gallery-art img, .gallery-art.gallery-2 img, .gallery-art.gallery-tall img, .gallery-art.gallery-2.gallery-tall img { aspect-ratio: auto; height: auto; }
+}
+/* facts: lines between the boxes, and no empty blue box when a row isn't full */
+.facts { gap: 0; background: none; }
+.facts div { box-shadow: 1px 0 0 var(--line), 0 1px 0 var(--line); }
+@media (max-width: 760px) {
+  /* 2-up photo grids with an odd number of photos: the last one takes the full row (no empty box) */
+  .gallery-photo.gallery-3 button:last-child:nth-child(odd), .gallery-photo.gallery-4 button:last-child:nth-child(odd) { grid-column: 1 / -1; }
 }

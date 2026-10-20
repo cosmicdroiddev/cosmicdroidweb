@@ -210,31 +210,49 @@
       '<div class="deck-img"><img src="' + base + esc(p.cover) + '" alt="' + esc(p.title) + '" loading="lazy" width="600" height="600"></div>' +
       '<div class="deck-label"><b>' + esc(p.title) + "</b><span>" + esc(meta) + (p.page ? "" : " / page soon") + "</span></div>";
     return p.page
-      ? '<a class="deck-card" href="' + base + esc(p.page) + '">' + inner + "</a>"
+      ? '<a class="deck-card" data-slug="' + esc(p.slug) + '" href="' + base + esc(p.page) + '">' + inner + "</a>"
       : '<div class="deck-card" tabindex="0">' + inner + "</div>";
   }
   function open(deck, card) {
     deck.querySelectorAll(".deck-card.is-open").forEach(function (c) { if (c !== card) c.classList.remove("is-open"); });
     card.classList.add("is-open");
   }
-  function build(deck, filter) {
+  // remember the project you opened, so coming back shows it open in the deck (per page)
+  var MEM = "cd-deck:" + location.pathname;
+  function remember(slug, filter) { try { sessionStorage.setItem(MEM, JSON.stringify({ slug: slug, filter: filter })); } catch (e) {} }
+  function recall() { try { return JSON.parse(sessionStorage.getItem(MEM) || "null"); } catch (e) { return null; } }
+  function build(deck, filter, focusSlug) {
     var items = pick(deck.getAttribute("data-deck"), filter);
     deck.innerHTML = items.length ? items.map(cardHtml).join("") : '<p class="deck-empty">Nothing here yet.</p>';
     var cards = deck.querySelectorAll(".deck-card");
-    if (cards[0]) cards[0].classList.add("is-open");
+    var start = cards[0];
+    if (focusSlug) cards.forEach(function (c) { if (c.getAttribute("data-slug") === focusSlug) start = c; });
+    if (start) {
+      start.classList.add("is-open");
+      if (start !== cards[0]) requestAnimationFrame(function () {
+        // slide the deck sideways (not the page) so the remembered card is in view
+        deck.scrollLeft = Math.max(0, start.offsetLeft - deck.offsetLeft - (deck.clientWidth - start.offsetWidth) / 2);
+      });
+    }
     cards.forEach(function (c) {
       c.addEventListener("mouseenter", function () { open(deck, c); });
       c.addEventListener("focus", function () { open(deck, c); });
+      c.addEventListener("click", function () { remember(c.getAttribute("data-slug"), deck.getAttribute("data-filter-now") || "all"); });
     });
   }
   decks.forEach(function (deck) {
-    build(deck);
+    var saved = recall();
     var bar = deck.parentElement.querySelector(".deck-filters");
+    var f = saved && saved.filter && bar && bar.querySelector('[data-filter="' + saved.filter + '"]') ? saved.filter : null;
+    if (f && bar) bar.querySelectorAll("[data-filter]").forEach(function (x) { x.setAttribute("aria-selected", x.getAttribute("data-filter") === f ? "true" : "false"); });
+    deck.setAttribute("data-filter-now", f || "all");
+    build(deck, f && f !== "all" ? f : undefined, saved && saved.slug);
     if (!bar) return;
     bar.addEventListener("click", function (e) {
       var b = e.target.closest("[data-filter]");
       if (!b) return;
       bar.querySelectorAll("[data-filter]").forEach(function (x) { x.setAttribute("aria-selected", x === b ? "true" : "false"); });
+      deck.setAttribute("data-filter-now", b.getAttribute("data-filter"));
       build(deck, b.getAttribute("data-filter"));
       deck.scrollLeft = 0;
     });
@@ -491,34 +509,21 @@
   });
 })();
 
-// ---- Leap Kill "packed by hand": camcorder readout synced to the speed-ramped video ----
+
+// ---- a normal visit to a page always starts at the top (the back button still returns you to where you were) ----
 (function () {
-  var root = document.querySelector("[data-lk-pack]");
-  if (!root) return;
-  var v = root.querySelector("video"), spd = root.querySelector("[data-pack-speed]"),
-      tm = root.querySelector("[data-pack-time]"), bar = root.querySelector("[data-pack-bar]");
-  // same curve the video was edited with: 1x, ease to 4x at 0:04, back to 1x for the last 4 seconds of footage
-  function ease(x) { x = Math.min(1, Math.max(0, x)); return 0.5 - 0.5 * Math.cos(Math.PI * x); }
-  function speed(t) {
-    if (t < 4) return 1;
-    if (t < 4.8) return 1 + 3 * ease((t - 4) / 0.8);
-    if (t < 20.5) return 4;
-    if (t < 21.3) return 1 + 3 * ease((21.3 - t) / 0.8);
-    return 1;
+  if (location.hash) return;
+  var nav = performance.getEntriesByType && performance.getEntriesByType("navigation")[0];
+  if (nav && nav.type !== "navigate") return;
+  try { if ("scrollRestoration" in history) history.scrollRestoration = "auto"; } catch (e) {}
+  function top() {
+    var html = document.documentElement, prev = html.style.scrollBehavior;
+    html.style.scrollBehavior = "auto";
+    window.scrollTo(0, 0);
+    html.style.scrollBehavior = prev;
   }
-  // real footage time for each moment of the edited clip
-  var real = [0], step = 1 / 60;
-  for (var i = 1; i < 60 * 30; i++) real[i] = real[i - 1] + speed(i * step) * step;
-  function fmt(s) { s = Math.floor(s); return (s < 600 ? "0" : "") + Math.floor(s / 60) + ":" + (s % 60 < 10 ? "0" : "") + (s % 60); }
-  var raf = null;
-  function tick() {
-    var t = v.currentTime || 0, sp = speed(t);
-    spd.textContent = (sp > 1.05 ? "▶▶ x" : "▶ x") + sp.toFixed(1);
-    spd.classList.toggle("is-fast", sp > 1.05);
-    tm.textContent = fmt(real[Math.min(real.length - 1, Math.round(t / step))]);
-    if (v.duration) bar.style.width = (100 * t / v.duration) + "%";
-    raf = v.paused ? null : requestAnimationFrame(tick);
-  }
-  v.addEventListener("play", function () { if (!raf) raf = requestAnimationFrame(tick); });
-  v.addEventListener("seeked", tick);
+  top();
+  window.addEventListener("load", function () { if (window.scrollY > 0 && !userScrolled) top(); });
+  var userScrolled = false;
+  ["wheel", "touchstart", "keydown"].forEach(function (ev) { window.addEventListener(ev, function () { userScrolled = true; }, { once: true, passive: true }); });
 })();

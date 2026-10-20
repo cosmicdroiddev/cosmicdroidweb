@@ -35,7 +35,7 @@ var CASTLE_ART = {
 // Each glowing thing: where it is (in tiles: column, row, width, height) and where it goes.
 var CASTLE_SPOTS = [
   { id: "bedroom", room: "My room",  label: "About me",       href: "about.html",   zone: [52.4, 24, 15.2, 7] },   // the bed with the cat
-  { id: "mural",   room: "Studio",   label: "Murals",         href: "murals.html",  zone: [9, 37, 14, 13] },       // the big framed painting over the drums
+  { id: "playlist", room: "Studio",  label: "My playlist",    href: "https://music.youtube.com/playlist?list=PLMcMfiZgKh7Q1RoNm8sItHevV0RsI1gAZ", external: true, zone: [9, 37, 14, 13] }, // the drum kit
   { id: "library", room: "Studio",   label: "My work",        href: "work.html",    zone: [53.6, 37, 14, 13] },    // the bookshelf
   { id: "arcade",  room: "Arcade",   label: "Play Frog Jump", action: "frogjump",   zone: [19.6, 58, 10.4, 11] },  // the TV
   { id: "post",    room: "Hall",     label: "Contact",        href: "contact.html", zone: [58.4, 80, 9.2, 9] }      // the mailbox
@@ -164,6 +164,8 @@ var CASTLE_SPOTS = [
     "   ############    #######                     ##############   # ##    "
   ];
   var ROWS = MAP.length;
+  // the wooden planks at their exact height in the drawing: [left, right, top] (the '=' in MAP only shows where they are)
+  var PLANKS = [[205, 260, 153.5], [210, 260, 199.7], [300, 340, 249.4], [55, 110, 249.8], [35, 90, 303.8], [260, 320, 346.0], [240, 290, 402.9]];
   function tile(c, r) {
     if (c < 0 || c >= COLS) return "#";
     if (r < 0) return " ";
@@ -188,7 +190,8 @@ var CASTLE_SPOTS = [
 
   // ---- feel ----
   var F = {
-    gravity: 1350, jump: 450, jumpCut: 0.45, fall: 560,
+    gravity: 1350, jump: 415, // ≈64px high (15% lower than before)
+    jumpCut: 0.45, fall: 560,
     run: 118, accel: 1100, airAccel: 800, friction: 1400,
     coyote: 0.09, buffer: 0.12, bed: 500, stomp: 330
   };
@@ -895,13 +898,14 @@ var CASTLE_SPOTS = [
     frog.grounded = false; frog.onBed = false;
     var c0 = Math.floor(frog.x / T), c1 = Math.floor((frog.x + FW - 0.01) / T), c, r;
     if (frog.vy > 0) {
-      var bottom = frog.y + FH;
+      var bottom = frog.y + FH, landAt = Infinity;
       r = Math.floor((bottom - 0.01) / T);
-      for (c = c0; c <= c1; c++) {
-        var ch = tile(c, r);
-        var plank = ch === "=" && dropTimer <= 0 && prevBottom <= r * T + 0.5;
-        if (ch === "#" || plank) { land(r * T); return; }
+      for (c = c0; c <= c1; c++) if (tile(c, r) === "#") landAt = Math.min(landAt, r * T);
+      if (dropTimer <= 0) for (var pk = 0; pk < PLANKS.length; pk++) {
+        var P = PLANKS[pk];
+        if (frog.x + FW > P[0] && frog.x < P[1] && prevBottom <= P[2] + 0.5 && bottom >= P[2]) landAt = Math.min(landAt, P[2]);
       }
+      if (landAt < Infinity) { land(landAt); return; }
       if (frog.x + FW > BED.x && frog.x < BED.x + BED.w && prevBottom <= BED.y + 0.5 && bottom >= BED.y) {
         if (frog.vy > 300) {
           frog.y = BED.y - FH; frog.vy = -Math.min(F.bed, frog.vy * 0.8 + 40); frog.squash = 1;
@@ -1048,6 +1052,7 @@ var CASTLE_SPOTS = [
       return;
     }
     saveSpot();
+    if (spot.external) { window.open(spot.href, "_blank", "noopener"); return; }
     frame.classList.add("is-leaving");
     setTimeout(function () { location.href = base + spot.href; }, reduceMotion ? 0 : 260);
   }
