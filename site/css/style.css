@@ -1920,3 +1920,11 @@ body.bar-purple .site-header .nav a:hover { color: var(--lime); }
 @media (min-width: 761px) {
   .proj-intro-text p { font-size: 1.02rem; line-height: 1.5; }
 }
+
+/* ---------- Oct 20 (f) ---------- */
+/* About: the logo over the photo 15% smaller */
+.about-logo { width: 61%; }
+/* loading screen: cosmicdroid's hooded frog animation */
+.loader-art { display: block; width: 180px; height: auto; }
+/* menu links everywhere (castle home too): on hover the word turns yellow, no yellow block */
+.nav a:hover, .site-header.is-purple .nav a:hover { background-image: none !important; color: var(--lime); }

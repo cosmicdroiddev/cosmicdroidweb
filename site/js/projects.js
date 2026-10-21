@@ -20,7 +20,6 @@ window.PROJECTS = [
   { slug: "cannabicultores", title: "Cannabicultores", type: "work", tag: "Festival poster", location: "Manizales, Colombia", year: "2024", cover: "assets/img/cannabicultores/cover.webp", page: "projects/cannabicultores.html" },
   { slug: "borea", title: "Borea", type: "work", tag: "Packaging", year: "2024", cover: "assets/img/borea/cover.webp", page: "projects/borea.html" },   // CHECK year
   { slug: "sluggore", title: "Sluggore", type: "work", tag: "Band merch", year: "2024", cover: "assets/img/sluggore/cover.webp", page: "projects/sluggore.html" },   // CHECK year
-  { slug: "coffee-shop-mural", title: "Coffee shop mural", type: "mural", tag: "Mural", year: "2024", cover: "assets/img/coffee-shop-mural/cover.jpg", page: null, featured: true },   // CHECK location
   { slug: "jfgprintco", title: "JFGprintco", type: "work", tag: "Illustration", year: "2025", cover: "assets/img/jfgprintco/cover.jpg", page: null },   // CHECK
   { slug: "organico", title: "Orgánico", type: "work", tag: "Shirt design", year: "2023", cover: "assets/img/organico/cover.webp", page: "projects/organico.html" },   // CHECK year
   { slug: "big-cats-collection", title: "Big cats collection", type: "work", tag: "Illustration series", year: "2023", cover: "assets/img/big-cats-collection/cover.webp", page: "projects/big-cats-collection.html", featured: true },   // CHECK year

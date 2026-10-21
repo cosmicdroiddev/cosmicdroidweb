@@ -98,8 +98,7 @@ def page(fname, title, desc, body, current, base="", home=False):
 <body data-base="{base}"{"" if home else ' class="bar-purple"'}>
 <div class="loader" id="loader" aria-hidden="true">
   <div class="loader-inner">
-    <span class="runner"></span>
-    <span class="loader-ground"></span>
+    <img class="loader-art" src="{base}assets/img/loader.webp" alt="" width="180" height="200">
     <p class="loader-text">loading<span class="loader-dots"></span></p>
   </div>
 </div>
