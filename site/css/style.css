@@ -1928,3 +1928,16 @@ body.bar-purple .site-header .nav a:hover { color: var(--lime); }
 .loader-art { display: block; width: 180px; height: auto; }
 /* menu links everywhere (castle home too): on hover the word turns yellow, no yellow block */
 .nav a:hover, .site-header.is-purple .nav a:hover { background-image: none !important; color: var(--lime); }
+
+/* ---------- Oct 21 ---------- */
+/* phone header: one thin line between the wordmark and the menu button (it was two lines side by side) */
+@media (max-width: 760px) { .menu-toggle { border-left: 0; } }
+/* castle home: hovered menu words turn yellow with a thin dark blue outline so they stay readable */
+@media (min-width: 761px) {
+  body:not(.bar-purple) .site-header .nav a:hover {
+    color: var(--lime);
+    -webkit-text-stroke: 1px var(--ink);
+    paint-order: stroke fill;
+    font-weight: 700;
+  }
+}
