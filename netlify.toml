@@ -8,6 +8,12 @@
   [headers.values]
     Cache-Control = "public, max-age=604800"
 
+# the two Terp Wizard pages became one
+[[redirects]]
+  from = "/projects/terp-wizard-lab.html"
+  to = "/projects/terp-wizard.html"
+  status = 301
+
 # ---------- "web in progress" mode ----------
 # Visitors on cosmicdroid.com see site/soon.html. The full site still works on the
 # *.netlify.app address (your private preview link).

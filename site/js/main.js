@@ -83,7 +83,7 @@
 
   // Lightbox for project galleries
   // (works for every .gallery on the page; a button's data-full is the big version)
-  var galleries = document.querySelectorAll(".gallery");
+  var galleries = document.querySelectorAll(".gallery, .bento");
   if (galleries.length) {
     var box = document.createElement("div");
     box.className = "lightbox";
@@ -605,5 +605,25 @@
       })(t0);
     }, { threshold: 0.5 });
     io.observe(box);
+  });
+})();
+
+// ---- email links: also copy the address, in case no mail app opens (common with Gmail-only setups
+//      or inside embedded previews). A little "copied" note shows next to it. ----
+(function () {
+  document.querySelectorAll('a[href^="mailto:"]').forEach(function (a) {
+    a.addEventListener("click", function () {
+      var addr = a.getAttribute("href").replace(/^mailto:/, "").split("?")[0];
+      var done = function () {
+        var note = document.createElement("span");
+        note.className = "copied-note";
+        note.textContent = "email copied ✓";
+        a.appendChild(note);
+        setTimeout(function () { note.remove(); }, 1800);
+      };
+      try {
+        if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(addr).then(done, function () {});
+      } catch (e) {}
+    });
   });
 })();

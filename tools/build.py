@@ -343,9 +343,7 @@ leapkill = f'''<section class="lk-hero">
     <h1 class="lk-hero-logo"><img src="assets/img/leapkill/title.gif" alt="Leap Kill" width="777" height="672"></h1>
     <p class="page-lede">Leap Kill is my comic and the little world around it. Vol. 01 comes as a pack with holographic stickers and its own videogame.</p>
     <dl class="facts lk-facts">
-      <div><dt>issue</dt><dd>Vol. 01</dd></div>
       <div><dt>pages</dt><dd>16</dd></div>
-      <div><dt>comes with</dt><dd>stickers + videogame</dd></div>
       <div><dt>year</dt><dd>2025</dd></div>
     </dl>
   </div>
@@ -519,7 +517,7 @@ TYPES = {
     "big-cats-collection": "illustration series", "borea": "packaging", "botanica-mural": "mural",
     "cage-of-destiny": "game art", "cannabicultores": "festival poster", "imprint-rolling": "branding",
     "no-known-weakness": "album art", "organico": "shirt design", "pizzaneta": "mascot + merch",
-    "sluggore": "band merch", "terp-wizard": "hoodie print", "terp-wizard-lab": "merch design",
+    "sluggore": "band merch", "terp-wizard": "merch design",
 }
 ARROW_BACK = '<svg viewBox="0 0 64 36" aria-hidden="true"><path d="M2 18 L24 2 V11 H62 V25 H24 V34 Z" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linejoin="round"/></svg>'
 
@@ -527,7 +525,7 @@ ARROW_BACK = '<svg viewBox="0 0 64 36" aria-hidden="true"><path d="M2 18 L24 2 V
 def proj_head(title):
     return f'''<section class="proj-head">
   <h1 class="proj-title">{title}</h1>
-  <a class="proj-back" href="../work.html">{ARROW_BACK}<span>all works</span></a>
+  <div class="proj-back"><a class="button" href="../work.html"><span aria-hidden="true">←</span> All works</a></div>
 </section>
 '''
 
@@ -535,7 +533,7 @@ def proj_head(title):
 def intro(slug, img, alt, paras, fact_rows, tall=True):
     small = img + ("-sm" if os.path.exists(os.path.join(ROOT, "assets", "img", slug, img + "-sm.webp")) else "")
     ps = "".join(f"<p>{p}</p>" for p in paras)
-    year = dict(fact_rows).get("year", "")
+    year = dict(fact_rows).get("year") or (re.search(r'slug: "%s".*?year: "([^"]+)"' % slug, open(os.path.join(ROOT, "js", "projects.js"), encoding="utf-8").read()) or [None, ""])[1]
     boxes = f'<dl class="proj-facts"><div><dt>type</dt><dd>{TYPES.get(slug, "")}</dd></div><div><dt>year</dt><dd>{year}</dd></div></dl>'
     return f'''<section class="proj-intro">
   <div class="proj-intro-art gallery gallery-photo">
@@ -582,27 +580,7 @@ def project(slug, title, lede, desc, body):
 
 
 # All the Cores and More
-project("all-the-cores", "All the Cores and More", "A shirt for All the Cores and More, who interview artists from the alternative and heavy music scene.",
-        "A shirt design by cosmicdroid for All the Cores and More, who interview artists from the alternative and heavy music scene.",
-        intro("all-the-cores", "shirts", "The finished All the Cores and More shirts, front and back",
-              ["All the Cores and More is a brand that interviews artists from the alternative and heavy music scene. We teamed up on a merch drop: a shirt with a crest on the front and a full mosh pit of weird little guys on the back.",
-               "Below is how each side came together, from the first sketch to the printed shirt."],
-              [("year", "2026")])
-        + block("Front", gallery("all-the-cores", [("sketch-front", "Front crest, first sketch", "sketch"), ("process-front", "Front crest, inked line art", "process"), ("digital-front", "Front crest, final digital art", "final digital")], "gallery-art gallery-3"))
-        + block("Back", gallery("all-the-cores", [("sketch-back", "Back mosh pit, first sketch", "sketch"), ("process-back", "Back mosh pit, inked line art", "process"), ("digital-back", "Back mosh pit, final digital art", "final digital")], "gallery-art gallery-tall gallery-3"))
-        + block("The shirt", gallery("all-the-cores", [("final-front", "The printed shirt, front", "front"), ("final-back", "The printed shirt, back", "back")], "gallery-photo gallery-tall gallery-2")))
-
 # Juno mural
-project("juno-mural", "Juno mural", "A mural for Juno, a non-profit youth refuge in Villach, Austria.",
-        "A mural for Juno, a youth refuge in Villach, Austria, painted by cosmicdroid in 2024.",
-        intro("juno-mural", "hero", "The finished Juno mural",
-              ["A mural for Juno, a non-profit youth refuge in Villach, Austria. I designed and painted it together with a local artist.",
-               "The wall was painted over a few days in late May and early June 2024. Below it goes from the first sketch over a photo of the house to the finished piece."],
-              [("year", "2024")])
-        + block("The design", gallery("juno-mural", [("sketch", "Juno mural, sketch over a photo of the house", "sketch"), ("design", "Juno mural, digital color design", "digital design")], "gallery-art gallery-2"))
-        + block("Process", gallery("juno-mural", [(f"process-{i}", f"Juno mural in progress, photo {i}", None) for i in range(1, 7)], "gallery-photo gallery-tall gallery-3"))
-        + block("Finished", gallery("juno-mural", [("final-1", "The Juno lettering wall", None), ("final-2", "The finished house, front", None), ("final-3", "The finished house and courtyard", None)], "gallery-photo gallery-3")))
-
 # Brutal Burger Quest
 project("brutal-burger-quest", "Brutal Burger Quest", "Pixel-art characters, bosses and tiles for a burger-fuelled game.",
         "Game art by cosmicdroid for Brutal Burger Quest: the player, enemies, mage bosses, tiles and effects.",
@@ -646,14 +624,6 @@ project("big-cats-collection", "Big cats collection", f"{len(CATS)} wild cats, e
         + cats_viewer)
 
 # Borea
-project("borea", "Borea", "Packaging illustration for Borea: a box wrapped in a glowing undersea garden.",
-        "Packaging illustration by cosmicdroid for Borea.",
-        intro("borea", "cover", "The printed Borea box",
-              ["A box for Borea, covered edge to edge in coral, kelp and little hidden creatures. The art wraps around every face, so the box reads as one scene when you turn it in your hands."],
-              [("client", "Borea"), ("project", "Packaging"), ("year", "2024")])
-        + block("Unboxing", vids("borea", [("box", None)], "vid-single"))
-        + block("From line to box", gallery("borea", [("lineart", "Borea box, line art for each panel", "line art"), ("flat", "Borea box, the flat colored art", "color"), ("dieline", "Borea box, color test on the dieline", "dieline")], "gallery-art gallery-3")))
-
 # Botanica mural
 project("botanica-mural", "Botánica mural", "A castle tower, two dragons and a hooded wizard, painted big on a yellow wall.",
         "A mural painted by cosmicdroid: a castle tower guarded by dragons and bats.",
@@ -730,16 +700,6 @@ project("sluggore", "Sluggore", "A two-sided band shirt: sea monsters on the bac
         + block("In motion", vids("sluggore", [("shirt", None), ("shirt-2", None)], "vid-mixed")))
 
 # Terp Wizard: the cauldron
-project("terp-wizard", "Terp Wizard: the cauldron", "A hoodie print: three hooded wizards brewing something strong.",
-        "Merch design by cosmicdroid for Terp Wizard: the cauldron hoodie.",
-        intro("terp-wizard", "hoodie", "The Terp Wizard hoodie in the greenhouse",
-              ["A back print for Terp Wizard: three hooded wizards around a bubbling cauldron, with smoke curling all the way up the hood. From red pencil sketches to line art, the final colors and the print shop."],
-              [("client", "Terp Wizard"), ("project", "Hoodie print"), ("year", "2023")])
-        + block("Sketch to lines", gallery("terp-wizard", [("sketch-1", "First pencil sketch", "sketch"), ("sketch-2", "Second pencil sketch", "sketch 2"), ("lineart", "Line art", "line art")], "gallery-art gallery-tall gallery-3"))
-        + block("Color and print", gallery("terp-wizard", [("digital", "Final colors", "final"), ("printing", "Fresh off the press", "printing"), ("print-detail", "Print detail", "detail")], "gallery-photo gallery-tall gallery-3")))
-
-# Terp Wizard: the lab — TEST of the new "story" layout for work pages (Oct 22):
-# big hero → drag-to-compare sketch/final → photos in a magazine layout → big "next project" card
 def next_project(slug):
     """The next project (with a page) after this one in js/projects.js, wrapping around."""
     src = open(os.path.join(ROOT, "js", "projects.js"), encoding="utf-8").read()
@@ -747,59 +707,119 @@ def next_project(slug):
     i = [x[0] for x in items].index(slug)
     return items[(i + 1) % len(items)]
 
-
-def story(slug, title, desc, hero, line, tags, paras, compare, photos, photo_alt):
+# ---------- BENTO work pages (Oct 22): every picture fills its box, boxes fit together with no gaps ----------
+# Desktop: a 6-column grid of square units; each cell says where it sits ("c" columns, "r" rows, CSS grid lines).
+# Phones: 2 columns; each cell is full width ("m": 2) or half ("m": 1), with its own shape ("ar").
+# Cell kinds: "img" fills its box (cropped), "art" sits whole on a cream panel, "vid", "text", "next".
+def bento(slug, title, desc, intro_paras, cells, rows):
     small = lambda n: n + ("-sm" if os.path.exists(os.path.join(ROOT, "assets", "img", slug, n + "-sm.webp")) else "")
-    img = lambda n: f"../assets/img/{slug}/{n}.webp"
-    chips = "".join(f'<li>{t}</li>' for t in tags)
-    ps = "".join(f"<p>{x}</p>" for x in paras)
-    before, after = compare
-    shots = "".join(
-        f'<button type="button" class="st-shot st-shot-{i + 1}" data-full="{img(n)}" aria-label="Enlarge: {photo_alt} {i + 1}">'
-        f'<img src="{img(small(n))}" alt="{photo_alt} {i + 1}" loading="lazy"></button>' for i, n in enumerate(photos))
-    nx = next_project(slug)
-    body = f'''<section class="st-hero">
-  <div class="st-hero-art gallery">
-    <button type="button" data-full="{img(hero)}" aria-label="Enlarge: {title}, final art"><img src="{img(small(hero))}" alt="{title}, final art"></button>
-  </div>
-  <div class="st-hero-text">
-    <p class="st-line">{line}</p>
-    <ul class="st-tags">{chips}</ul>
-    <div class="st-copy">{ps}</div>
-  </div>
-</section>
-<section class="st-block">
-  <h2 class="st-h">From pencil to color</h2>
-  <p class="st-sub">Drag across the drawing to compare the sketch with the final.</p>
-  <div class="compare" data-compare style="--pos:50%">
-    <img class="compare-after" src="{img(after)}" alt="{title}, final colors" draggable="false">
-    <img class="compare-before" src="{img(before)}" alt="{title}, pencil sketch" draggable="false">
-    <span class="compare-line" aria-hidden="true"><span class="compare-knob">↔</span></span>
-    <span class="compare-tag compare-tag-l" aria-hidden="true">sketch</span>
-    <span class="compare-tag compare-tag-r" aria-hidden="true">final</span>
-    <input class="compare-range" type="range" min="0" max="100" value="50" aria-label="Slide between the sketch and the final">
-  </div>
-</section>
-<section class="st-block">
-  <h2 class="st-h">Out in the wild</h2>
-  <div class="st-shots gallery">{shots}</div>
-</section>
-<a class="st-next" href="../{nx[4]}">
-  <span class="st-next-label">next project ↗</span>
-  <span class="st-next-title">{nx[1]}</span>
-  <span class="st-next-tag">{nx[2]}</span>
-  <img src="../{nx[3]}" alt="" loading="lazy">
-</a>
-'''
-    html = proj_head(title) + "\n" + body
+    out = []
+    for c in cells:
+        k = c["kind"]
+        style = f'--c:{c["c"]};--r:{c["r"]};--m:{c.get("m", 1)};--ar:{c.get("ar", "1 / 1")}'
+        pos = f' style="object-position:{c["pos"]}"' if c.get("pos") else ""
+        cap = f'<span class="b-cap">{c["cap"]}</span>' if c.get("cap") else ""
+        if k in ("img", "art"):
+            n = c["src"]
+            if k == "art":
+                # the panel takes the color of the drawing's own paper, so there's no box-in-a-box
+                from PIL import Image
+                im = Image.open(os.path.join(ROOT, "assets", "img", slug, small(n) + ".webp")).convert("RGBA")
+                w, h = im.size
+                px = [im.getpixel((x, y)) for x, y in ((2, 2), (w - 3, 2), (2, h - 3), (w - 3, h - 3))]
+                if min(v[3] for v in px) > 200:   # see-through drawings keep the cream panel
+                    bg = tuple(sorted(v[i] for v in px)[1] for i in range(3))
+                    style += ";background:#%02x%02x%02x" % bg
+            out.append(f'<button type="button" class="b-cell b-{k}" style="{style}" data-full="../assets/img/{slug}/{n}.webp" aria-label="Enlarge: {c["alt"]}">'
+                       f'<img src="../assets/img/{slug}/{small(n)}.webp" alt="{c["alt"]}" loading="lazy"{pos}>{cap}</button>')
+        elif k == "vid":
+            n = c["src"]
+            out.append(f'<figure class="b-cell b-vid" style="{style}"><video muted loop playsinline preload="none" data-autoplay poster="../assets/img/{slug}/{n}-poster.webp">'
+                       f'<source src="../assets/img/{slug}/{n}.mp4" type="video/mp4"></video>{cap}</figure>')
+        elif k == "text":
+            ps = "".join(f"<p>{x}</p>" for x in intro_paras)
+            facts = "".join(f'<div><dt>{a}</dt><dd>{b}</dd></div>' for a, b in c["facts"])
+            out.append(f'<div class="b-cell b-text" style="{style}"><div class="b-copy">{ps}</div><dl class="b-facts">{facts}</dl></div>')
+        elif k == "next":
+            nx = next_project(slug)
+            out.append(f'<a class="b-cell b-next" style="{style}" href="../{nx[4]}"><img src="../{nx[3]}" alt="" loading="lazy">'
+                       f'<span class="b-next-label">next project ↗</span><span class="b-next-title">{nx[1]}</span></a>')
+    html = proj_head(title) + f'\n<section class="bento" style="--rows:{rows}">\n' + "\n".join(out) + "\n</section>\n" + PAGER
     page(f"projects/{slug}.html", f"{title} | cosmicdroid", desc, html, "work.html", base="../")
 
 
-story("terp-wizard-lab", "Terp Wizard: the lab", "Merch design by cosmicdroid for Terp Wizard: the lab.",
-      "final", "A wizard in his potion lab, for the second Terp Wizard drop.",
-      ["merch design", "2026", "Terp Wizard", "hoodie + tee"],
-      ["The second design for Terp Wizard: a wizard at his workbench, surrounded by skulls, jars and bubbling flasks, with dripping lettering underneath.",
-       "It went on hoodies and tees, with the full piece on the back and a small chest print on the front."],
-      ("sketch-fit", "final-sm"), [f"worn-{i}" for i in range(1, 5)], "The finished merch, photo")
+# Terp Wizard: both drops on one page (the lab 2026, the cauldron 2023)
+bento("terp-wizard", "Terp Wizard", "Merch designs by cosmicdroid for Terp Wizard: the lab and the cauldron.",
+      ["Two merch drops for Terp Wizard. <b>The lab</b>: a wizard at his workbench, surrounded by skulls, jars and bubbling flasks, with dripping lettering underneath, on hoodies and tees.",
+       "<b>The cauldron</b>: three hooded wizards around a bubbling cauldron, smoke curling all the way up the hood, from red pencil sketches to the print shop."],
+      [
+        {"kind": "art", "src": "lab-final", "alt": "Terp Wizard: the lab, final art", "c": "1 / 3", "r": "1 / 4", "m": 2, "ar": "778 / 1000", "cap": "the lab · 2026"},
+        {"kind": "text", "c": "3 / 5", "r": "1 / 3", "m": 2, "facts": [("type", "merch design"), ("year", "2023 – 2026")]},
+        {"kind": "img", "src": "lab-worn-2", "alt": "The lab hoodie, back print", "c": "5 / 7", "r": "1 / 4", "m": 2, "ar": "4 / 5"},
+        {"kind": "art", "src": "lab-sketch", "alt": "The lab, pencil sketch", "c": "3 / 4", "r": "3 / 4", "cap": "sketch"},
+        {"kind": "img", "src": "lab-worn-1", "alt": "The lab hoodie, front", "c": "4 / 5", "r": "3 / 4", "pos": "center 30%"},
+        {"kind": "art", "src": "digital", "alt": "Terp Wizard: the cauldron, final colors", "c": "1 / 3", "r": "4 / 7", "m": 2, "ar": "7 / 10", "cap": "the cauldron · 2023"},
+        {"kind": "img", "src": "hoodie", "alt": "The cauldron hoodie in the greenhouse", "c": "3 / 5", "r": "4 / 6", "m": 2, "ar": "1 / 1"},
+        {"kind": "art", "src": "sketch-1", "alt": "The cauldron, first pencil sketch", "c": "5 / 6", "r": "4 / 5", "cap": "sketch"},
+        {"kind": "art", "src": "sketch-2", "alt": "The cauldron, second pencil sketch", "c": "6 / 7", "r": "4 / 5", "cap": "sketch 2"},
+        {"kind": "art", "src": "lineart", "alt": "The cauldron, line art", "c": "5 / 6", "r": "5 / 6", "cap": "line art"},
+        {"kind": "img", "src": "print-detail", "alt": "The cauldron print, detail", "c": "6 / 7", "r": "5 / 6"},
+        {"kind": "img", "src": "lab-worn-3", "alt": "The lab tee, front", "c": "3 / 4", "r": "6 / 7", "pos": "center 30%"},
+        {"kind": "img", "src": "lab-worn-4", "alt": "The lab tee, back print", "c": "4 / 5", "r": "6 / 7"},
+        {"kind": "img", "src": "printing", "alt": "The cauldron print, fresh off the press", "c": "5 / 6", "r": "6 / 7"},
+        {"kind": "next", "c": "6 / 7", "r": "6 / 7"},
+      ], 6)
+
+# All the Cores and More
+bento("all-the-cores", "All the Cores and More", "A shirt design by cosmicdroid for All the Cores and More, who interview artists from the alternative and heavy music scene.",
+      ["All the Cores and More is a brand that interviews artists from the alternative and heavy music scene. We teamed up on a merch drop: a shirt with a crest on the front and a full mosh pit of weird little guys on the back.",
+       "Every piece here went from a pencil sketch to inked lines to the final art, then onto the shirt."],
+      [
+        {"kind": "img", "src": "shirts", "alt": "The finished All the Cores and More shirts, front and back", "c": "1 / 3", "r": "1 / 4", "m": 2, "ar": "4 / 5"},
+        {"kind": "text", "c": "3 / 5", "r": "1 / 3", "m": 2, "facts": [("type", "merch design"), ("year", "2026")]},
+        {"kind": "art", "src": "digital-back", "alt": "Back mosh pit, final digital art", "c": "5 / 7", "r": "1 / 4", "m": 2, "ar": "2 / 3", "cap": "back · final"},
+        {"kind": "art", "src": "sketch-front", "alt": "Front crest, first sketch", "c": "3 / 4", "r": "3 / 4", "cap": "front · sketch"},
+        {"kind": "art", "src": "process-front", "alt": "Front crest, inked line art", "c": "4 / 5", "r": "3 / 4", "cap": "front · lines"},
+        {"kind": "art", "src": "digital-front", "alt": "Front crest, final digital art", "c": "1 / 3", "r": "4 / 5", "m": 2, "ar": "2 / 1", "cap": "front · final"},
+        {"kind": "img", "src": "final-front", "alt": "The printed shirt, front", "c": "3 / 4", "r": "4 / 5", "pos": "center 25%"},
+        {"kind": "art", "src": "sketch-back", "alt": "Back mosh pit, first sketch", "c": "4 / 5", "r": "4 / 5", "cap": "back · sketch"},
+        {"kind": "art", "src": "process-back", "alt": "Back mosh pit, inked line art", "c": "5 / 6", "r": "4 / 5", "cap": "back · lines"},
+        {"kind": "img", "src": "final-back", "alt": "The printed shirt, back", "c": "6 / 7", "r": "4 / 5"},
+      ], 4)
+
+# Juno mural
+bento("juno-mural", "Juno mural", "A mural for Juno, a youth refuge in Villach, Austria, painted by cosmicdroid in 2024.",
+      ["A mural for Juno, a non-profit youth refuge in Villach, Austria. I designed and painted it together with a local artist.",
+       "The wall was painted over a few days in late May and early June 2024, from a sketch over a photo of the house to the finished piece."],
+      [
+        {"kind": "img", "src": "hero", "alt": "The finished Juno mural", "c": "1 / 4", "r": "1 / 4", "m": 2, "ar": "1 / 1"},
+        {"kind": "text", "c": "4 / 7", "r": "1 / 2", "m": 2, "facts": [("type", "mural"), ("year", "2024")]},
+        {"kind": "img", "src": "sketch", "alt": "Juno mural, sketch over a photo of the house", "c": "4 / 7", "r": "2 / 4", "m": 2, "ar": "3 / 2", "cap": "sketch"},
+        {"kind": "img", "src": "final-2", "alt": "The finished house, front", "c": "1 / 4", "r": "4 / 6", "m": 2, "ar": "3 / 2"},
+        {"kind": "img", "src": "design", "alt": "Juno mural, digital color design", "c": "4 / 7", "r": "4 / 6", "m": 2, "ar": "3 / 2", "cap": "digital design"},
+        {"kind": "img", "src": "process-1", "alt": "Juno mural in progress, photo 1", "c": "1 / 2", "r": "6 / 7"},
+        {"kind": "img", "src": "process-2", "alt": "Juno mural in progress, photo 2", "c": "2 / 3", "r": "6 / 7"},
+        {"kind": "img", "src": "final-1", "alt": "The Juno lettering wall", "c": "3 / 4", "r": "6 / 8", "m": 1, "ar": "1 / 2"},
+        {"kind": "img", "src": "final-3", "alt": "The finished house and courtyard", "c": "4 / 7", "r": "6 / 8", "m": 1, "ar": "1 / 2"},
+        {"kind": "img", "src": "process-4", "alt": "Juno mural in progress, photo 3", "c": "1 / 2", "r": "7 / 8"},
+        {"kind": "img", "src": "process-6", "alt": "Juno mural in progress, photo 4", "c": "2 / 3", "r": "7 / 8"},
+      ], 7)
+
+# Borea
+bento("borea", "Borea", "Packaging illustration by cosmicdroid for Borea.",
+      ["A box for Borea, covered edge to edge in coral, kelp and little hidden creatures. The art wraps around every face, so the box reads as one scene when you turn it in your hands."],
+      [
+        {"kind": "text", "c": "1 / 3", "r": "1 / 3", "m": 2, "facts": [("type", "packaging"), ("year", "2024")]},
+        {"kind": "vid", "src": "box", "c": "3 / 7", "r": "1 / 3", "m": 2, "ar": "16 / 9"},
+        {"kind": "img", "src": "cover", "alt": "The printed Borea box", "c": "1 / 3", "r": "3 / 5", "m": 2, "ar": "1 / 1"},
+        {"kind": "art", "src": "flat", "alt": "Borea box, the flat colored art", "c": "3 / 5", "r": "3 / 5", "cap": "color"},
+        {"kind": "art", "src": "lineart", "alt": "Borea box, line art for each panel", "c": "5 / 7", "r": "3 / 5", "cap": "line art"},
+        {"kind": "art", "src": "dieline", "alt": "Borea box, color test on the dieline", "c": "1 / 4", "r": "5 / 7", "m": 2, "ar": "5 / 3", "cap": "dieline"},
+        {"kind": "next", "c": "4 / 7", "r": "5 / 7", "m": 2, "ar": "2 / 1"},
+      ], 6)
+
+
+
+
 
 print("ok")

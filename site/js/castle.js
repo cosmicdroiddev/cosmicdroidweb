@@ -23,7 +23,7 @@ var CASTLE_ART = {
   castleBox: [0, 0, 360, 473.6],       // where the drawing sits in the world: x, y, width, height
   frog: null,          // 40×40, facing right (a single still picture; the hero below wins when set)
   // the player: one strip of square frames, facing right. Frames: idle, run, attack (stomp).
-  hero: { src: "assets/castle/hero-sheet.png", cell: 96, size: 37.5,
+  hero: { src: "assets/castle/hero-sheet-green.png", cell: 96, size: 37.5,
           idle: [0, 1], run: [2, 3, 4, 5], attack: [6, 7], fps: { idle: 3.5, run: 9, attack: 8 } },
   slime: null,         // 32×24
   bat: null,           // 32×20

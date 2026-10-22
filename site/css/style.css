@@ -2099,3 +2099,76 @@ body:not(.bar-purple) .site-header:not(.is-purple) .socials a:hover {
 .st-hero-art.gallery { grid-template-columns: minmax(0, 1fr) !important; gap: 0; }
 .st-hero-art button { justify-self: center; }
 .st-shots.gallery { background: none !important; }
+
+/* ---------- Oct 22 (b) ---------- */
+/* work pages: "All works" is a real button, like "See my works" on the home page */
+.proj-back { display: flex; align-items: center; padding: 0 var(--pad); border-left: 1px solid var(--line); background: none !important; }
+.proj-back .button { white-space: nowrap; }
+/* home "enter ↗" tag on the Leap Kill cell: room on the sides like on top */
+.lk-go { padding: 5px 9px 4px; }
+/* purple bar: the mail / Instagram cell is the same purple as the rest of the bar */
+body.bar-purple .site-header .socials { background: #b377ff; }
+@media (max-width: 760px) { body.bar-purple .site-header.is-open .socials { background: #b377ff !important; } }
+/* contact on phones: some air above and below the frog's room */
+@media (max-width: 760px) { .contact-room { padding: 44px 0 !important; } }
+/* "email copied" note on mail links */
+a[href^="mailto:"] { position: relative; }
+.copied-note { position: absolute; left: 50%; bottom: calc(100% + 6px); transform: translateX(-50%); white-space: nowrap; font: 0.72rem/1 var(--mono); padding: 5px 8px 4px; background: var(--lime); color: var(--ink); border: 1px solid var(--line); pointer-events: none; z-index: 50; animation: copied-pop 0.2s ease; }
+@keyframes copied-pop { from { opacity: 0; transform: translate(-50%, 4px); } }
+
+/* ---------- BENTO work pages (Oct 22) ----------
+   like the Leap Kill page: boxes that fit together with thin lines and no gaps.
+   Desktop: 6 columns of square units. Phones: 2 columns, each box with its own shape. */
+.bento {
+  container-type: inline-size;
+  display: grid;
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  grid-auto-rows: minmax(calc(100cqw / 6), auto);
+  gap: 1px;
+  background: var(--line);
+  border-bottom: 1px solid var(--line);
+}
+.b-cell { grid-column: var(--c); grid-row: var(--r); position: relative; margin: 0; padding: 0; border: 0; min-width: 0; min-height: 0; overflow: hidden; background: var(--paper); display: block; text-align: left; color: var(--ink); }
+button.b-cell { cursor: zoom-in; }
+.b-img img, .b-vid video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; display: block; transition: transform 0.6s cubic-bezier(0.2, 0.8, 0.2, 1); }
+.b-art { background: var(--panel); }
+.b-art img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: contain; padding: clamp(10px, 1.6vw, 26px); transition: transform 0.6s cubic-bezier(0.2, 0.8, 0.2, 1); }
+button.b-cell:hover img { transform: scale(1.04); }
+.b-cap { position: absolute; left: 0; bottom: 0; z-index: 1; font: 0.72rem/1 var(--mono); padding: 6px 8px 5px; background: var(--panel); color: var(--ink); border-top: 1px solid var(--line); border-right: 1px solid var(--line); }
+button.b-cell:hover .b-cap { background: var(--lime); }
+.b-text { display: flex; flex-direction: column; justify-content: space-between; gap: 20px; padding: clamp(18px, 2.2vw, 34px); }
+.b-copy p { margin: 0 0 12px; font-size: 1.02rem; line-height: 1.55; max-width: 56ch; }
+.b-copy b { font-weight: 700; }
+.b-facts { display: grid; grid-template-columns: 1fr 1fr; margin: 0; border: 1px solid var(--line); max-width: 380px; }
+.b-facts > div { padding: 10px 14px; }
+.b-facts > div + div { border-left: 1px solid var(--line); }
+.b-facts dt { font: 700 0.95rem/1.2 var(--mono); color: var(--line); margin-bottom: 6px; }
+.b-facts dd { margin: 0; font: 0.92rem/1.3 var(--mono); }
+.b-next { display: flex; flex-direction: column; justify-content: flex-end; gap: 6px; padding: 16px; background: var(--violet); color: var(--lime); text-decoration: none; }
+.b-next img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0.35; transition: opacity 0.3s ease, transform 0.6s cubic-bezier(0.2, 0.8, 0.2, 1); }
+.b-next:hover img { opacity: 0.6; transform: scale(1.05); }
+.b-next-label, .b-next-title { position: relative; z-index: 1; }
+.b-next-label { font: 0.75rem/1 var(--mono); color: var(--panel); }
+.b-next-title { font: 400 clamp(1.3rem, 2.2vw, 2rem)/1 "Germania One", var(--sans); text-shadow: 2px 2px 0 var(--line); }
+@media (max-width: 760px) {
+  .bento { grid-template-columns: repeat(2, minmax(0, 1fr)); grid-auto-rows: auto; }
+  .b-cell { grid-column: span var(--m); grid-row: auto; aspect-ratio: var(--ar); }
+  .b-text { aspect-ratio: auto; padding: 18px 16px 20px; }
+  .b-copy p { font-size: 0.95rem; }
+  .b-cap { font-size: 0.65rem; padding: 5px 6px 4px; }
+}
+
+/* ---------- work pages on phones (owner's reference): big picture, then type/year side by side, then the text ---------- */
+@media (max-width: 760px) {
+  .proj-intro { grid-template-columns: minmax(0, 1fr) !important; grid-template-areas: "art" "facts" "text" !important; }
+  .proj-intro-art { border-right: 0 !important; border-bottom: 1px solid var(--line); }
+  .proj-intro-art img { aspect-ratio: 1 / 1 !important; height: auto !important; max-height: none !important; }
+  .proj-facts {
+    grid-template-columns: 1fr 1fr !important; grid-template-rows: auto !important;
+    margin: 24px 16px 6px !important; padding: 0 !important; gap: 0 !important; align-self: auto !important;
+  }
+  .proj-facts > div { border: 1px solid var(--line) !important; padding: 12px 14px !important; }
+  .proj-facts > div + div { border-left: 0 !important; border-top: 1px solid var(--line) !important; }
+  .proj-intro-text { padding: 14px 16px 26px !important; }
+}
+@media (max-width: 760px) { .proj-back { display: none !important; } }
