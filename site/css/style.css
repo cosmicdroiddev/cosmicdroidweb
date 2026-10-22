@@ -2025,3 +2025,77 @@ body:not(.bar-purple) .site-header:not(.is-purple) .socials a:hover {
   filter: drop-shadow(1px 0 0 var(--ink)) drop-shadow(-1px 0 0 var(--ink)) drop-shadow(0 1px 0 var(--ink)) drop-shadow(0 -1px 0 var(--ink));
 }
 .wg-card.is-done { animation: none; opacity: 1; }
+
+/* ---------- Works grid, calmer (owner, Oct 22): on hover the picture zooms a little and the
+   name strip shows the type/year — no lift, no tilt, no hard shadow, no light ---------- */
+.wg-card, .wg-card:hover, .wg-card:focus-visible { transform: none !important; box-shadow: none !important; --lift: 0; }
+.wg-card.is-last { box-shadow: none !important; }
+.wg-img::after { display: none; }
+@keyframes wg-rise { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: none; } }
+.wg-card.is-in { animation-duration: 0.5s; }
+
+/* ---------- work pages, new "story" layout (testing on Terp Wizard: the lab) ----------
+   big finished piece first, a drag-to-compare sketch/final, photos in a magazine layout, a big next-project card */
+.st-hero { display: grid; grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr); border-bottom: 1px solid var(--line); }
+.st-hero-art { background: var(--panel); border-right: 1px solid var(--line); display: grid; place-items: center; padding: clamp(20px, 3vw, 48px); }
+.st-hero-art button { display: block; padding: 0; border: 0; background: none; cursor: zoom-in; }
+.st-hero-art img { display: block; width: auto; max-width: 100%; max-height: min(78vh, 760px); height: auto; aspect-ratio: auto !important; object-fit: contain; }
+.st-hero-text { padding: clamp(24px, 4vw, 64px); display: flex; flex-direction: column; gap: 22px; align-self: center; }
+.st-line { margin: 0; font: 400 clamp(1.5rem, 2.4vw, 2.2rem)/1.1 "Germania One", var(--sans); color: var(--line); max-width: 20ch; }
+.st-tags { display: flex; flex-wrap: wrap; gap: 8px; margin: 0; padding: 0; list-style: none; }
+.st-tags li { font: 0.8rem/1 var(--mono); padding: 6px 9px 5px; border: 1px solid var(--line); background: var(--panel); color: var(--ink); }
+.st-tags li:first-child { background: var(--lime); }
+.st-copy p { margin: 0 0 12px; font-size: 1.05rem; line-height: 1.6; max-width: 52ch; color: var(--ink); }
+
+.st-block { padding: clamp(32px, 5vw, 80px) var(--pad); border-bottom: 1px solid var(--line); }
+.st-h { margin: 0 0 6px; font: 400 clamp(1.8rem, 3vw, 2.6rem)/1 "Germania One", var(--sans); color: var(--line); text-align: center; }
+.st-sub { margin: 0 auto 26px; font: 0.85rem/1.4 var(--mono); color: var(--muted); text-align: center; }
+
+/* drag to compare */
+.compare { position: relative; width: min(100%, 560px); margin: 0 auto; aspect-ratio: 778 / 1000; border: 1px solid var(--line); background: var(--panel); overflow: hidden; user-select: none; -webkit-user-select: none; touch-action: pan-y; }
+.compare img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; pointer-events: none; }
+.compare-before { clip-path: inset(0 calc(100% - var(--pos)) 0 0); }
+.compare-line { position: absolute; top: 0; bottom: 0; left: var(--pos); width: 2px; margin-left: -1px; background: var(--line); pointer-events: none; }
+.compare-knob { position: absolute; top: 50%; left: 50%; width: 42px; height: 42px; transform: translate(-50%, -50%); display: grid; place-items: center; border: 1px solid var(--line); background: var(--lime); color: var(--ink); font: 700 1rem/1 var(--mono); box-shadow: 3px 3px 0 var(--line); }
+.compare-tag { position: absolute; top: 12px; font: 0.75rem/1 var(--mono); padding: 5px 7px 4px; border: 1px solid var(--line); background: var(--panel); color: var(--ink); pointer-events: none; }
+.compare-tag-l { left: 12px; }
+.compare-tag-r { right: 12px; }
+.compare-range { position: absolute; inset: 0; width: 100%; height: 100%; margin: 0; opacity: 0; cursor: ew-resize; -webkit-appearance: none; appearance: none; touch-action: pan-y; }
+.compare-range:focus-visible + * , .compare:focus-within .compare-knob { outline: 2px solid var(--violet); outline-offset: 2px; }
+
+/* photos: one big, three around it */
+.st-shots { display: grid; grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr) minmax(0, 1fr); grid-template-rows: repeat(2, minmax(0, 300px)); gap: 12px; max-width: 1100px; margin: 0 auto; }
+.st-shot { padding: 0; border: 1px solid var(--line); background: var(--panel); overflow: hidden; cursor: zoom-in; display: block; }
+.st-shot img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform 0.5s cubic-bezier(0.2, 0.8, 0.2, 1); }
+.st-shot:hover img { transform: scale(1.04); }
+.st-shot-1 { grid-row: 1 / 3; }
+.st-shot-4 { grid-column: 2 / 4; }
+.st-shot-4 img { object-position: center 30%; }
+
+/* next project */
+.st-next { position: relative; display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: end; gap: 8px 24px; min-height: 260px; padding: clamp(24px, 4vw, 56px) var(--pad); text-decoration: none; color: var(--lime); background: var(--violet); overflow: hidden; border-bottom: 1px solid var(--line); }
+.st-next img { position: absolute; right: var(--pad); top: 50%; width: clamp(140px, 18vw, 240px); aspect-ratio: 1 / 1; object-fit: cover; transform: translateY(-50%) rotate(4deg); border: 1px solid var(--line); box-shadow: 8px 8px 0 var(--line); transition: transform 0.35s cubic-bezier(0.2, 0.8, 0.2, 1); }
+.st-next:hover img { transform: translateY(-50%) rotate(0deg) scale(1.04); }
+.st-next-label { grid-column: 1; font: 0.85rem/1 var(--mono); color: var(--panel); }
+.st-next-title { grid-column: 1; font: 400 clamp(2.2rem, 5vw, 4rem)/1 "Germania One", var(--sans); }
+.st-next-tag { grid-column: 1; font: 0.8rem/1 var(--mono); color: var(--panel); opacity: 0.85; }
+.st-next > span { position: relative; z-index: 1; padding-right: clamp(160px, 22vw, 280px); }
+
+@media (max-width: 760px) {
+  .st-hero { grid-template-columns: minmax(0, 1fr); }
+  .st-hero-art { border-right: 0; border-bottom: 1px solid var(--line); padding: 16px; }
+  .st-hero-art img { max-height: 70vh; }
+  .st-hero-text { padding: 22px 16px 28px; gap: 16px; }
+  .st-copy p { font-size: 0.98rem; }
+  .st-block { padding: 32px 16px; }
+  .st-shots { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); grid-template-rows: auto; }
+  .st-shot-1 { grid-row: auto; grid-column: 1 / -1; aspect-ratio: 4 / 5; }
+  .st-shot-2, .st-shot-3 { aspect-ratio: 3 / 4; }
+  .st-shot-4 { grid-column: 1 / -1; aspect-ratio: 4 / 3; }
+  .st-next { min-height: 200px; }
+  .st-next > span { padding-right: 130px; }
+  .st-next img { width: 110px; }
+}
+.st-hero-art.gallery { grid-template-columns: minmax(0, 1fr) !important; gap: 0; }
+.st-hero-art button { justify-self: center; }
+.st-shots.gallery { background: none !important; }

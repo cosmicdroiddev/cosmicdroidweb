@@ -739,13 +739,68 @@ project("terp-wizard", "Terp Wizard: the cauldron", "A hoodie print: three hoode
         + block("Sketch to lines", gallery("terp-wizard", [("sketch-1", "First pencil sketch", "sketch"), ("sketch-2", "Second pencil sketch", "sketch 2"), ("lineart", "Line art", "line art")], "gallery-art gallery-tall gallery-3"))
         + block("Color and print", gallery("terp-wizard", [("digital", "Final colors", "final"), ("printing", "Fresh off the press", "printing"), ("print-detail", "Print detail", "detail")], "gallery-photo gallery-tall gallery-3")))
 
-# Terp Wizard: the lab
-project("terp-wizard-lab", "Terp Wizard: the lab", "A wizard in his potion lab, for a second Terp Wizard drop.",
-        "Merch design by cosmicdroid for Terp Wizard: the lab.",
-        intro("terp-wizard-lab", "final", "Terp Wizard: the lab, final colors",
-              ["The second design for Terp Wizard: a wizard at his workbench, surrounded by skulls, jars and bubbling flasks, with dripping lettering underneath. It went on hoodies and tees with a small chest print on the front."],
-              [("client", "Terp Wizard"), ("project", "Hoodie + tee"), ("year", "2026")])
-        + block("Sketch to color", gallery("terp-wizard-lab", [("sketch", "Pencil sketch", "sketch"), ("final", "Final colors", "final")], "gallery-art gallery-tall gallery-2"))
-        + block("Worn", gallery("terp-wizard-lab", [(f"worn-{i}", f"The finished merch, photo {i}", None) for i in range(1, 5)], "gallery-photo gallery-tall gallery-4")))
+# Terp Wizard: the lab — TEST of the new "story" layout for work pages (Oct 22):
+# big hero → drag-to-compare sketch/final → photos in a magazine layout → big "next project" card
+def next_project(slug):
+    """The next project (with a page) after this one in js/projects.js, wrapping around."""
+    src = open(os.path.join(ROOT, "js", "projects.js"), encoding="utf-8").read()
+    items = re.findall(r'slug: "([^"]+)", title: "([^"]+)",.*?tag: "([^"]+)".*?cover: "([^"]+)", page: "([^"]+)"', src)
+    i = [x[0] for x in items].index(slug)
+    return items[(i + 1) % len(items)]
+
+
+def story(slug, title, desc, hero, line, tags, paras, compare, photos, photo_alt):
+    small = lambda n: n + ("-sm" if os.path.exists(os.path.join(ROOT, "assets", "img", slug, n + "-sm.webp")) else "")
+    img = lambda n: f"../assets/img/{slug}/{n}.webp"
+    chips = "".join(f'<li>{t}</li>' for t in tags)
+    ps = "".join(f"<p>{x}</p>" for x in paras)
+    before, after = compare
+    shots = "".join(
+        f'<button type="button" class="st-shot st-shot-{i + 1}" data-full="{img(n)}" aria-label="Enlarge: {photo_alt} {i + 1}">'
+        f'<img src="{img(small(n))}" alt="{photo_alt} {i + 1}" loading="lazy"></button>' for i, n in enumerate(photos))
+    nx = next_project(slug)
+    body = f'''<section class="st-hero">
+  <div class="st-hero-art gallery">
+    <button type="button" data-full="{img(hero)}" aria-label="Enlarge: {title}, final art"><img src="{img(small(hero))}" alt="{title}, final art"></button>
+  </div>
+  <div class="st-hero-text">
+    <p class="st-line">{line}</p>
+    <ul class="st-tags">{chips}</ul>
+    <div class="st-copy">{ps}</div>
+  </div>
+</section>
+<section class="st-block">
+  <h2 class="st-h">From pencil to color</h2>
+  <p class="st-sub">Drag across the drawing to compare the sketch with the final.</p>
+  <div class="compare" data-compare style="--pos:50%">
+    <img class="compare-after" src="{img(after)}" alt="{title}, final colors" draggable="false">
+    <img class="compare-before" src="{img(before)}" alt="{title}, pencil sketch" draggable="false">
+    <span class="compare-line" aria-hidden="true"><span class="compare-knob">↔</span></span>
+    <span class="compare-tag compare-tag-l" aria-hidden="true">sketch</span>
+    <span class="compare-tag compare-tag-r" aria-hidden="true">final</span>
+    <input class="compare-range" type="range" min="0" max="100" value="50" aria-label="Slide between the sketch and the final">
+  </div>
+</section>
+<section class="st-block">
+  <h2 class="st-h">Out in the wild</h2>
+  <div class="st-shots gallery">{shots}</div>
+</section>
+<a class="st-next" href="../{nx[4]}">
+  <span class="st-next-label">next project ↗</span>
+  <span class="st-next-title">{nx[1]}</span>
+  <span class="st-next-tag">{nx[2]}</span>
+  <img src="../{nx[3]}" alt="" loading="lazy">
+</a>
+'''
+    html = proj_head(title) + "\n" + body
+    page(f"projects/{slug}.html", f"{title} | cosmicdroid", desc, html, "work.html", base="../")
+
+
+story("terp-wizard-lab", "Terp Wizard: the lab", "Merch design by cosmicdroid for Terp Wizard: the lab.",
+      "final", "A wizard in his potion lab, for the second Terp Wizard drop.",
+      ["merch design", "2026", "Terp Wizard", "hoodie + tee"],
+      ["The second design for Terp Wizard: a wizard at his workbench, surrounded by skulls, jars and bubbling flasks, with dripping lettering underneath.",
+       "It went on hoodies and tees, with the full piece on the back and a small chest print on the front."],
+      ("sketch-fit", "final-sm"), [f"worn-{i}" for i in range(1, 5)], "The finished merch, photo")
 
 print("ok")

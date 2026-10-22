@@ -221,7 +221,7 @@
   var MEM = "cd-deck:" + location.pathname;
   function remember(slug, filter) { try { sessionStorage.setItem(MEM, JSON.stringify({ slug: slug, filter: filter })); } catch (e) {} }
   function recall() { try { return JSON.parse(sessionStorage.getItem(MEM) || "null"); } catch (e) { return null; } }
-  // Works page: a grid of cards that rise in one after another, tilt toward the pointer on hover
+  // Works page: a grid of cards that fade up as they come on screen; hover zooms the picture (CSS)
   var calm = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
   function gridCard(p, i) {
     var meta = [p.tag, p.year].filter(Boolean).join(" · ");
@@ -241,20 +241,8 @@
     cards.forEach(function (c) {
       if (focusSlug && c.getAttribute("data-slug") === focusSlug) c.classList.add("is-last");
       c.addEventListener("click", function () { remember(c.getAttribute("data-slug"), deck.getAttribute("data-filter-now") || "all"); });
-      // once it has risen in, hand the transform back to the hover/tilt
+      // once it has risen in, drop the entrance animation
       c.addEventListener("animationend", function () { c.classList.add("is-done"); });
-      if (calm) return;
-      // tilt toward the pointer
-      c.addEventListener("pointermove", function (e) {
-        if (e.pointerType !== "mouse") return;
-        var r = c.getBoundingClientRect();
-        var x = (e.clientX - r.left) / r.width - 0.5, y = (e.clientY - r.top) / r.height - 0.5;
-        c.style.setProperty("--rx", (-y * 7).toFixed(2) + "deg");
-        c.style.setProperty("--ry", (x * 9).toFixed(2) + "deg");
-        c.style.setProperty("--mx", ((x + 0.5) * 100).toFixed(1) + "%");
-        c.style.setProperty("--my", ((y + 0.5) * 100).toFixed(1) + "%");
-      });
-      c.addEventListener("pointerleave", function () { c.style.setProperty("--rx", "0deg"); c.style.setProperty("--ry", "0deg"); });
     });
     // rise in as they come on screen
     if (calm || !("IntersectionObserver" in window)) { cards.forEach(function (c) { c.classList.add("is-in"); }); return; }
@@ -595,4 +583,27 @@
   fit();
   window.addEventListener("resize", fit);
   if (window.ResizeObserver) new ResizeObserver(fit).observe(facts);
+})();
+
+// ---- work pages: drag across the art to compare the sketch with the final ----
+(function () {
+  document.querySelectorAll("[data-compare]").forEach(function (box) {
+    var range = box.querySelector(".compare-range");
+    function set(v) { box.style.setProperty("--pos", v + "%"); }
+    range.addEventListener("input", function () { set(range.value); });
+    // a little nudge the first time it comes on screen, so people see it moves
+    if (!("IntersectionObserver" in window) || (window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches)) return;
+    var io = new IntersectionObserver(function (es) {
+      if (!es[0].isIntersecting) return;
+      io.disconnect();
+      var t0 = performance.now();
+      (function tick(now) {
+        var k = Math.min(1, (now - t0) / 1600);
+        var v = 50 + Math.sin(k * Math.PI * 2) * 22 * (1 - k);
+        set(v.toFixed(1)); range.value = v;
+        if (k < 1) requestAnimationFrame(tick);
+      })(t0);
+    }, { threshold: 0.5 });
+    io.observe(box);
+  });
 })();
