@@ -221,7 +221,56 @@
   var MEM = "cd-deck:" + location.pathname;
   function remember(slug, filter) { try { sessionStorage.setItem(MEM, JSON.stringify({ slug: slug, filter: filter })); } catch (e) {} }
   function recall() { try { return JSON.parse(sessionStorage.getItem(MEM) || "null"); } catch (e) { return null; } }
+  // Works page: a grid of cards that rise in one after another, tilt toward the pointer on hover
+  var calm = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  function gridCard(p, i) {
+    var meta = [p.tag, p.year].filter(Boolean).join(" · ");
+    var n = (i + 1 < 10 ? "0" : "") + (i + 1);
+    var inner =
+      '<div class="wg-img"><img src="' + base + esc(p.cover) + '" alt="' + esc(p.title) + '" loading="lazy" width="600" height="600"></div>' +
+      '<span class="wg-num">' + n + "</span>" +
+      (p.page ? '<span class="wg-go">open ↗</span>' : '<span class="wg-go wg-soon">soon</span>') +
+      '<div class="wg-label"><b>' + esc(p.title) + '</b><span class="wg-meta">' + esc(meta) + "</span></div>";
+    var attrs = ' class="wg-card" style="--i:' + i + '" data-slug="' + esc(p.slug) + '"';
+    return p.page ? "<a" + attrs + ' href="' + base + esc(p.page) + '">' + inner + "</a>" : "<div" + attrs + ' tabindex="0">' + inner + "</div>";
+  }
+  function buildGrid(deck, filter, focusSlug) {
+    var items = pick("all", filter);
+    deck.innerHTML = items.length ? items.map(gridCard).join("") : '<p class="deck-empty">Nothing here yet.</p>';
+    var cards = deck.querySelectorAll(".wg-card");
+    cards.forEach(function (c) {
+      if (focusSlug && c.getAttribute("data-slug") === focusSlug) c.classList.add("is-last");
+      c.addEventListener("click", function () { remember(c.getAttribute("data-slug"), deck.getAttribute("data-filter-now") || "all"); });
+      // once it has risen in, hand the transform back to the hover/tilt
+      c.addEventListener("animationend", function () { c.classList.add("is-done"); });
+      if (calm) return;
+      // tilt toward the pointer
+      c.addEventListener("pointermove", function (e) {
+        if (e.pointerType !== "mouse") return;
+        var r = c.getBoundingClientRect();
+        var x = (e.clientX - r.left) / r.width - 0.5, y = (e.clientY - r.top) / r.height - 0.5;
+        c.style.setProperty("--rx", (-y * 7).toFixed(2) + "deg");
+        c.style.setProperty("--ry", (x * 9).toFixed(2) + "deg");
+        c.style.setProperty("--mx", ((x + 0.5) * 100).toFixed(1) + "%");
+        c.style.setProperty("--my", ((y + 0.5) * 100).toFixed(1) + "%");
+      });
+      c.addEventListener("pointerleave", function () { c.style.setProperty("--rx", "0deg"); c.style.setProperty("--ry", "0deg"); });
+    });
+    // rise in as they come on screen
+    if (calm || !("IntersectionObserver" in window)) { cards.forEach(function (c) { c.classList.add("is-in"); }); return; }
+    var io = new IntersectionObserver(function (es) {
+      var k = 0;
+      es.forEach(function (e) {
+        if (!e.isIntersecting) return;
+        e.target.style.setProperty("--d", (k++ * 70) + "ms");
+        e.target.classList.add("is-in");
+        io.unobserve(e.target);
+      });
+    }, { rootMargin: "0px 0px -6% 0px" });
+    cards.forEach(function (c) { io.observe(c); });
+  }
   function build(deck, filter, focusSlug) {
+    if (deck.hasAttribute("data-grid")) return buildGrid(deck, filter, focusSlug);
     var items = pick(deck.getAttribute("data-deck"), filter);
     deck.innerHTML = items.length ? items.map(cardHtml).join("") : '<p class="deck-empty">Nothing here yet.</p>';
     var cards = deck.querySelectorAll(".deck-card");
@@ -253,6 +302,12 @@
       if (!b) return;
       bar.querySelectorAll("[data-filter]").forEach(function (x) { x.setAttribute("aria-selected", x === b ? "true" : "false"); });
       deck.setAttribute("data-filter-now", b.getAttribute("data-filter"));
+      if (deck.hasAttribute("data-grid") && !calm) {
+        // old cards drop away, then the new set rises in
+        deck.classList.add("is-leaving");
+        setTimeout(function () { deck.classList.remove("is-leaving"); build(deck, b.getAttribute("data-filter")); }, 260);
+        return;
+      }
       build(deck, b.getAttribute("data-filter"));
       deck.scrollLeft = 0;
     });

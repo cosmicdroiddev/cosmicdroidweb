@@ -171,10 +171,10 @@ def page_head(title, lede=None, extra=""):
 
 # ---------- HOME ----------
 services = [
-    ("murals", "Murals", "Indoor and outdoor walls for cafes, shops, organizations and festivals. I travel for the right wall."),
     ("illustration", "Illustration", "Characters, posters, album and gig artwork, editorial pieces."),
     ("branding", "Branding", "Logos and identities with a mascot or two, plus the merch to go with them."),
     ("animation", "Animation", "Loops, GIFs and short animated pieces for social and screens."),
+    ("murals", "Murals", "Indoor and outdoor walls for cafes, shops, organizations and festivals."),
 ]
 svc = "\n".join(
     f'    <div class="service"><span class="num">0{i + 1}</span>{slot("service-" + k, "120×120")}<h3>{t}</h3><p>{d}</p></div>'
@@ -252,10 +252,10 @@ page("index.html", "cosmicdroid", "Illustrator, animator and muralist based in C
 
 # ---------- WORKS ----------
 
-works = page_head("Works", "Murals, illustration, branding, characters and merch, for clients and side quests. Hover a card to open it.") + f'''
+works = page_head("Works", "Murals, illustration, branding, characters and merch, for clients and side quests.") + f'''
 <section class="block">
   {filters}
-  <div class="deck deck-tall" data-deck="all"></div>
+  <div class="works-grid" data-deck="all" data-grid></div>
 </section>
 ''' + cta()
 page("work.html", "Works | cosmicdroid", "Murals, illustration, branding, character design and merch by cosmicdroid.", works, "work.html")

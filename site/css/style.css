@@ -1941,3 +1941,87 @@ body.bar-purple .site-header .nav a:hover { color: var(--lime); }
     font-weight: 700;
   }
 }
+
+/* ---------- Oct 22: Works page = a grid of cards ----------
+   cards rise in one after another as they come on screen; on hover a card lifts and tilts toward
+   the pointer, gets a hard blue shadow, the picture zooms a little and the name strip turns yellow */
+.works-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: clamp(20px, 3.2vw, 56px);
+  padding: clamp(24px, 3.2vw, 56px);
+  perspective: 1200px;
+}
+.wg-card {
+  position: relative; display: block; text-decoration: none; color: var(--ink);
+  border: 1px solid var(--line); background: var(--panel);
+  transform-style: preserve-3d;
+  transform: translateY(var(--lift, 0)) rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg));
+  box-shadow: 0 0 0 var(--line);
+  transition: transform 0.35s cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 0.35s cubic-bezier(0.2, 0.8, 0.2, 1);
+  opacity: 0;
+  animation: none;
+}
+.wg-card.is-in { animation: wg-rise 0.7s cubic-bezier(0.2, 0.8, 0.2, 1) var(--d, 0ms) both; }
+@keyframes wg-rise {
+  from { opacity: 0; transform: translateY(36px) scale(0.96); clip-path: inset(0 0 100% 0); }
+  60% { clip-path: inset(0 0 0 0); }
+  to { opacity: 1; transform: translateY(0) scale(1); clip-path: inset(0 0 0 0); }
+}
+.wg-card.is-in { opacity: 1; }
+.wg-img { position: relative; aspect-ratio: 1 / 1; overflow: hidden; border-bottom: 1px solid var(--line); background: var(--paper); }
+.wg-img img { width: 100%; height: 100%; object-fit: cover; display: block; transform: scale(1.001); transition: transform 0.6s cubic-bezier(0.2, 0.8, 0.2, 1), filter 0.4s ease; }
+/* a soft light that follows the pointer across the picture */
+.wg-img::after {
+  content: ""; position: absolute; inset: 0; pointer-events: none; opacity: 0; transition: opacity 0.3s ease;
+  background: radial-gradient(circle at var(--mx, 50%) var(--my, 50%), rgba(255, 255, 255, 0.28), transparent 55%);
+}
+.wg-num, .wg-go {
+  position: absolute; top: 10px; z-index: 2;
+  font: 0.72rem/1 var(--mono); padding: 4px 6px 3px;
+  border: 1px solid var(--line); background: var(--panel); color: var(--ink);
+}
+.wg-num { left: 10px; }
+.wg-go { right: 10px; background: var(--lime); transform: translateY(-4px); opacity: 0; transition: opacity 0.25s ease, transform 0.25s ease; }
+.wg-go.wg-soon { background: var(--panel); }
+.wg-label { display: grid; gap: 4px; padding: 12px 14px; background: var(--panel); transition: background 0.25s ease; }
+.wg-label b { font: 700 1rem/1.15 var(--sans); }
+.wg-meta { font: 0.74rem/1.2 var(--mono); color: var(--muted); max-height: 0; opacity: 0; overflow: hidden; transition: max-height 0.3s ease, opacity 0.3s ease; }
+.wg-card:hover, .wg-card:focus-visible { --lift: -8px; box-shadow: 10px 12px 0 var(--line); outline: none; }
+.wg-card:hover .wg-img img, .wg-card:focus-visible .wg-img img { transform: scale(1.07); }
+.wg-card:hover .wg-img::after { opacity: 1; }
+.wg-card:hover .wg-go, .wg-card:focus-visible .wg-go { opacity: 1; transform: none; }
+.wg-card:hover .wg-label, .wg-card:focus-visible .wg-label { background: var(--lime); }
+.wg-card:hover .wg-meta, .wg-card:focus-visible .wg-meta { max-height: 2.6em; opacity: 1; }
+.wg-card.is-last { box-shadow: 6px 6px 0 var(--violet); }
+/* switching filters: the old cards drop away */
+.works-grid.is-leaving .wg-card { transition: opacity 0.24s ease, transform 0.24s ease; opacity: 0; transform: translateY(18px) scale(0.97); animation: none; }
+@media (max-width: 1100px) { .works-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+@media (max-width: 760px) {
+  .works-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; padding: 16px; }
+  .wg-label { padding: 9px 10px; }
+  .wg-label b { font-size: 0.86rem; }
+  .wg-go { opacity: 1; transform: none; }
+  .wg-meta { max-height: 2.6em; opacity: 1; font-size: 0.68rem; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .wg-card, .wg-card.is-in { opacity: 1; animation: none; transform: none; }
+  .wg-img img { transition: none; }
+}
+
+/* ---------- Oct 22: menu hover, take 3 ----------
+   castle home, light bar: hovered word or icon turns yellow with a thin blue outline (normal weight)
+   home once the bar has turned purple, and every other page: just yellow, no outline */
+.site-header .nav a:hover { font-weight: 400 !important; background-image: none !important; }
+body:not(.bar-purple) .site-header:not(.is-purple) .nav a:hover {
+  color: var(--lime); -webkit-text-stroke: 1px var(--ink); paint-order: stroke fill;
+}
+body:not(.bar-purple) .site-header.is-purple .nav a:hover { color: var(--lime); -webkit-text-stroke: 0; }
+/* the mail and Instagram icons: blue, yellow on hover (outlined while the home bar is light) */
+.site-header .socials a { color: var(--line); transition: color 0.2s ease, filter 0.2s ease; }
+body.bar-purple .site-header .socials a { color: var(--ink); }
+.site-header .socials a:hover, body.bar-purple .site-header .socials a:hover { color: var(--lime); }
+body:not(.bar-purple) .site-header:not(.is-purple) .socials a:hover {
+  filter: drop-shadow(1px 0 0 var(--ink)) drop-shadow(-1px 0 0 var(--ink)) drop-shadow(0 1px 0 var(--ink)) drop-shadow(0 -1px 0 var(--ink));
+}
+.wg-card.is-done { animation: none; opacity: 1; }
