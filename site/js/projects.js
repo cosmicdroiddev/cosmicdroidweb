@@ -13,7 +13,7 @@
 */
 window.PROJECTS = [
   { slug: "all-the-cores", title: "All the Cores and More", type: "work", tag: "Merch design", year: "2026", cover: "assets/img/all-the-cores/cover.webp", page: "projects/all-the-cores.html", featured: true },   // CHECK year
-  { slug: "no-known-weakness", title: "No Known Weakness", type: "work", tag: "Album art", year: "2026", cover: "assets/img/no-known-weakness/cover.webp", page: "projects/no-known-weakness.html", featured: true },   // CHECK year
+  { slug: "no-known-weakness", title: "No Known Weakness", type: "work", tag: "Album art", year: "2026", cover: "assets/img/no-known-weakness/final-sm.webp", page: "projects/no-known-weakness.html", featured: true },   // CHECK year
   { slug: "imprint-rolling", title: "Imprint Rolling", type: "work", tag: "Branding, illustration", year: "2026", cover: "assets/img/imprint-rolling/cover.webp", page: "projects/imprint-rolling.html" },   // CHECK year
   { slug: "terp-wizard-lab", title: "Terp Wizard: the lab", type: "work", tag: "Merch design", year: "2026", cover: "assets/img/terp-wizard-lab/cover.webp", page: "projects/terp-wizard-lab.html" },   // CHECK year
   { slug: "juno-mural", title: "Juno mural", type: "mural", tag: "Mural", location: "Villach, Austria", year: "2024", cover: "assets/img/juno-mural/cover.webp", page: "projects/juno-mural.html", featured: true },
