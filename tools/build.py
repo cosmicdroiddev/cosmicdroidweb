@@ -693,13 +693,12 @@ project("imprint-rolling", "Imprint Rolling", "Wavy logos and packaging art for 
 # No Known Weakness
 project("no-known-weakness", "No Known Weakness", "Cover art for Tales From The Clydeside, the EP by Glasgow's No Known Weakness.",
         "Album cover art by cosmicdroid for No Known Weakness, Tales From The Clydeside.",
-        intro("no-known-weakness", "cover", "The singer of No Known Weakness in front of the cover art",
+        intro("no-known-weakness", "final", "Tales From The Clydeside, final cover",
               ["A cover for Tales From The Clydeside: Glasgow's river Clyde overrun by monsters, with the Squinty Bridge, the Finnieston Crane and the Armadillo all getting wrecked.",
                "It started from photos of the real places, then a sketch, line art and the final colors."],
               [("client", "No Known Weakness"), ("from", "Glasgow, UK"), ("release", "Tales From The Clydeside"), ("year", "2026")])
-        + block("The cover", gallery("no-known-weakness", [("final", "Tales From The Clydeside, final cover", "final")], "gallery-art gallery-hero"))
         + block("Process", gallery("no-known-weakness", [("references", "Reference photos and first layout", "references"), ("sketch", "The sketch", "sketch"), ("lineart", "Line art", "line art")], "gallery-art gallery-3"))
-        + block("Out there", gallery("no-known-weakness", [("bandcamp", "The EP on Bandcamp", "bandcamp"), ("spotify", "The EP on Spotify", "spotify")], "gallery-free gallery-2 gallery-phones")))
+        + block("Out there", gallery("no-known-weakness", [("cover", "The singer of No Known Weakness in front of the cover art", "live"), ("bandcamp", "The EP on Bandcamp", "bandcamp"), ("spotify", "The EP on Spotify", "spotify")], "gallery-free gallery-3 gallery-phones")))
 
 # Orgánico
 project("organico", "Orgánico", "“Menos ego, más alma”: a shirt with a tiger and a crocodile tangled in a jungle wave.",
