@@ -343,8 +343,10 @@ leapkill = f'''<section class="lk-hero">
     <h1 class="lk-hero-logo"><img src="assets/img/leapkill/title.gif" alt="Leap Kill" width="777" height="672"></h1>
     <p class="page-lede">Leap Kill is my comic and the little world around it. Vol. 01 comes as a pack with holographic stickers and its own videogame.</p>
     <dl class="facts lk-facts">
+      <div><dt>issue</dt><dd>Vol. 01</dd></div>
       <div><dt>pages</dt><dd>16</dd></div>
       <div><dt>year</dt><dd>2025</dd></div>
+      <div><dt>extras</dt><dd>stickers</dd></div>
     </dl>
   </div>
   <div class="lk-hero-video">
@@ -673,7 +675,7 @@ project("no-known-weakness", "No Known Weakness", "Cover art for Tales From The 
 # Orgánico
 project("organico", "Orgánico", "“Menos ego, más alma”: a shirt with a tiger and a crocodile tangled in a jungle wave.",
         "Shirt design by cosmicdroid for Orgánico.",
-        intro("organico", "lineart", "Orgánico, the line art",
+        intro("organico", "shirt", "The Orgánico shirt, back print, worn outdoors",
               ["A shirt design for Orgánico: a tiger and a crocodile spiralling through leaves and water, under the motto “menos ego, más alma” (less ego, more soul). Screen printed by hand."],
               [("client", "Orgánico"), ("project", "Shirt design"), ("year", "2023")], tall=False)
         + block("Line to color", gallery("organico", [("lineart", "Orgánico line art", "line art"), ("final", "Orgánico final colors", "final")], "gallery-art gallery-2"))
@@ -766,8 +768,7 @@ bento("terp-wizard", "Terp Wizard", "Merch designs by cosmicdroid for Terp Wizar
         {"kind": "img", "src": "print-detail", "alt": "The cauldron print, detail", "c": "6 / 7", "r": "5 / 6"},
         {"kind": "img", "src": "lab-worn-3", "alt": "The lab tee, front", "c": "3 / 4", "r": "6 / 7", "pos": "center 30%"},
         {"kind": "img", "src": "lab-worn-4", "alt": "The lab tee, back print", "c": "4 / 5", "r": "6 / 7"},
-        {"kind": "img", "src": "printing", "alt": "The cauldron print, fresh off the press", "c": "5 / 6", "r": "6 / 7"},
-        {"kind": "next", "c": "6 / 7", "r": "6 / 7"},
+        {"kind": "img", "src": "printing", "alt": "The cauldron print, fresh off the press", "c": "5 / 7", "r": "6 / 7", "m": 2, "ar": "2 / 1"},
       ], 6)
 
 # All the Cores and More
@@ -814,8 +815,7 @@ bento("borea", "Borea", "Packaging illustration by cosmicdroid for Borea.",
         {"kind": "img", "src": "cover", "alt": "The printed Borea box", "c": "1 / 3", "r": "3 / 5", "m": 2, "ar": "1 / 1"},
         {"kind": "art", "src": "flat", "alt": "Borea box, the flat colored art", "c": "3 / 5", "r": "3 / 5", "cap": "color"},
         {"kind": "art", "src": "lineart", "alt": "Borea box, line art for each panel", "c": "5 / 7", "r": "3 / 5", "cap": "line art"},
-        {"kind": "art", "src": "dieline", "alt": "Borea box, color test on the dieline", "c": "1 / 4", "r": "5 / 7", "m": 2, "ar": "5 / 3", "cap": "dieline"},
-        {"kind": "next", "c": "4 / 7", "r": "5 / 7", "m": 2, "ar": "2 / 1"},
+        {"kind": "art", "src": "dieline", "alt": "Borea box, color test on the dieline", "c": "1 / 7", "r": "5 / 7", "m": 2, "ar": "5 / 3", "cap": "dieline"},
       ], 6)
 
 

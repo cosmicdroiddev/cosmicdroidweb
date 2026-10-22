@@ -312,7 +312,7 @@ var CASTLE_SPOTS = [
       }
       if (tr.id === "spider" && tr.dy > 0.5) {
         // the web thread it lets out on the way down
-        g.save(); g.strokeStyle = PINK; g.lineWidth = 1.5; g.lineCap = "round";
+        g.save(); g.strokeStyle = PINK; g.lineWidth = 1.25; g.lineCap = "butt";
         g.beginPath(); g.moveTo(tr.threadX, tr.ceil - 1); g.lineTo(tr.threadX, y + tr.dy + 4); g.stroke(); g.restore();
         y += tr.dy;
       }

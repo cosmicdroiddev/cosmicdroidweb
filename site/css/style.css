@@ -2172,3 +2172,6 @@ button.b-cell:hover .b-cap { background: var(--lime); }
   .proj-intro-text { padding: 14px 16px 26px !important; }
 }
 @media (max-width: 760px) { .proj-back { display: none !important; } }
+
+/* ---------- Oct 22 (c): no numbers on the work cards (Works page and home deck) ---------- */
+.wg-num, .deck-num { display: none !important; }
