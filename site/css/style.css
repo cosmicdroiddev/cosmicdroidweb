@@ -2183,3 +2183,4 @@ button.b-cell:hover .b-cap { background: var(--lime); }
 @media (max-width: 760px) { .bento { grid-auto-flow: row dense; } }
 /* phones: two half-width boxes side by side are the same height (the taller one sets it) */
 @media (max-width: 760px) { .b-cell { align-self: stretch; } }
+@media (max-width: 760px) { .b-cell { width: 100%; max-width: 100%; } }
