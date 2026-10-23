@@ -651,7 +651,7 @@ def bento(slug, title, desc, intro_paras, cells, rows, after=""):
         ar = c.get("ar", f"{cw} / {rh}")
         style = f'--c:{c["c"]};--r:{c["r"]};--m:{m};--ar:{ar}'
         pos = f' style="object-position:{c["pos"]}"' if c.get("pos") else ""
-        cap = f'<span class="b-cap">{c["cap"]}</span>' if c.get("cap") else ""
+        cap = ""   # (owner, Oct 23: no labels on the pictures; "cap" stays in the layouts as a note)
         if k in ("img", "art"):
             n = c["src"]
             if c.get("pad") is not None:
