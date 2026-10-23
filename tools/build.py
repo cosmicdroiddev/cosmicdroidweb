@@ -760,10 +760,12 @@ bento("borea", "Borea", "Packaging illustration by cosmicdroid for Borea.",
       [
         C("vid", "box", c="1 / 5", r="1 / 3", m=2, ar="16 / 9"),
         C("text", c="5 / 7", r="1 / 3", m=2, facts=[("type", "packaging"), ("year", "2024")]),
-        C("img", "cover", "The printed Borea box", c="1 / 3", r="3 / 5", m=2),
-        C("art", "flat", "Borea box, the flat colored art", c="3 / 5", r="3 / 5", cap="color"),
-        C("art", "lineart", "Borea box, line art for each panel", c="5 / 7", r="3 / 7", ar="3 / 4", cap="line art"),
-        C("art", "dieline", "Borea box, color test on the dieline", c="1 / 5", r="5 / 7", m=2, ar="5 / 3", cap="dieline"),
+        C("img", "cover", "The printed Borea box", c="1 / 3", r="3 / 5", m=1),
+        C("art", "flat", "Borea box, the flat colored art", c="3 / 5", r="3 / 5", m=1, cap="color"),
+        C("img", "pic-2", "Stacks of finished Borea boxes", c="5 / 7", r="3 / 6", m=2, ar="3 / 4"),
+        C("img", "pic-1", "Borea boxes packed in a shipping box", c="1 / 3", r="5 / 7", m=2, ar="7 / 6"),
+        C("art", "lineart", "Borea box, line art for each panel", c="3 / 5", r="5 / 7", m=1, cap="line art"),
+        C("art", "dieline", "Borea box, color test on the dieline", c="5 / 7", r="6 / 7", m=1, ar="5 / 3", cap="dieline"),
       ], 6)
 
 bento("no-known-weakness", "No Known Weakness", "Album cover art by cosmicdroid for No Known Weakness, Tales From The Clydeside.",
