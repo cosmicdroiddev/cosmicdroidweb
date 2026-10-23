@@ -827,9 +827,12 @@ bento("cannabicultores", "Cannabicultores", "Festival poster illustration by cos
         C("art", "illustration", "The full Cannabicultores illustration", c="1 / 3", r="1 / 6", m=2, ar="7 / 12"),
         C("text", c="3 / 7", r="1 / 2", m=2, facts=[("type", "festival poster"), ("year", "2024")]),
         C("vid", "festival", c="3 / 7", r="2 / 4", m=2, ar="16 / 9"),
-        C("img", "banner", "The printed banner", c="3 / 5", r="4 / 6", cap="banner"),
-        C("img", "posters", "Posters around town", c="5 / 7", r="4 / 6", cap="posters"),
-      ], 5)
+        C("img", "banner", "The printed banner", c="3 / 5", r="4 / 6", m=1, cap="banner"),
+        C("img", "posters", "Posters around town", c="5 / 7", r="4 / 6", m=1, cap="posters"),
+        C("art", "sketch", "Cannabicultores, the sketch", c="1 / 3", r="6 / 9", m=2, ar="7 / 10", cap="sketch"),
+        C("art", "stickers-2", "Stickers: the characters, sketch and color", c="3 / 7", r="6 / 8", m=2, ar="4 / 3", cap="stickers"),
+        C("art", "stickers", "Stickers: the monkey and the astronaut", c="3 / 7", r="8 / 9", m=2, ar="8 / 5"),
+      ], 8)
 
 bento("cage-of-destiny", "Cage of Destiny", "Cage of Destiny, a game jam game by cosmicdroid and Ash Badas.",
       ["A short game made for a game jam with Ash Badas: a knight locked in a cage has to escape a lizard king. I drew the characters, items, cutscenes and the title lettering.",
