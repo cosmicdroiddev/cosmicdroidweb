@@ -519,7 +519,7 @@ TYPES = {
     "big-cats-collection": "illustration series", "borea": "packaging", "botanica-mural": "mural",
     "cage-of-destiny": "game art", "cannabicultores": "festival poster", "imprint-rolling": "branding",
     "no-known-weakness": "album art", "organico": "shirt design", "pizzaneta": "mascot + merch",
-    "sluggore": "band merch", "terp-wizard": "merch design",
+    "sluggore": "band merch", "terp-wizard": "merch design", "8doce": "illustration", "catacomb": "jersey design", "westword": "editorial illustration", "gamehendge": "festival merch",
 }
 ARROW_BACK = '<svg viewBox="0 0 64 36" aria-hidden="true"><path d="M2 18 L24 2 V11 H62 V25 H24 V34 Z" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linejoin="round"/></svg>'
 
@@ -584,15 +584,6 @@ def project(slug, title, lede, desc, body):
 # All the Cores and More
 # Juno mural
 # Brutal Burger Quest
-project("brutal-burger-quest", "Brutal Burger Quest", "Pixel-art characters, bosses and tiles for a burger-fuelled game.",
-        "Game art by cosmicdroid for Brutal Burger Quest: the player, enemies, mage bosses, tiles and effects.",
-        intro("brutal-burger-quest", "cover", "Brutal Burger Quest title art: a horned mage holding a burger",
-              ["Brutal Burger Quest is a little game about fighting your way to the ultimate burger. I drew the whole cast: the hero, the creatures that get in the way, a council of burger-hoarding mages, and the tiles and effects that hold the world together."],
-              [("project", "Game art"), ("year", "2023"), ("made", "characters, tiles, effects")], tall=False)
-        + block("In motion", vids("brutal-burger-quest", [("gameplay", "gameplay"), ("phone", "on the phone")], "vid-mixed"))
-        + block("The cast", gallery("brutal-burger-quest", [("player", "The hero's sprite sheet", "hero"), ("enemies", "Enemy sprites: gorilla, bat and beetle", "enemies"), ("mages", "Twelve burger mages", "mages")], "gallery-free gallery-3"))
-        + block("The world", gallery("brutal-burger-quest", [("tiles", "Ground and wall tiles", "tiles"), ("extras", "Explosions and breakable blocks", "effects")], "gallery-free gallery-2")))
-
 # Big cats: interactive viewer
 CATS = __import__("json").load(open(os.path.join(os.path.dirname(os.path.abspath(__file__)), "big_cats.json")))
 cat_thumbs = "\n".join(
@@ -617,90 +608,15 @@ cats_viewer = f'''<section class="cats" data-cats style="--cat-bg:{first["bg"]}"
   </div>
 </section>
 '''
-project("big-cats-collection", "Big cats collection", f"{len(CATS)} wild cats, each in its own little world. Hover or swipe through them.",
-        "An illustration series by cosmicdroid: wild cats from around the world, each in its own landscape.",
-        intro("big-cats-collection", "sketches", "Pencil sketches for the big cats series",
-                [f"A personal series of {len(CATS)} wild cats, from the snow leopard to the tiny sand cat. Each one sits in a landscape from where it lives, drawn with the same flat colors and a background that's all its own.",
-                 "Everything started as pencil sketches, laid out together so the whole family would feel like one set."],
-                [("project", "Illustration series"), ("cats", str(len(CATS))), ("year", "2023"), ("format", "square prints")], tall=False)
-        + cats_viewer)
-
 # Borea
 # Botanica mural
-project("botanica-mural", "Botánica mural", "A castle tower, two dragons and a hooded wizard, painted big on a yellow wall.",
-        "A mural painted by cosmicdroid: a castle tower guarded by dragons and bats.",
-        intro("botanica-mural", "cover", "cosmicdroid in front of the finished mural",
-              ["A wall I painted from a white sketch to a full castle: bats circling the tower, two dragons climbing it, and a hooded wizard holding the star at the bottom."],
-              [("project", "Mural"), ("location", "add location"), ("year", "2022"), ("size", "add size")])
-        + block("Timelapse", vids("botanica-mural", [("timelapse", None)], "vid-single vid-portrait"))
-        + block("Step by step", gallery("botanica-mural", [(f"step-{i}", f"The mural, step {i}", f"step {i}") for i in range(1, 7)] + [("step-7", "The finished mural", "finished")], "gallery-photo gallery-tall gallery-steps")))
-
 # Cage of Destiny
-project("cage-of-destiny", "Cage of Destiny", "A game jam game made with Ash Badas. I did the art; it ranked #23 in presentation.",
-        "Cage of Destiny, a game jam game by cosmicdroid and Ash Badas.",
-        intro("cage-of-destiny", "cover", "Cage of Destiny cover art: a lizard king and a caged knight",
-              ["A short game made for a game jam with Ash Badas: a knight locked in a cage has to escape a lizard king. I drew the characters, items, cutscenes and the title lettering.",
-               "Out of the whole jam it ranked #23 for presentation and #34 for enjoyment, 72nd overall with 47 ratings."],
-              [("with", "Ash Badas"), ("project", "Game art"), ("year", "2023"), ("presentation", "#23")], tall=False)
-        + block("Gameplay", vids("cage-of-destiny", [("gameplay", None)], "vid-single"))
-        + block("Art", gallery("cage-of-destiny", [("cutscene", "A cutscene: the king, the princess and the lizard", "cutscene"), ("sprites", "Characters and items", "sprites"), ("title", "Title lettering", "title"), ("ranking", "The jam results", "results")], "gallery-free gallery-2")))
-
 # Cannabicultores
-project("cannabicultores", "Cannabicultores", "The poster for the 2024 Cannabicultores festival in Manizales, Colombia.",
-        "Festival poster illustration by cosmicdroid for Cannabicultores 2024 in Manizales, Colombia.",
-        intro("cannabicultores", "cover", "The Cannabicultores banner hanging on a wall",
-              ["A tower of little shops, plants and characters for the 2024 Cannabicultores festival, October 19 and 20 in Manizales. The art went on banners, posters and screens around the event."],
-              [("client", "Cannabicultores"), ("event", "Oct 19–20, 2024"), ("location", "Manizales, Colombia"), ("project", "Poster")])
-        + block("The illustration", gallery("cannabicultores", [("illustration", "The full Cannabicultores illustration", "illustration"), ("banner", "The printed banner", "banner"), ("posters", "Posters around town", "posters")], "gallery-free gallery-3"))
-        + block("At the festival", vids("cannabicultores", [("festival", None)], "vid-single")))
-
 # Imprint Rolling
-project("imprint-rolling", "Imprint Rolling", "Wavy logos and packaging art for Imprint Rolling.",
-        "Branding and packaging illustration by cosmicdroid for Imprint Rolling.",
-        intro("imprint-rolling", "cover", "Imprint Rolling tubes with the printed art",
-              ["A set of logos, stickers and packaging art for Imprint Rolling: melting letters, comic panels and a few strange creatures, made to work in one color or in full."],
-              [("client", "Imprint Rolling"), ("project", "Branding, packaging"), ("year", "2026")])
-        + block("The art", gallery("imprint-rolling", [(f"art-{i}", f"Imprint Rolling artwork {i}", None) for i in range(1, 9)], "gallery-art gallery-4")))
-
 # No Known Weakness
-project("no-known-weakness", "No Known Weakness", "Cover art for Tales From The Clydeside, the EP by Glasgow's No Known Weakness.",
-        "Album cover art by cosmicdroid for No Known Weakness, Tales From The Clydeside.",
-        intro("no-known-weakness", "final", "Tales From The Clydeside, final cover",
-              ["A cover for Tales From The Clydeside: Glasgow's river Clyde overrun by monsters, with the Squinty Bridge, the Finnieston Crane and the Armadillo all getting wrecked.",
-               "It started from photos of the real places, then a sketch, line art and the final colors."],
-              [("client", "No Known Weakness"), ("from", "Glasgow, UK"), ("release", "Tales From The Clydeside"), ("year", "2026")])
-        + block("Process", gallery("no-known-weakness", [("references", "Reference photos and first layout", "references"), ("sketch", "The sketch", "sketch"), ("lineart", "Line art", "line art")], "gallery-art gallery-3"))
-        + block("Out there", gallery("no-known-weakness", [("cover", "The singer of No Known Weakness in front of the cover art", "live"), ("bandcamp", "The EP on Bandcamp", "bandcamp"), ("spotify", "The EP on Spotify", "spotify")], "gallery-free gallery-3 gallery-phones")))
-
 # Orgánico
-project("organico", "Orgánico", "“Menos ego, más alma”: a shirt with a tiger and a crocodile tangled in a jungle wave.",
-        "Shirt design by cosmicdroid for Orgánico.",
-        intro("organico", "shirt", "The Orgánico shirt, back print, worn outdoors",
-              ["A shirt design for Orgánico: a tiger and a crocodile spiralling through leaves and water, under the motto “menos ego, más alma” (less ego, more soul). Screen printed by hand."],
-              [("client", "Orgánico"), ("project", "Shirt design"), ("year", "2023")], tall=False)
-        + block("Line to color", gallery("organico", [("lineart", "Orgánico line art", "line art"), ("final", "Orgánico final colors", "final")], "gallery-art gallery-2"))
-        + block("Printing it", vids("organico", [("process-1", "screen printing"), ("process-2", "the shirt")], "vid-portrait-row")))
-
 # Pizzaneta
-project("pizzaneta", "Pizzaneta", "“Let's munch”: a pizza wizard, a logo and a lot of tie-dye shirts.",
-        "Branding and merch by cosmicdroid for Pizzaneta.",
-        intro("pizzaneta", "cover", "The Let's Munch shirt",
-              ["Pizzaneta needed a character to go with the logo, so I drew a pizza wizard chilling in his oven tower with a dragon. It ended up on shirts, tie-dye and all."],
-              [("client", "Pizzaneta"), ("project", "Mascot, logo, merch"), ("year", "2022")])
-        + block("The art", gallery("pizzaneta", [("art", "The Let's Munch artwork", "artwork"), ("logo", "The Pizzaneta logo", "logo")], "gallery-art gallery-2"))
-        + block("Shirts", gallery("pizzaneta", [("shirt-blue", "Tie-dye shirt, back", None), ("shirt-worn", "Tie-dye shirt, front logo", None), ("shirt-back", "Cream shirt, back", None), ("kitchen", "The Pizzaneta team at work", None)], "gallery-photo gallery-2"))
-        + block("Drawing it", vids("pizzaneta", [("promo", None)], "vid-single vid-portrait")))
-
 # Sluggore
-project("sluggore", "Sluggore", "A two-sided band shirt: sea monsters on the back, chrome lettering on the front.",
-        "Band merch by cosmicdroid for Sluggore.",
-        intro("sluggore", "band", "The band holding up the shirt",
-              ["A shirt for Sluggore: a kaiju and a sea serpent locked in a fight on the back, and a sharp chrome logo on the front."],
-              [("client", "Sluggore"), ("project", "Band merch"), ("year", "2024")], tall=False)
-        + block("From sketch to lines", gallery("sluggore", [("sketch", "First sketch", "sketch"), ("sketch-2", "Refined sketch", "refined"), ("lineart", "Final line art", "line art")], "gallery-art gallery-3"))
-        + block("The shirt", gallery("sluggore", [("shirt-back", "The shirt, back", "back"), ("shirt-front", "The shirt, front", "front")], "gallery-photo gallery-tall gallery-2"))
-        + block("In motion", vids("sluggore", [("shirt", None), ("shirt-2", None)], "vid-mixed")))
-
 # Terp Wizard: the cauldron
 def next_project(slug):
     """The next project (with a page) after this one in js/projects.js, wrapping around."""
@@ -713,12 +629,27 @@ def next_project(slug):
 # Desktop: a 6-column grid of square units; each cell says where it sits ("c" columns, "r" rows, CSS grid lines).
 # Phones: 2 columns; each cell is full width ("m": 2) or half ("m": 1), with its own shape ("ar").
 # Cell kinds: "img" fills its box (cropped), "art" sits whole on a cream panel, "vid", "text", "next".
-def bento(slug, title, desc, intro_paras, cells, rows):
+def bento(slug, title, desc, intro_paras, cells, rows, after=""):
     small = lambda n: n + ("-sm" if os.path.exists(os.path.join(ROOT, "assets", "img", slug, n + "-sm.webp")) else "")
     out = []
+    # phones: half-width boxes come in pairs; a box left alone in its run goes full width
+    span = lambda v: (lambda a, b: int(b) - int(a))(*[x.strip() for x in v.split("/")])
+    mob = [c.get("m", 2 if span(c["c"]) >= 2 else 1) for c in cells]
+    run = []
+    for i, m in enumerate(mob + [2]):
+        if m == 1: run.append(i)
+        else:
+            if len(run) % 2: mob[run[-1]] = 2
+            run = []
+    for c, m in zip(cells, mob): c["m"] = m
     for c in cells:
         k = c["kind"]
-        style = f'--c:{c["c"]};--r:{c["r"]};--m:{c.get("m", 1)};--ar:{c.get("ar", "1 / 1")}'
+        span = lambda v: (lambda a, b: int(b) - int(a))(*[x.strip() for x in v.split("/")])
+        cw, rh = span(c["c"]), span(c["r"])
+        assert cw <= 4 or k == "text", f"{slug}: a picture wider than 4 columns"
+        m = c.get("m", 2 if cw >= 2 else 1)
+        ar = c.get("ar", f"{cw} / {rh}")
+        style = f'--c:{c["c"]};--r:{c["r"]};--m:{m};--ar:{ar}'
         pos = f' style="object-position:{c["pos"]}"' if c.get("pos") else ""
         cap = f'<span class="b-cap">{c["cap"]}</span>' if c.get("cap") else ""
         if k in ("img", "art"):
@@ -746,7 +677,17 @@ def bento(slug, title, desc, intro_paras, cells, rows):
             nx = next_project(slug)
             out.append(f'<a class="b-cell b-next" style="{style}" href="../{nx[4]}"><img src="../{nx[3]}" alt="" loading="lazy">'
                        f'<span class="b-next-label">next project ↗</span><span class="b-next-title">{nx[1]}</span></a>')
-    html = proj_head(title) + f'\n<section class="bento" style="--rows:{rows}">\n' + "\n".join(out) + "\n</section>\n" + PAGER
+    # every box of the 6-column grid is covered exactly once (no holes, no overlaps)
+    grid = {}
+    for c in cells:
+        c0, c1 = [int(x) for x in c["c"].split("/")]; r0, r1 = [int(x) for x in c["r"].split("/")]
+        for x in range(c0, c1):
+            for y in range(r0, r1):
+                assert (x, y) not in grid, f"{slug}: overlap at col {x} row {y}"
+                grid[(x, y)] = 1
+    holes = [(x, y) for x in range(1, 7) for y in range(1, rows + 1) if (x, y) not in grid]
+    assert not holes, f"{slug}: holes at {holes}"
+    html = proj_head(title) + f'\n<section class="bento" style="--rows:{rows}">\n' + "\n".join(out) + "\n</section>\n" + after + PAGER
     page(f"projects/{slug}.html", f"{title} | cosmicdroid", desc, html, "work.html", base="../")
 
 
@@ -806,17 +747,221 @@ bento("juno-mural", "Juno mural", "A mural for Juno, a youth refuge in Villach, 
         {"kind": "img", "src": "process-6", "alt": "Juno mural in progress, photo 4", "c": "2 / 3", "r": "7 / 8"},
       ], 7)
 
-# Borea
+
+def C(kind, src=None, alt="", c="1 / 2", r="1 / 2", **kw):
+    d = {"kind": kind, "src": src, "alt": alt, "c": c, "r": r}
+    d.update(kw)
+    return d
+
+
+# Borea (no full-width picture)
 bento("borea", "Borea", "Packaging illustration by cosmicdroid for Borea.",
       ["A box for Borea, covered edge to edge in coral, kelp and little hidden creatures. The art wraps around every face, so the box reads as one scene when you turn it in your hands."],
       [
-        {"kind": "text", "c": "1 / 3", "r": "1 / 3", "m": 2, "facts": [("type", "packaging"), ("year", "2024")]},
-        {"kind": "vid", "src": "box", "c": "3 / 7", "r": "1 / 3", "m": 2, "ar": "16 / 9"},
-        {"kind": "img", "src": "cover", "alt": "The printed Borea box", "c": "1 / 3", "r": "3 / 5", "m": 2, "ar": "1 / 1"},
-        {"kind": "art", "src": "flat", "alt": "Borea box, the flat colored art", "c": "3 / 5", "r": "3 / 5", "cap": "color"},
-        {"kind": "art", "src": "lineart", "alt": "Borea box, line art for each panel", "c": "5 / 7", "r": "3 / 5", "cap": "line art"},
-        {"kind": "art", "src": "dieline", "alt": "Borea box, color test on the dieline", "c": "1 / 7", "r": "5 / 7", "m": 2, "ar": "5 / 3", "cap": "dieline"},
+        C("vid", "box", c="1 / 5", r="1 / 3", m=2, ar="16 / 9"),
+        C("text", c="5 / 7", r="1 / 3", m=2, facts=[("type", "packaging"), ("year", "2024")]),
+        C("img", "cover", "The printed Borea box", c="1 / 3", r="3 / 5", m=2),
+        C("art", "flat", "Borea box, the flat colored art", c="3 / 5", r="3 / 5", cap="color"),
+        C("art", "lineart", "Borea box, line art for each panel", c="5 / 7", r="3 / 7", ar="3 / 4", cap="line art"),
+        C("art", "dieline", "Borea box, color test on the dieline", c="1 / 5", r="5 / 7", m=2, ar="5 / 3", cap="dieline"),
       ], 6)
+
+bento("no-known-weakness", "No Known Weakness", "Album cover art by cosmicdroid for No Known Weakness, Tales From The Clydeside.",
+      ["A cover for Tales From The Clydeside: Glasgow's river Clyde overrun by monsters, with the Squinty Bridge, the Finnieston Crane and the Armadillo all getting wrecked.",
+       "It started from photos of the real places, then a sketch, line art and the final colors."],
+      [
+        C("art", "final", "Tales From The Clydeside, final cover", c="1 / 4", r="1 / 4", m=2),
+        C("text", c="4 / 7", r="1 / 2", m=2, facts=[("type", "album art"), ("year", "2026")]),
+        C("art", "bandcamp", "The EP on Bandcamp", c="4 / 5", r="2 / 4", ar="3 / 5", cap="bandcamp"),
+        C("art", "spotify", "The EP on Spotify", c="5 / 6", r="2 / 4", ar="3 / 5", cap="spotify"),
+        C("img", "cover", "The singer of No Known Weakness in front of the cover art", c="6 / 7", r="2 / 4", m=2, ar="4 / 5", cap="live"),
+        C("art", "references", "Reference photos and first layout", c="1 / 3", r="4 / 6", cap="references"),
+        C("art", "sketch", "The sketch", c="3 / 5", r="4 / 6", cap="sketch"),
+        C("art", "lineart", "Line art", c="5 / 7", r="4 / 6", m=2, cap="line art"),
+      ], 5)
+
+bento("organico", "Orgánico", "Shirt design by cosmicdroid for Orgánico.",
+      ["A shirt design for Orgánico: a tiger and a crocodile spiralling through leaves and water, under the motto “menos ego, más alma” (less ego, more soul). Screen printed by hand."],
+      [
+        C("img", "shirt", "The Orgánico shirt, back print, worn outdoors", c="1 / 3", r="1 / 3", m=2),
+        C("text", c="3 / 5", r="1 / 3", m=2, facts=[("type", "shirt design"), ("year", "2023")]),
+        C("vid", "process-1", c="5 / 6", r="1 / 3", ar="9 / 16", cap="screen printing"),
+        C("vid", "process-2", c="6 / 7", r="1 / 3", ar="9 / 16", cap="the shirt"),
+        C("art", "lineart", "Orgánico line art", c="1 / 4", r="3 / 6", m=2, cap="line art"),
+        C("art", "final", "Orgánico final colors", c="4 / 7", r="3 / 6", m=2, cap="final"),
+      ], 5)
+
+bento("pizzaneta", "Pizzaneta", "Branding and merch by cosmicdroid for Pizzaneta.",
+      ["Pizzaneta needed a character to go with the logo, so I drew a pizza wizard chilling in his oven tower with a dragon. It ended up on shirts, tie-dye and all."],
+      [
+        C("art", "art", "The Let's Munch artwork", c="1 / 4", r="1 / 4", m=2),
+        C("text", c="4 / 7", r="1 / 2", m=2, facts=[("type", "mascot + merch"), ("year", "2022")]),
+        C("art", "logo", "The Pizzaneta logo", c="4 / 6", r="2 / 3", m=2, ar="2 / 1", cap="logo"),
+        C("vid", "promo", c="6 / 7", r="2 / 4", ar="9 / 16"),
+        C("img", "cover", "The Let's Munch shirt", c="4 / 5", r="3 / 4"),
+        C("img", "shirt-worn", "Tie-dye shirt, front logo", c="5 / 6", r="3 / 4"),
+        C("img", "shirt-back", "Cream shirt, back", c="1 / 2", r="4 / 6", ar="9 / 16"),
+        C("img", "shirt-blue", "Tie-dye shirt, back", c="2 / 4", r="4 / 6"),
+        C("img", "kitchen", "The Pizzaneta team at work", c="4 / 7", r="4 / 6", m=2, ar="3 / 2"),
+      ], 5)
+
+bento("sluggore", "Sluggore", "Band merch by cosmicdroid for Sluggore.",
+      ["A shirt for Sluggore: a kaiju and a sea serpent locked in a fight on the back, and a sharp chrome logo on the front."],
+      [
+        C("img", "band", "The band holding up the shirt", c="1 / 4", r="1 / 3", m=2, ar="4 / 3"),
+        C("text", c="4 / 7", r="1 / 2", m=2, facts=[("type", "band merch"), ("year", "2024")]),
+        C("art", "sketch", "First sketch", c="4 / 5", r="2 / 3", cap="sketch"),
+        C("art", "sketch-2", "Refined sketch", c="5 / 6", r="2 / 3", cap="refined"),
+        C("art", "lineart", "Final line art", c="6 / 7", r="2 / 3", cap="line art"),
+        C("img", "shirt-back", "The shirt, back", c="1 / 3", r="3 / 6", ar="3 / 4", cap="back"),
+        C("img", "shirt-front", "The shirt, front", c="3 / 5", r="3 / 6", ar="3 / 4", cap="front"),
+        C("vid", "shirt", c="5 / 7", r="3 / 4", m=2, ar="16 / 9"),
+        C("vid", "shirt-2", c="5 / 7", r="4 / 6", m=2, ar="4 / 5"),
+      ], 5)
+
+bento("cannabicultores", "Cannabicultores", "Festival poster illustration by cosmicdroid for Cannabicultores 2024 in Manizales, Colombia.",
+      ["A tower of little shops, plants and characters for the 2024 Cannabicultores festival, October 19 and 20 in Manizales. The art went on banners, posters and screens around the event."],
+      [
+        C("art", "illustration", "The full Cannabicultores illustration", c="1 / 3", r="1 / 6", m=2, ar="7 / 12"),
+        C("text", c="3 / 7", r="1 / 2", m=2, facts=[("type", "festival poster"), ("year", "2024")]),
+        C("vid", "festival", c="3 / 7", r="2 / 4", m=2, ar="16 / 9"),
+        C("img", "banner", "The printed banner", c="3 / 5", r="4 / 6", cap="banner"),
+        C("img", "posters", "Posters around town", c="5 / 7", r="4 / 6", cap="posters"),
+      ], 5)
+
+bento("cage-of-destiny", "Cage of Destiny", "Cage of Destiny, a game jam game by cosmicdroid and Ash Badas.",
+      ["A short game made for a game jam with Ash Badas: a knight locked in a cage has to escape a lizard king. I drew the characters, items, cutscenes and the title lettering.",
+       "Out of the whole jam it ranked #23 for presentation and #34 for enjoyment, 72nd overall with 47 ratings."],
+      [
+        C("vid", "gameplay", c="1 / 5", r="1 / 4", m=2, ar="4 / 3"),
+        C("text", c="5 / 7", r="1 / 3", m=2, facts=[("type", "game art"), ("year", "2023")]),
+        C("img", "cover", "Cage of Destiny cover art: a lizard king and a caged knight", c="5 / 7", r="3 / 5", m=2, ar="5 / 4"),
+        C("art", "cutscene", "A cutscene: the king, the princess and the lizard", c="1 / 3", r="4 / 6", cap="cutscene"),
+        C("art", "sprites", "Characters and items", c="3 / 5", r="4 / 5", ar="8 / 5", cap="sprites"),
+        C("art", "title", "Title lettering", c="3 / 5", r="5 / 6", m=2, ar="4 / 1", cap="title"),
+        C("art", "ranking", "The jam results", c="5 / 7", r="5 / 6", m=2, ar="6 / 5", cap="results"),
+      ], 5)
+
+bento("brutal-burger-quest", "Brutal Burger Quest", "Game art by cosmicdroid for Brutal Burger Quest: the player, enemies, mage bosses, tiles and effects.",
+      ["Brutal Burger Quest is a little game about fighting your way to the ultimate burger. I drew the whole cast: the hero, the creatures that get in the way, a council of burger-hoarding mages, and the tiles and effects that hold the world together."],
+      [
+        C("text", c="1 / 3", r="1 / 3", m=2, facts=[("type", "game art"), ("year", "2023")]),
+        C("vid", "gameplay", c="3 / 7", r="1 / 3", m=2, ar="16 / 9", cap="gameplay"),
+        C("art", "cover", "Brutal Burger Quest title art: a horned mage holding a burger", c="1 / 3", r="3 / 5"),
+        C("vid", "phone", c="3 / 4", r="3 / 5", ar="9 / 16", cap="phone"),
+        C("art", "mages", "Twelve burger mages", c="4 / 7", r="3 / 5", m=2, ar="7 / 5", cap="mages"),
+        C("art", "player", "The hero's sprite sheet", c="1 / 4", r="5 / 6", m=2, ar="2 / 1", cap="hero"),
+        C("art", "tiles", "Ground and wall tiles", c="4 / 7", r="5 / 6", m=2, ar="2 / 1", cap="tiles"),
+        C("art", "enemies", "Enemy sprites: gorilla, bat and beetle", c="1 / 4", r="6 / 8", m=2, ar="4 / 3", cap="enemies"),
+        C("art", "extras", "Explosions and breakable blocks", c="4 / 7", r="6 / 8", m=2, ar="4 / 3", cap="effects"),
+      ], 7)
+
+bento("botanica-mural", "Botánica mural", "A mural painted by cosmicdroid: a castle tower guarded by dragons and bats.",
+      ["A wall I painted from a white sketch to a full castle: bats circling the tower, two dragons climbing it, and a hooded wizard holding the star at the bottom."],
+      [C("img", "cover", "cosmicdroid in front of the finished mural", c="1 / 3", r="1 / 6", m=2, ar="4 / 5"),
+       C("text", c="3 / 7", r="1 / 2", m=2, facts=[("type", "mural"), ("year", "2022")])]
+      + [C("img", f"step-{i}", f"The mural, step {i}", c=f"{2 + i} / {3 + i}", r="2 / 4", ar="9 / 16", cap=f"step {i}") for i in (1, 2, 3)]
+      + [C("vid", "timelapse", c="6 / 7", r="2 / 4", ar="9 / 16", cap="timelapse")]
+      + [C("img", f"step-{i}", f"The mural, step {i}", c=f"{i - 1} / {i}", r="4 / 6", ar="9 / 16", cap=f"step {i}") for i in (4, 5, 6)]
+      + [C("img", "step-7", "The finished mural", c="6 / 7", r="4 / 6", ar="9 / 16", cap="finished")],
+      5)
+
+bento("imprint-rolling", "Imprint Rolling", "Branding and packaging illustration by cosmicdroid for Imprint Rolling.",
+      ["A set of logos, stickers and packaging art for Imprint Rolling: melting letters, comic panels and a few strange creatures, made to work in one color or in full."],
+      [
+        C("img", "cover", "Imprint Rolling tubes with the printed art", c="1 / 4", r="1 / 3", m=2, ar="4 / 3"),
+        C("text", c="4 / 6", r="1 / 3", m=2, facts=[("type", "branding"), ("year", "2026")]),
+        C("art", "art-1", "Imprint Rolling artwork 1", c="6 / 7", r="1 / 2"),
+        C("art", "art-2", "Imprint Rolling artwork 2", c="6 / 7", r="2 / 3"),
+        C("art", "art-3", "Imprint Rolling artwork 3", c="1 / 3", r="3 / 5", m=2),
+        C("art", "art-4", "Imprint Rolling artwork 4", c="3 / 4", r="3 / 4"),
+        C("art", "art-5", "Imprint Rolling artwork 5", c="4 / 5", r="3 / 4"),
+        C("art", "art-6", "Imprint Rolling artwork 6", c="3 / 4", r="4 / 5"),
+        C("art", "art-7", "Imprint Rolling artwork 7", c="4 / 5", r="4 / 5"),
+        C("art", "art-8", "Imprint Rolling artwork 8", c="5 / 7", r="3 / 5", m=2),
+      ], 4)
+
+bento("big-cats-collection", "Big cats collection", "An illustration series by cosmicdroid: wild cats from around the world, each in its own landscape.",
+      [f"A personal series of {len(CATS)} wild cats, from the snow leopard to the tiny sand cat. Each one sits in a landscape from where it lives, drawn with the same flat colors and a background that's all its own.",
+       "Everything started as pencil sketches, laid out together so the whole family would feel like one set. Pick a cat below."],
+      [
+        C("art", "sketches", "Pencil sketches for the big cats series", c="1 / 5", r="1 / 3", m=2, ar="16 / 9", cap="sketches"),
+        C("text", c="5 / 7", r="1 / 3", m=2, facts=[("type", "illustration series"), ("year", "2023")]),
+      ], 2, after=cats_viewer)
+
+# ---------- new works (Oct 22) ----------
+bento("8doce", "8doce", "Illustration by cosmicdroid for 8doce.",
+      ["An isometric tower for 8doce, stacked with stairs, little rooms and a garden of plants growing over every ledge, with the logo built into the blocks at the bottom.",
+       "It went from a clean line sketch to a colored rough and the final art, then out into the world as a big printed banner."],
+      [
+        C("art", "final", "8doce, final illustration", c="1 / 3", r="1 / 4", m=2, ar="7 / 10"),
+        C("text", c="3 / 7", r="1 / 2", m=2, facts=[("type", "illustration"), ("year", "2024")]),
+        C("art", "logo", "The 8doce logo blocks", c="3 / 5", r="2 / 3", m=2, ar="5 / 2", cap="logo"),
+        C("img", "printed", "The printed 8doce banner", c="5 / 7", r="2 / 4", m=2, ar="4 / 5", cap="banner"),
+        C("art", "sketch", "8doce, line sketch", c="3 / 4", r="3 / 4", ar="7 / 10", cap="sketch"),
+        C("art", "sketch-2", "8doce, color rough", c="4 / 5", r="3 / 4", ar="7 / 10", cap="color rough"),
+      ], 3)
+
+bento("catacomb", "Catacomb", "Cycling jersey design by cosmicdroid for Catacomb.",
+      ["A cycling jersey for Catacomb: a rider on a mechanical dragon across the back, a castle patch on the pocket, thorny emblems and spiky flames on the sleeves and hem, and blackletter lettering across the shoulders.",
+       "Every piece was drawn separately so it could be placed on the jersey pattern."],
+      [
+        C("art", "mockup", "The Catacomb jersey, front and back", c="1 / 4", r="1 / 3", m=2, ar="7 / 5"),
+        C("text", c="4 / 7", r="1 / 2", m=2, facts=[("type", "jersey design"), ("year", "2026")]),
+        C("art", "lettering", "Catacomb lettering", c="4 / 7", r="2 / 3", m=2, ar="4 / 1"),
+        C("art", "jersey-back", "The back of the jersey", c="1 / 3", r="3 / 6", m=2, ar="3 / 4", cap="back"),
+        C("art", "dragon", "The dragon rider", c="3 / 5", r="3 / 5", m=2, cap="dragon"),
+        C("art", "castle-label", "The castle patch", c="5 / 6", r="3 / 4", cap="castle"),
+        C("art", "sleeve", "Sleeve pattern", c="6 / 7", r="3 / 5", ar="2 / 3", cap="sleeve"),
+        C("art", "front-label", "The front label", c="5 / 6", r="4 / 5", cap="label"),
+        C("art", "jersey-bottom", "The spiky hem", c="3 / 5", r="5 / 6", m=2, ar="2 / 1", cap="hem"),
+        C("art", "emblem-red", "The thorn emblem", c="5 / 7", r="5 / 6", m=2, ar="2 / 1", cap="emblem"),
+      ], 5)
+
+bento("westword", "Westword", "Editorial illustration by cosmicdroid for Westword's Mile High Monster Mash.",
+      ["The Mile High Monster Mash issue of Westword: a cover full of monsters heading to the show, and a poster for each Denver venue in the concert calendar, from Red Rocks to the Bluebird.",
+       "It all came together as one big printed gatefold."],
+      [
+        C("text", c="1 / 3", r="1 / 3", m=2, facts=[("type", "editorial illustration"), ("year", "2025")]),
+        C("art", "gatefold-outside", "The gatefold, outside", c="3 / 7", r="1 / 2", m=2, ar="5 / 2", cap="gatefold · outside"),
+        C("art", "gatefold-inside", "The gatefold, inside", c="3 / 7", r="2 / 3", m=2, ar="5 / 2", cap="gatefold · inside"),
+        C("img", "cover-art", "Westword cover: Mile High Monster Mash", c="1 / 3", r="3 / 5", m=2, ar="7 / 8", pos="top", cap="cover"),
+        C("img", "red-rocks", "Red Rocks poster", c="3 / 5", r="3 / 5", ar="7 / 8", pos="top"),
+        C("img", "ogden", "Ogden Theatre poster", c="5 / 7", r="3 / 5", ar="7 / 8", pos="top"),
+        C("img", "mission-ballroom", "Mission Ballroom poster", c="1 / 3", r="5 / 7", ar="7 / 8", pos="top"),
+        C("img", "gothic", "Gothic Theatre poster", c="3 / 5", r="5 / 7", ar="7 / 8", pos="top"),
+        C("img", "bluebird", "Bluebird Theater poster", c="5 / 7", r="5 / 7", m=2, ar="7 / 8", pos="top"),
+      ], 6)
+
+bento("gamehendge", "Gamehendge", "Festival merch by cosmicdroid for Gamehendge: two shirts, a cast of characters and stickers.",
+      ["Two shirts for Gamehendge. <b>Summer Tour 2024</b>: a wizard on his throne in the depths of Gamehendge, with a crew of characters around him, printed on tie-dye.",
+       "<b>On the Road to Gamehendge</b> (Commerce City, Colorado, 2023): a wagon full of travellers on the way to the castle. Each character also became its own sticker."],
+      [
+        C("art", "2024-art", "Gamehendge Summer Tour 2024, final art", c="1 / 3", r="1 / 4", m=2, ar="3 / 4", cap="summer tour · 2024"),
+        C("text", c="3 / 5", r="1 / 3", m=2, facts=[("type", "festival merch"), ("year", "2023 – 2024")]),
+        C("img", "2024-tiedye", "The 2024 tie-dye shirt", c="5 / 7", r="1 / 3", m=2),
+        C("art", "2024-sketch", "2024, pencil sketch", c="3 / 4", r="3 / 4", cap="sketch"),
+        C("art", "2024-lineart", "2024, line art", c="4 / 5", r="3 / 4", cap="line art"),
+        C("img", "2024-tiedye-2", "Another 2024 tie-dye shirt", c="5 / 6", r="3 / 4"),
+        C("img", "2024-mockup", "2024 shirts and characters", c="6 / 7", r="3 / 4"),
+        C("art", "2024-characters", "The 2024 characters", c="1 / 4", r="4 / 6", m=2, ar="3 / 2", cap="characters"),
+        C("vid", "video", c="4 / 5", r="4 / 6", ar="9 / 16", cap="printing"),
+        C("art", "2024-characters-lines", "The 2024 characters, line art", c="5 / 7", r="4 / 6", cap="character lines"),
+        C("art", "2023-art", "On the Road to Gamehendge, final art", c="1 / 3", r="6 / 9", m=2, ar="3 / 4", cap="on the road · 2023"),
+        C("img", "2023-worn", "The 2023 shirt, worn", c="3 / 5", r="6 / 8", ar="4 / 5"),
+        C("img", "2023-tiedye", "The 2023 tie-dye shirts", c="5 / 7", r="6 / 8", ar="4 / 5"),
+        C("art", "2023-sketch", "2023, line art", c="3 / 4", r="8 / 9", cap="line art"),
+        C("art", "2023-characters-sketch", "2023 characters, sketches", c="4 / 5", r="8 / 9", cap="characters"),
+        C("art", "colonel", "Colonel Forbin", c="5 / 6", r="8 / 9"),
+        C("art", "rutherford", "Rutherford the Brave", c="6 / 7", r="8 / 9"),
+        C("img", "stickers-colonel", "Colonel Forbin stickers", c="1 / 3", r="9 / 11", cap="stickers"),
+        C("img", "stickers-rutherford", "Rutherford the Brave stickers", c="3 / 5", r="9 / 11"),
+        C("img", "stickers-lizards", "The Lizards stickers", c="5 / 6", r="9 / 10"),
+        C("img", "stickers-multibeast", "Multi-beast stickers", c="6 / 7", r="9 / 10"),
+        C("art", "lizards", "The Lizards", c="5 / 6", r="10 / 11"),
+        C("art", "multibeast", "The Multi-beast", c="6 / 7", r="10 / 11"),
+      ], 10)
+
 
 
 
