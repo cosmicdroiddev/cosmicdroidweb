@@ -260,6 +260,8 @@
   function build(deck, filter, focusSlug) {
     if (deck.hasAttribute("data-grid")) return buildGrid(deck, filter, focusSlug);
     var items = pick(deck.getAttribute("data-deck"), filter);
+    // card sizes always follow the "All works" count, so a short filter (Murals) doesn't blow cards up
+    deck.style.setProperty("--deck-n", pick(deck.getAttribute("data-deck")).length);
     deck.innerHTML = items.length ? items.map(cardHtml).join("") : '<p class="deck-empty">Nothing here yet.</p>';
     var cards = deck.querySelectorAll(".deck-card");
     var start = cards[0];

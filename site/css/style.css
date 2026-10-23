@@ -2186,3 +2186,15 @@ button.b-cell:hover .b-cap { background: var(--lime); }
 @media (max-width: 760px) { .b-cell { width: 100%; max-width: 100%; } }
 /* bento: a box can ask for less padding around its art (fills the box more) */
 .b-art img { padding: var(--pad-art, clamp(10px, 1.6vw, 26px)) !important; }
+
+/* Home works deck: cards keep their "All works" size in every filter (fixed widths from the full count) */
+@media (min-width: 761px) {
+  .deck-all { --deck-n: 25; }
+  .deck-all .deck-card {
+    flex: 0 0 calc(100% / (var(--deck-n) + 6));
+    transition: flex-basis 0.55s cubic-bezier(0.2, 0.8, 0.2, 1);
+  }
+  .deck-all .deck-card.is-open { flex-basis: calc(700% / (var(--deck-n) + 6)); }
+  .deck-all .deck-card:last-child { border-right: 1px solid var(--line); }
+}
+@media (min-width: 761px) { .deck-all { background: var(--paper); } }
