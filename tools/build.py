@@ -848,7 +848,7 @@ bento("cage-of-destiny", "Cage of Destiny", "Cage of Destiny, a game jam game by
         C("art", "cutscene", "A cutscene: the king, the princess and the lizard", c="1 / 3", r="4 / 6", cap="cutscene"),
         C("art", "sprites", "Characters and items", c="3 / 5", r="4 / 5", ar="8 / 5", cap="sprites"),
         C("art", "title", "Title lettering", c="3 / 5", r="5 / 6", m=2, ar="4 / 1", cap="title"),
-        C("art", "ranking", "The jam results", c="5 / 7", r="5 / 6", m=2, ar="6 / 5", cap="results", pad="6px"),
+        C("art", "ranking", "The jam results", c="5 / 7", r="5 / 6", m=2, ar="2 / 1", cap="results", pad="0px", bg="#111111"),
       ], 5)
 
 bento("brutal-burger-quest", "Brutal Burger Quest", "Game art by cosmicdroid for Brutal Burger Quest: the player, enemies, mage bosses, tiles and effects.",
@@ -972,16 +972,16 @@ bento("localsonly", "Locals Only", "Merch design by cosmicdroid for Locals Only.
       ["A cartoon cat lineman for Locals Only, made for the crews who keep the power on: hard hat, rubber gloves, bucket truck and a lightning bolt to ride.",
        "Shirts and stickers, plus a design for the 2025 Lineman's Rodeo, each one going from a quick sketch to the final art."],
       [
-        C("art", "union-made", "Union made, Locals Only: the cat lineman and a rat", c="1 / 3", r="1 / 3", m=2),
+        C("art", "rodeo", "Lineman's Rodeo 2025: the cat up a power pole", c="1 / 3", r="1 / 3", m=2, pad="6px"),
         C("text", c="3 / 7", r="1 / 2", m=2, facts=[("type", "merch design"), ("year", "2025")]),
-        C("art", "rodeo", "Lineman's Rodeo 2025: the cat up a power pole", c="3 / 5", r="2 / 4", m=2),
+        C("art", "union-made", "Union made, Locals Only: the cat lineman and a rat", c="3 / 5", r="2 / 4", m=2),
         C("art", "truck", "The cat in a bucket truck", c="5 / 7", r="2 / 3", m=2, ar="2 / 1"),
         C("art", "pole-nap", "The cat napping under a Locals Only power pole", c="5 / 6", r="3 / 4"),
         C("art", "sketch-pole", "Sketch for the napping cat", c="6 / 7", r="3 / 4", cap="sketch"),
         C("art", "gloves", "The cat in his rubber gloves", c="1 / 2", r="3 / 5", ar="1 / 2"),
         C("art", "glove-sign", "A gloved hand making the Locals Only sign", c="2 / 3", r="3 / 5", ar="1 / 2"),
-        C("art", "sketch-rodeo", "Sketch for the Lineman's Rodeo design", c="3 / 4", r="4 / 5", cap="sketch"),
-        C("art", "sketch-union", "Sketch for the Union made design", c="4 / 5", r="4 / 5", cap="sketch"),
+        C("art", "sketch-rodeo", "Sketch for the Lineman's Rodeo design", c="3 / 4", r="4 / 5", cap="sketch", pad="4px"),
+        C("art", "sketch-union", "Sketch for the Union made design", c="4 / 5", r="4 / 5", cap="sketch", pad="4px"),
         C("art", "bolt", "The cat riding a lightning bolt", c="5 / 7", r="4 / 5", m=2, ar="2 / 1"),
       ], 4)
 

@@ -15,7 +15,7 @@ window.PROJECTS = [
   { slug: "all-the-cores", title: "All the Cores and More", type: "work", tag: "Merch design", year: "2026", cover: "assets/img/all-the-cores/cover.webp", page: "projects/all-the-cores.html", featured: true },   // CHECK year
   { slug: "no-known-weakness", title: "No Known Weakness", type: "work", tag: "Album art", year: "2026", cover: "assets/img/no-known-weakness/final-sm.webp", page: "projects/no-known-weakness.html", featured: true },   // CHECK year
   { slug: "catacomb", title: "Catacomb", type: "work", tag: "Jersey design", year: "2026", cover: "assets/img/catacomb/dragon-sm.webp", page: "projects/catacomb.html" },   // CHECK year
-  { slug: "localsonly", title: "Locals Only", type: "work", tag: "Merch design", year: "2025", cover: "assets/img/localsonly/union-made-sm.webp", page: "projects/localsonly.html" },   // CHECK year
+  { slug: "localsonly", title: "Locals Only", type: "work", tag: "Merch design", year: "2025", cover: "assets/img/localsonly/rodeo-sm.webp", page: "projects/localsonly.html" },   // CHECK year
   { slug: "imprint-rolling", title: "Imprint Rolling", type: "work", tag: "Branding, illustration", year: "2025", cover: "assets/img/imprint-rolling/cover.webp", page: "projects/imprint-rolling.html" },   // CHECK year
   { slug: "jfgprintco", title: "JFGprintco", type: "work", tag: "Branding, mural", year: "2025", cover: "assets/img/jfgprintco/profile-sm.webp", page: "projects/jfgprintco.html" },   // CHECK year
   { slug: "terp-wizard", title: "Terp Wizard", type: "work", tag: "Merch design", year: "2026", cover: "assets/img/terp-wizard/lab-cover.webp", page: "projects/terp-wizard.html", featured: true },   // CHECK year
