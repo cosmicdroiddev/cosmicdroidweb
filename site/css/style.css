@@ -2184,3 +2184,5 @@ button.b-cell:hover .b-cap { background: var(--lime); }
 /* phones: two half-width boxes side by side are the same height (the taller one sets it) */
 @media (max-width: 760px) { .b-cell { align-self: stretch; } }
 @media (max-width: 760px) { .b-cell { width: 100%; max-width: 100%; } }
+/* bento: a box can ask for less padding around its art (fills the box more) */
+.b-art img { padding: var(--pad-art, clamp(10px, 1.6vw, 26px)) !important; }

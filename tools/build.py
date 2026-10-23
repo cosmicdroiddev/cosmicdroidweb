@@ -519,7 +519,7 @@ TYPES = {
     "big-cats-collection": "illustration series", "borea": "packaging", "botanica-mural": "mural",
     "cage-of-destiny": "game art", "cannabicultores": "festival poster", "imprint-rolling": "branding",
     "no-known-weakness": "album art", "organico": "shirt design", "pizzaneta": "mascot + merch",
-    "sluggore": "band merch", "terp-wizard": "merch design", "8doce": "illustration", "catacomb": "jersey design", "westword": "editorial illustration", "gamehendge": "festival merch",
+    "sluggore": "band merch", "terp-wizard": "merch design", "8doce": "illustration", "catacomb": "jersey design", "westword": "editorial illustration", "gamehendge": "festival merch", "localsonly": "merch design", "jfgprintco": "branding + mural",
 }
 ARROW_BACK = '<svg viewBox="0 0 64 36" aria-hidden="true"><path d="M2 18 L24 2 V11 H62 V25 H24 V34 Z" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linejoin="round"/></svg>'
 
@@ -654,7 +654,11 @@ def bento(slug, title, desc, intro_paras, cells, rows, after=""):
         cap = f'<span class="b-cap">{c["cap"]}</span>' if c.get("cap") else ""
         if k in ("img", "art"):
             n = c["src"]
-            if k == "art":
+            if c.get("pad") is not None:
+                style += f";--pad-art:{c['pad']}"
+            if c.get("bg"):
+                style += f";background:{c['bg']}"
+            elif k == "art":
                 # the panel takes the color of the drawing's own paper, so there's no box-in-a-box
                 from PIL import Image
                 im = Image.open(os.path.join(ROOT, "assets", "img", slug, small(n) + ".webp")).convert("RGBA")
@@ -699,12 +703,12 @@ bento("terp-wizard", "Terp Wizard", "Merch designs by cosmicdroid for Terp Wizar
         {"kind": "art", "src": "lab-final", "alt": "Terp Wizard: the lab, final art", "c": "1 / 3", "r": "1 / 4", "m": 2, "ar": "778 / 1000", "cap": "the lab · 2026"},
         {"kind": "text", "c": "3 / 5", "r": "1 / 3", "m": 2, "facts": [("type", "merch design"), ("year", "2023 – 2026")]},
         {"kind": "img", "src": "lab-worn-2", "alt": "The lab hoodie, back print", "c": "5 / 7", "r": "1 / 4", "m": 2, "ar": "4 / 5"},
-        {"kind": "art", "src": "lab-sketch", "alt": "The lab, pencil sketch", "c": "3 / 4", "r": "3 / 4", "cap": "sketch"},
+        {"kind": "art", "src": "lab-sketch", "alt": "The lab, pencil sketch", "c": "3 / 4", "r": "3 / 4", "cap": "sketch", "bg": "#fff"},
         {"kind": "img", "src": "lab-worn-1", "alt": "The lab hoodie, front", "c": "4 / 5", "r": "3 / 4", "pos": "center 30%"},
         {"kind": "art", "src": "digital", "alt": "Terp Wizard: the cauldron, final colors", "c": "1 / 3", "r": "4 / 7", "m": 2, "ar": "7 / 10", "cap": "the cauldron · 2023"},
         {"kind": "img", "src": "hoodie", "alt": "The cauldron hoodie in the greenhouse", "c": "3 / 5", "r": "4 / 6", "m": 2, "ar": "1 / 1"},
-        {"kind": "art", "src": "sketch-1", "alt": "The cauldron, first pencil sketch", "c": "5 / 6", "r": "4 / 5", "cap": "sketch"},
-        {"kind": "art", "src": "sketch-2", "alt": "The cauldron, second pencil sketch", "c": "6 / 7", "r": "4 / 5", "cap": "sketch 2"},
+        {"kind": "art", "src": "sketch-1", "alt": "The cauldron, first pencil sketch", "c": "5 / 6", "r": "4 / 5", "cap": "sketch", "bg": "#fff"},
+        {"kind": "art", "src": "sketch-2", "alt": "The cauldron, second pencil sketch", "c": "6 / 7", "r": "4 / 5", "cap": "sketch 2", "bg": "#fff"},
         {"kind": "art", "src": "lineart", "alt": "The cauldron, line art", "c": "5 / 6", "r": "5 / 6", "cap": "line art"},
         {"kind": "img", "src": "print-detail", "alt": "The cauldron print, detail", "c": "6 / 7", "r": "5 / 6"},
         {"kind": "img", "src": "lab-worn-3", "alt": "The lab tee, front", "c": "3 / 4", "r": "6 / 7", "pos": "center 30%"},
@@ -844,7 +848,7 @@ bento("cage-of-destiny", "Cage of Destiny", "Cage of Destiny, a game jam game by
         C("art", "cutscene", "A cutscene: the king, the princess and the lizard", c="1 / 3", r="4 / 6", cap="cutscene"),
         C("art", "sprites", "Characters and items", c="3 / 5", r="4 / 5", ar="8 / 5", cap="sprites"),
         C("art", "title", "Title lettering", c="3 / 5", r="5 / 6", m=2, ar="4 / 1", cap="title"),
-        C("art", "ranking", "The jam results", c="5 / 7", r="5 / 6", m=2, ar="6 / 5", cap="results"),
+        C("art", "ranking", "The jam results", c="5 / 7", r="5 / 6", m=2, ar="6 / 5", cap="results", pad="6px"),
       ], 5)
 
 bento("brutal-burger-quest", "Brutal Burger Quest", "Game art by cosmicdroid for Brutal Burger Quest: the player, enemies, mage bosses, tiles and effects.",
@@ -875,7 +879,7 @@ bento("imprint-rolling", "Imprint Rolling", "Branding and packaging illustration
       ["A set of logos, stickers and packaging art for Imprint Rolling: melting letters, comic panels and a few strange creatures, made to work in one color or in full."],
       [
         C("img", "cover", "Imprint Rolling tubes with the printed art", c="1 / 4", r="1 / 3", m=2, ar="4 / 3"),
-        C("text", c="4 / 6", r="1 / 3", m=2, facts=[("type", "branding"), ("year", "2026")]),
+        C("text", c="4 / 6", r="1 / 3", m=2, facts=[("type", "branding"), ("year", "2025")]),
         C("art", "art-1", "Imprint Rolling artwork 1", c="6 / 7", r="1 / 2"),
         C("art", "art-2", "Imprint Rolling artwork 2", c="6 / 7", r="2 / 3"),
         C("art", "art-3", "Imprint Rolling artwork 3", c="1 / 3", r="3 / 5", m=2),
@@ -911,28 +915,27 @@ bento("catacomb", "Catacomb", "Cycling jersey design by cosmicdroid for Catacomb
       ["A cycling jersey for Catacomb: a rider on a mechanical dragon across the back, a castle patch on the pocket, thorny emblems and spiky flames on the sleeves and hem, and blackletter lettering across the shoulders.",
        "Every piece was drawn separately so it could be placed on the jersey pattern."],
       [
-        C("art", "jersey-back", "The back of the jersey", c="1 / 3", r="1 / 4", m=2, ar="3 / 4", cap="back"),
+        C("art", "dragon", "The dragon rider", c="1 / 3", r="1 / 3", m=2, pad="8px"),
         C("text", c="3 / 7", r="1 / 2", m=2, facts=[("type", "jersey design"), ("year", "2026")]),
         C("art", "lettering", "Catacomb lettering", c="3 / 7", r="2 / 3", m=2, ar="4 / 1"),
-        C("art", "mockup", "The Catacomb jersey, front and back", c="3 / 5", r="3 / 5", m=2, ar="7 / 5"),
-        C("art", "castle-label", "The castle patch", c="5 / 6", r="3 / 4", cap="castle"),
-        C("art", "front-label", "The front label", c="6 / 7", r="3 / 4", cap="label"),
-        C("art", "jersey-front", "The front of the jersey", c="1 / 3", r="4 / 7", m=1, ar="3 / 4", cap="front"),
-        C("art", "dragon", "The dragon rider", c="5 / 7", r="4 / 7", m=1, ar="3 / 4", cap="dragon"),
-        C("art", "sleeve", "Sleeve pattern", c="3 / 4", r="5 / 7", ar="2 / 3", cap="sleeve"),
-        C("art", "emblem-red", "The thorn emblem", c="4 / 5", r="5 / 7", ar="2 / 3", cap="emblem"),
-      ], 6)
+        C("art", "jersey-front", "The front of the jersey", c="1 / 3", r="3 / 6", m=1, ar="3 / 4", cap="front", pad="8px"),
+        C("art", "jersey-back", "The back of the jersey", c="3 / 5", r="3 / 6", m=1, ar="3 / 4", cap="back", pad="8px"),
+        C("art", "mockup", "The Catacomb jersey, front and back", c="5 / 7", r="3 / 4", m=2, ar="2 / 1", pad="6px"),
+        C("art", "castle-label", "The castle patch", c="5 / 6", r="4 / 5", cap="castle"),
+        C("art", "front-label", "The front label", c="6 / 7", r="4 / 5", cap="label"),
+        C("art", "sleeve", "Sleeve pattern", c="5 / 6", r="5 / 6", cap="sleeve", pad="8px"),
+        C("art", "emblem-red", "The thorn emblem", c="6 / 7", r="5 / 6", cap="emblem"),
+      ], 5)
 
 bento("westword", "Westword", "Editorial illustration by cosmicdroid for Westword's Mile High Monster Mash.",
       ["The Mile High Monster Mash issue of Westword: a cover full of monsters heading to the show, and a poster for each Denver venue in the concert calendar, from Red Rocks to the Bluebird.",
-       "It all came together as one big printed gatefold."],
+       "Everything came to life in an animated version too."],
       [
         C("text", c="1 / 3", r="1 / 3", m=2, facts=[("type", "editorial illustration"), ("year", "2025")]),
-        C("art", "gatefold-outside", "The gatefold, outside", c="3 / 7", r="1 / 2", m=2, ar="5 / 2", cap="gatefold · outside"),
-        C("art", "gatefold-inside", "The gatefold, inside", c="3 / 7", r="2 / 3", m=2, ar="5 / 2", cap="gatefold · inside"),
-        C("img", "cover-art", "Westword cover: Mile High Monster Mash", c="1 / 3", r="3 / 5", m=2, ar="7 / 8", pos="top", cap="cover"),
-        C("img", "red-rocks", "Red Rocks poster", c="3 / 5", r="3 / 5", ar="7 / 8", pos="top"),
-        C("img", "ogden", "Ogden Theatre poster", c="5 / 7", r="3 / 5", ar="7 / 8", pos="top"),
+        C("img", "cover-art", "Westword cover: Mile High Monster Mash", c="3 / 5", r="1 / 3", m=1, ar="7 / 8", pos="top", cap="cover"),
+        C("vid", "video", c="5 / 7", r="1 / 5", m=1, ar="9 / 16"),
+        C("img", "red-rocks", "Red Rocks poster", c="1 / 3", r="3 / 5", ar="7 / 8", pos="top"),
+        C("img", "ogden", "Ogden Theatre poster", c="3 / 5", r="3 / 5", ar="7 / 8", pos="top"),
         C("img", "mission-ballroom", "Mission Ballroom poster", c="1 / 3", r="5 / 7", ar="7 / 8", pos="top"),
         C("img", "gothic", "Gothic Theatre poster", c="3 / 5", r="5 / 7", ar="7 / 8", pos="top"),
         C("img", "bluebird", "Bluebird Theater poster", c="5 / 7", r="5 / 7", m=2, ar="7 / 8", pos="top"),
@@ -963,6 +966,67 @@ bento("gamehendge", "Gamehendge", "Festival merch by cosmicdroid for Gamehendge:
         C("img", "stickers-lizards", "The Lizards stickers", c="5 / 6", r="10 / 11"),
         C("img", "stickers-multibeast", "Multi-beast stickers", c="6 / 7", r="10 / 11"),
       ], 10)
+
+
+bento("localsonly", "Locals Only", "Merch design by cosmicdroid for Locals Only.",
+      ["A cartoon cat lineman for Locals Only, made for the crews who keep the power on: hard hat, rubber gloves, bucket truck and a lightning bolt to ride.",
+       "Shirts and stickers, plus a design for the 2025 Lineman's Rodeo, each one going from a quick sketch to the final art."],
+      [
+        C("art", "union-made", "Union made, Locals Only: the cat lineman and a rat", c="1 / 3", r="1 / 3", m=2),
+        C("text", c="3 / 7", r="1 / 2", m=2, facts=[("type", "merch design"), ("year", "2025")]),
+        C("art", "rodeo", "Lineman's Rodeo 2025: the cat up a power pole", c="3 / 5", r="2 / 4", m=2),
+        C("art", "truck", "The cat in a bucket truck", c="5 / 7", r="2 / 3", m=2, ar="2 / 1"),
+        C("art", "pole-nap", "The cat napping under a Locals Only power pole", c="5 / 6", r="3 / 4"),
+        C("art", "sketch-pole", "Sketch for the napping cat", c="6 / 7", r="3 / 4", cap="sketch"),
+        C("art", "gloves", "The cat in his rubber gloves", c="1 / 2", r="3 / 5", ar="1 / 2"),
+        C("art", "glove-sign", "A gloved hand making the Locals Only sign", c="2 / 3", r="3 / 5", ar="1 / 2"),
+        C("art", "sketch-rodeo", "Sketch for the Lineman's Rodeo design", c="3 / 4", r="4 / 5", cap="sketch"),
+        C("art", "sketch-union", "Sketch for the Union made design", c="4 / 5", r="4 / 5", cap="sketch"),
+        C("art", "bolt", "The cat riding a lightning bolt", c="5 / 7", r="4 / 5", m=2, ar="2 / 1"),
+      ], 4)
+
+bento("jfgprintco", "JFGprintco", "Illustration, a mural and a crew of corgi characters by cosmicdroid for JFG Print Co.",
+      ["A whole world of corgis for JFG Print Co, a screen printing and embroidery shop: a big mural inside the shop, window art for the storefront, stickers, packaging and a crew of corgi characters for their website and merch.",
+       "Every piece went from pencil to clean lines to color, and the corgis now show up all over the shop, from the boxes to the camera sign."],
+      [
+        C("img", "profile", "The JFG Print Co storefront with the window art at night", c="1 / 3", r="1 / 3", m=2),
+        C("text", c="3 / 7", r="1 / 2", m=2, facts=[("type", "branding + mural"), ("year", "2025")]),
+        C("art", "mural-art", "The JFG mural: corgis on a quest through the mountains", c="3 / 7", r="2 / 4", m=2, ar="2 / 1", pad="0px", cap="mural"),
+        C("art", "mural-lines", "Line art for the mural", c="1 / 3", r="3 / 4", m=2, ar="2 / 1", cap="mural · lines"),
+        C("img", "mural-photo", "The finished mural in the shop", c="1 / 4", r="4 / 6", m=2, ar="3 / 2"),
+        C("art", "window-1", "Window art: corgis at the screen printing press", c="4 / 7", r="4 / 6", m=2, ar="3 / 2", pad="0px", cap="windows"),
+        C("art", "window-2", "Window art: corgis at the embroidery machines", c="1 / 4", r="6 / 8", m=2, ar="3 / 2", pad="0px"),
+        C("art", "window-lines", "Line art for the windows", c="4 / 7", r="6 / 8", m=2, ar="3 / 2", cap="windows · lines"),
+        C("img", "window-photo", "The embroidery window at night", c="1 / 4", r="8 / 10", m=2, ar="3 / 2"),
+        C("img", "window-sticker", "A corgi peeking over the window into the shop", c="4 / 7", r="8 / 10", m=2, ar="3 / 2"),
+        C("img", "shop-corgi", "A real corgi in front of the windows", c="1 / 3", r="10 / 12"),
+        C("img", "box", "A JFG shipping box with the corgi print", c="3 / 5", r="10 / 12"),
+        C("img", "camera-sign", "The 'Smile! You're on camera' sign", c="5 / 7", r="10 / 12", m=2),
+        C("art", "character-sketches", "Character sketches: corgis in every job", c="1 / 4", r="12 / 14", m=2, ar="3 / 2", cap="sketches"),
+        C("art", "sports-team", "The corgi sports team", c="4 / 7", r="12 / 14", m=2, ar="3 / 2", pad="0px"),
+        C("art", "scene-tailor", "Corgis at the tailor's", c="1 / 4", r="14 / 16", m=2, ar="3 / 2", pad="0px"),
+        C("art", "scene-office", "Corgis at the office", c="4 / 7", r="14 / 16", m=2, ar="3 / 2", pad="0px"),
+        C("art", "scene-school", "Corgis at school", c="1 / 4", r="16 / 18", m=2, ar="3 / 2", pad="0px"),
+        C("art", "stickers-sketch", "Sticker sketches", c="4 / 5", r="16 / 18", ar="1 / 2", cap="sketch"),
+        C("art", "stickers-color", "The finished stickers", c="5 / 7", r="16 / 18", cap="stickers"),
+        C("art", "bouncer", "The bouncer corgi, sketch and color", c="1 / 2", r="18 / 19"),
+        C("art", "thumbs-up", "Thumbs-up corgi, sketch and color", c="2 / 3", r="18 / 19"),
+        C("art", "camera", "Camera corgi, sketch and color", c="3 / 4", r="18 / 19"),
+        C("art", "web-heart", "A happy corgi with a heart", c="4 / 5", r="18 / 19", pad="6px"),
+        C("art", "web-math", "A corgi doing the math", c="5 / 6", r="18 / 19", pad="6px"),
+        C("art", "web-custom", "A corgi with a custom design shirt", c="6 / 7", r="18 / 19", pad="6px"),
+        C("art", "pro-graduation", "Graduate corgi", c="1 / 2", r="19 / 21", ar="1 / 2", pad="6px"),
+        C("art", "pro-student", "Student corgi", c="2 / 3", r="19 / 21", ar="1 / 2", pad="6px"),
+        C("art", "pro-coach", "Coach corgi", c="3 / 4", r="19 / 21", ar="1 / 2", pad="6px"),
+        C("art", "pro-painter", "Painter corgi", c="4 / 5", r="19 / 21", ar="1 / 2", pad="6px"),
+        C("art", "pro-softball", "Softball corgi", c="5 / 6", r="19 / 21", ar="1 / 2", pad="6px"),
+        C("art", "pro-builder", "Builder corgi", c="6 / 7", r="19 / 21", ar="1 / 2", pad="6px"),
+        C("art", "pro-soccer", "Soccer corgi", c="1 / 2", r="21 / 22", pad="6px"),
+        C("art", "web-pack", "A pack of corgis", c="2 / 3", r="21 / 22", pad="6px"),
+        C("art", "web-search", "A corgi with a magnifying glass", c="3 / 4", r="21 / 22", pad="6px"),
+        C("art", "web-computer", "A corgi designing on the computer", c="4 / 5", r="21 / 22", pad="6px"),
+        C("art", "web-two-weeks", "Two weeks later: from design to finished shirts", c="5 / 7", r="21 / 22", m=2, ar="2 / 1", pad="6px"),
+      ], 21)
 
 
 

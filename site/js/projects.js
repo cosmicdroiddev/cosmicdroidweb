@@ -14,8 +14,10 @@
 window.PROJECTS = [
   { slug: "all-the-cores", title: "All the Cores and More", type: "work", tag: "Merch design", year: "2026", cover: "assets/img/all-the-cores/cover.webp", page: "projects/all-the-cores.html", featured: true },   // CHECK year
   { slug: "no-known-weakness", title: "No Known Weakness", type: "work", tag: "Album art", year: "2026", cover: "assets/img/no-known-weakness/final-sm.webp", page: "projects/no-known-weakness.html", featured: true },   // CHECK year
-  { slug: "catacomb", title: "Catacomb", type: "work", tag: "Jersey design", year: "2026", cover: "assets/img/catacomb/jersey-back-sm.webp", page: "projects/catacomb.html" },   // CHECK year
-  { slug: "imprint-rolling", title: "Imprint Rolling", type: "work", tag: "Branding, illustration", year: "2026", cover: "assets/img/imprint-rolling/cover.webp", page: "projects/imprint-rolling.html" },   // CHECK year
+  { slug: "catacomb", title: "Catacomb", type: "work", tag: "Jersey design", year: "2026", cover: "assets/img/catacomb/dragon-sm.webp", page: "projects/catacomb.html" },   // CHECK year
+  { slug: "localsonly", title: "Locals Only", type: "work", tag: "Merch design", year: "2025", cover: "assets/img/localsonly/union-made-sm.webp", page: "projects/localsonly.html" },   // CHECK year
+  { slug: "imprint-rolling", title: "Imprint Rolling", type: "work", tag: "Branding, illustration", year: "2025", cover: "assets/img/imprint-rolling/cover.webp", page: "projects/imprint-rolling.html" },   // CHECK year
+  { slug: "jfgprintco", title: "JFGprintco", type: "work", tag: "Branding, mural", year: "2025", cover: "assets/img/jfgprintco/profile-sm.webp", page: "projects/jfgprintco.html" },   // CHECK year
   { slug: "terp-wizard", title: "Terp Wizard", type: "work", tag: "Merch design", year: "2026", cover: "assets/img/terp-wizard/lab-cover.webp", page: "projects/terp-wizard.html", featured: true },   // CHECK year
   { slug: "westword", title: "Westword", type: "work", tag: "Editorial illustration", year: "2025", cover: "assets/img/westword/cover-art-sm.webp", page: "projects/westword.html" },   // CHECK year
   { slug: "juno-mural", title: "Juno mural", type: "mural", tag: "Mural", location: "Villach, Austria", year: "2024", cover: "assets/img/juno-mural/cover.webp", page: "projects/juno-mural.html", featured: true },
@@ -24,7 +26,6 @@ window.PROJECTS = [
   { slug: "sluggore", title: "Sluggore", type: "work", tag: "Band merch", year: "2024", cover: "assets/img/sluggore/profile-sm.webp", page: "projects/sluggore.html" },   // CHECK year
   { slug: "8doce", title: "8doce", type: "work", tag: "Illustration", year: "2024", cover: "assets/img/8doce/final-sm.webp", page: "projects/8doce.html" },   // CHECK year
   { slug: "gamehendge", title: "Gamehendge", type: "work", tag: "Festival merch", year: "2024", cover: "assets/img/gamehendge/2023-worn-sm.webp", page: "projects/gamehendge.html" },   // CHECK year
-  { slug: "jfgprintco", title: "JFGprintco", type: "work", tag: "Illustration", year: "2025", cover: "assets/img/jfgprintco/cover.jpg", page: null },   // CHECK
   { slug: "organico", title: "Orgánico", type: "work", tag: "Shirt design", year: "2023", cover: "assets/img/organico/picture-1.webp", page: "projects/organico.html" },   // CHECK year
   { slug: "big-cats-collection", title: "Big cats collection", type: "work", tag: "Illustration series", year: "2023", cover: "assets/img/big-cats-collection/cover.webp", page: "projects/big-cats-collection.html", featured: true },   // CHECK year
   { slug: "brutal-burger-quest", title: "Brutal Burger Quest", type: "work", tag: "Game art", year: "2023", cover: "assets/img/brutal-burger-quest/cover.webp", page: "projects/brutal-burger-quest.html" },   // CHECK year
