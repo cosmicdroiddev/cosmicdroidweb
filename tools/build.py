@@ -192,7 +192,7 @@ room_lines = room_list.split("\n")
 rooms_top, rooms_bottom = "\n".join(room_lines[:3]), "\n".join(room_lines[3:])
 
 FILTERS = '''<div class="deck-filters" role="tablist" aria-label="Filter works">
-    <button type="button" role="tab" data-filter="all" aria-selected="true">All</button>
+    <button type="button" role="tab" data-filter="all" aria-selected="true">All works</button>
     <button type="button" role="tab" data-filter="mural" aria-selected="false">Murals</button>
     <button type="button" role="tab" data-filter="work" aria-selected="false">Illustration &amp; branding</button>
   </div>'''
