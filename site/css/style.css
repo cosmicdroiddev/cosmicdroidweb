@@ -2418,3 +2418,5 @@ html[data-theme="dark"] .pad-enter:not(.is-ready) { opacity: 0.6; }
 /* dark mode, home Works block: inactive tabs in yellow letters */
 html[data-theme="dark"] .works-block .deck-filters button[aria-selected="false"] { color: var(--lime); }
 html[data-theme="dark"] .works-block .deck-filters button[aria-selected="false"]:hover { color: #160a52; background: var(--lime); }
+/* castle GO button when it's ready (at a door): frog green, like the frog in the logo */
+.pad-enter.is-ready, html[data-theme="dark"] .pad-enter.is-ready { background: #4fe0b8; color: #160a52; }
