@@ -641,8 +641,25 @@
   var root = document.documentElement;
   var btns = document.querySelectorAll("[data-theme-toggle]");
   function current() { return root.getAttribute("data-theme") === "dark" ? "dark" : "light"; }
+  // videos with a night version (data-dark-src): the contact room is room2 at night
+  var swaps = [].map.call(document.querySelectorAll("video[data-dark-src]"), function (v) {
+    var src = v.querySelector("source");
+    return { v: v, s: src, light: src ? src.getAttribute("src") : v.getAttribute("src"), lightPoster: v.getAttribute("poster") };
+  });
+  function swapVideos(dark) {
+    swaps.forEach(function (o) {
+      var want = dark ? o.v.getAttribute("data-dark-src") : o.light;
+      var cur = o.s ? o.s.getAttribute("src") : o.v.getAttribute("src");
+      if (cur === want) return;
+      o.v.setAttribute("poster", dark ? (o.v.getAttribute("data-dark-poster") || o.lightPoster) : o.lightPoster);
+      if (o.s) o.s.setAttribute("src", want); else o.v.setAttribute("src", want);
+      o.v.load();
+      var pr = o.v.play(); if (pr && pr.catch) pr.catch(function () {});
+    });
+  }
   function sync() {
     var dark = current() === "dark";
+    swapVideos(dark);
     btns.forEach(function (b) {
       b.setAttribute("aria-pressed", dark ? "true" : "false");
       b.setAttribute("aria-label", dark ? "Light mode" : "Dark mode");

@@ -2286,7 +2286,7 @@ body .site-header.is-purple .socials a:hover { color: var(--lime); }
   display: block; padding: 0; margin: 0; border: 0; background: none; cursor: pointer;
   color: inherit; line-height: 0; -webkit-tap-highlight-color: transparent;
 }
-.theme-toggle svg { width: 22px; height: 22px; }
+.theme-toggle svg { width: 23.1px; height: 23.1px; }
 .theme-toggle .ic-sun, html[data-theme="dark"] .theme-toggle .ic-moon { display: none; }
 html[data-theme="dark"] .theme-toggle .ic-sun { display: block; }
 .site-header .theme-toggle { color: var(--ink); transition: color 0.2s ease; }
@@ -2374,16 +2374,50 @@ html body .site-header .theme-toggle:hover { color: var(--lime) !important; filt
 .site-header .socials a:hover .ic-ig circle:last-child { stroke-width: 0; }
 /* dark mode: anything that sits on lime keeps dark text so it stays readable */
 html[data-theme="dark"] :is(
-  .scroll-cue:hover, .pad-jump, .room-list a:hover, .room-list a:focus-visible, .bar-link, .bar-link:hover,
+  .scroll-cue:hover, .pad-jump, .bar-link, .bar-link:hover,
   .deck-filters button[aria-selected="true"], .deck-go, .wg-go, .crumb a:hover, .placeholder-note, .facts .todo,
   .pager a:hover, .lightbox-close, .foot-links a:hover, .lk-cell:hover .lk-go, .home-intro .room-list a:hover b,
   .gallery button:hover .g-cap, .cats-arrow:hover, .cats-shuffle:hover, .proj-back:hover, .st-tags li:first-child,
   .compare-knob, .copied-note, button.b-cell:hover .b-cap, .lk-nudge, .lk-btn:hover:not(:disabled)
 ) { color: #160a52 !important; }
-html[data-theme="dark"] .room-list a:hover *, html[data-theme="dark"] .proj-back:hover * { color: #160a52 !important; }
+html[data-theme="dark"] .proj-back:hover * { color: #160a52 !important; }
 /* dark mode: text that used the line colour gets the readable lavender/lime instead */
 html[data-theme="dark"] a:not(.button):not(.bar-link) { color: var(--ink); }
 html[data-theme="dark"] :is(.scroll-cue, .slot-empty b, .proj-back, .cats-arrow, .cats-shuffle) { color: var(--ink); }
 html[data-theme="dark"] .slot-empty::before { color: var(--muted); }
 html[data-theme="dark"] :is(.proj-facts dt, .b-facts dt, .facts dt) { color: var(--lime); }
 html[data-theme="dark"] :is(.st-line, .st-h) { color: var(--lime); }
+
+/* ---------- Owner's dark mode notes, Oct 26 (b) ---------- */
+/* home Works block: the lines between the title, the tabs and each tab, in the dark blue */
+html[data-theme="dark"] .works-block .bar,
+html[data-theme="dark"] .works-block .deck-filters,
+html[data-theme="dark"] .works-block .deck-filters button { border-color: var(--paper) !important; }
+/* home room menu: names yellow; on hover the small text on the right stays light */
+html[data-theme="dark"] .home-intro .room-list b { color: var(--lime); }
+html[data-theme="dark"] .home-intro .room-list a:hover b, html[data-theme="dark"] .home-intro .room-list a:focus-visible b { color: #160a52; }
+html[data-theme="dark"] .home-intro .room-list a:hover .what, html[data-theme="dark"] .home-intro .room-list a:hover .arrow,
+html[data-theme="dark"] .home-intro .room-list a:focus-visible .what, html[data-theme="dark"] .home-intro .room-list a:focus-visible .arrow { color: var(--ink) !important; }
+/* "What I make" descriptions: same colour as the intro text (both modes) */
+.service p { color: var(--ink); }
+/* Works deck names: same type as the room menu names (Works, Murals, About...) */
+.deck-label b { font-family: var(--sans) !important; font-weight: 700 !important; font-size: 1.15rem !important; line-height: 1.3 !important; letter-spacing: 0 !important; }
+/* castle phone controls in dark mode: stick base and GO button in the menu bar purple */
+html[data-theme="dark"] .stick { background: #b377ff; }
+html[data-theme="dark"] .pad-enter:not(.is-ready) { background: #b377ff; color: #2a1fb0; }
+/* footer frog with the laptop: drawn in the menu bar purple in dark mode */
+html[data-theme="dark"] .foot-critter .slot { position: relative; }
+html[data-theme="dark"] .foot-critter img { opacity: 0; }
+html[data-theme="dark"] .foot-critter .slot::after {
+  content: ""; position: absolute; inset: 0; background: #b377ff; pointer-events: none;
+  -webkit-mask: url(../assets/img/cosmiclaptop.png) center / contain no-repeat;
+          mask: url(../assets/img/cosmiclaptop.png) center / contain no-repeat;
+}
+/* phones: no empty row under the page title (About, Contact) */
+@media (max-width: 760px) {
+  .page-head-text:empty { display: none; }
+  .page-head:has(.page-head-text:empty) .page-head-title { border-bottom: 0; }
+}
+/* phone menu: one clean line under the top bar when the menu opens */
+@media (max-width: 760px) { .site-header.is-open .nav { border-top: 0 !important; } }
+html[data-theme="dark"] .pad-enter:not(.is-ready) { opacity: 0.6; }

@@ -77,7 +77,7 @@ def page(fname, title, desc, body, current, base="", home=False):
 <footer class="site-footer">
   <div class="foot-cell foot-critter">{slot("footer-critter", "480×300", ratio="16 / 10", alt="A frog working on a laptop")}</div>
   <div class="foot-cell foot-text foot-facts" data-frog-facts>
-    <p class="fact-label">frog fact</p>
+    <p class="fact-label">Frog fact</p>
     <p class="fact-text" aria-live="polite">A group of frogs is called an army.</p>
   </div>
   <div class="foot-cell foot-links">
@@ -420,7 +420,7 @@ contact = page_head("Contact") + f'''
     </form>
   </div>
   <div class="split-cell contact-room">
-    <video autoplay muted loop playsinline preload="auto" poster="assets/img/contact-room-poster.webp" aria-label="Animation: the frog's room in the castle">
+    <video autoplay muted loop playsinline preload="auto" poster="assets/img/contact-room-poster.webp" data-dark-src="assets/img/contact-room-night.mp4" data-dark-poster="assets/img/contact-room-night-poster.webp" aria-label="Animation: the frog's room in the castle">
       <source src="assets/img/contact-room.mp4" type="video/mp4">
     </video>
   </div>
