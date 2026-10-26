@@ -2405,14 +2405,8 @@ html[data-theme="dark"] .home-intro .room-list a:focus-visible .what, html[data-
 /* castle phone controls in dark mode: stick base and GO button in the menu bar purple */
 html[data-theme="dark"] .stick { background: #b377ff; }
 html[data-theme="dark"] .pad-enter:not(.is-ready) { background: #b377ff; color: #2a1fb0; }
-/* footer frog with the laptop: drawn in the menu bar purple in dark mode */
-html[data-theme="dark"] .foot-critter .slot { position: relative; }
-html[data-theme="dark"] .foot-critter img { opacity: 0; }
-html[data-theme="dark"] .foot-critter .slot::after {
-  content: ""; position: absolute; inset: 0; background: #b377ff; pointer-events: none;
-  -webkit-mask: url(../assets/img/cosmiclaptop.png) center / contain no-repeat;
-          mask: url(../assets/img/cosmiclaptop.png) center / contain no-repeat;
-}
+/* footer frog with the laptop: its square turns the menu bar purple in dark mode (the drawing stays as is) */
+html[data-theme="dark"] .foot-critter { background: #b377ff; }
 /* phones: no empty row under the page title (About, Contact) */
 @media (max-width: 760px) {
   .page-head-text:empty { display: none; }
