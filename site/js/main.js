@@ -434,7 +434,11 @@
 
 // ---- homepage: the menu bar turns purple as you scroll down to the moving banner ----
 // 0% at the top of the page, 100% the moment the bar touches the purple banner (#more).
+// ON HOLD (owner, Oct 26): the bar is purple on every page from the start (body.bar-purple).
+// To bring the fade back, remove "class=bar-purple" from the home page in tools/build.py and FADE = true.
 (function () {
+  var FADE = false;
+  if (!FADE) return;
   var header = document.querySelector(".site-header");
   var banner = document.getElementById("more");
   if (!header || !banner) return;

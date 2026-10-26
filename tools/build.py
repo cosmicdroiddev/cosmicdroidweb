@@ -45,7 +45,7 @@ def page(fname, title, desc, body, current, base="", home=False):
 <link rel="stylesheet" href="{base}css/style.css">
 {f'<link rel="stylesheet" href="{base}css/flipbook.css">' + chr(10) if fname == "leapkill.html" else ""}<script>try{{if(!sessionStorage.getItem("cd-loaded"))document.documentElement.classList.add("is-loading")}}catch(e){{document.documentElement.classList.add("is-loading")}}</script>
 </head>
-<body data-base="{base}"{"" if home else ' class="bar-purple"'}>
+<body data-base="{base}" class="bar-purple">
 <div class="loader" id="loader" aria-hidden="true">
   <div class="loader-inner">
     <img class="loader-art" src="{base}assets/img/loader.webp" alt="" width="180" height="200">
