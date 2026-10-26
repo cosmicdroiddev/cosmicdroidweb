@@ -2232,6 +2232,5 @@ html.arcade-open, html.arcade-open body { overflow: hidden; }
 .arcade:fullscreen .arcade-keys { display: none; }
 .arcade, .arcade-frame { touch-action: none; }
 
-/* Leap Kill page: a Play button over the game video */
-.lk-game-video { position: relative; }
-.lk-play { position: absolute; z-index: 2; left: 50%; top: 50%; transform: translate(-50%, -50%); font-size: 1rem; padding: 14px 22px; box-shadow: 6px 7px 0 var(--line); }
+/* Leap Kill page: clicking the game video opens the game */
+.lk-game-video { cursor: pointer; }

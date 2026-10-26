@@ -321,12 +321,11 @@ leapkill = f'''<section class="lk-hero">
 <section class="block">
   {bar("The videogame")}
   <div class="lk-game">
-    <div class="lk-game-video">
-      <a class="button lime lk-play" href="#play" data-play-game>Play the game <span aria-hidden="true">↗</span></a>
+    <a class="lk-game-video" href="#play" data-play-game aria-label="Play the Leap Kill videogame">
       <video muted loop playsinline preload="none" data-autoplay poster="assets/img/leapkill/game-poster.webp" aria-label="Video: playing the Leap Kill videogame">
         <source src="assets/img/leapkill/game.mp4" type="video/mp4">
       </video>
-    </div>
+    </a>
     <div class="lk-sprites">
 {lk_sprites}
     </div>
