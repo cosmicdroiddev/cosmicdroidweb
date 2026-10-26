@@ -2198,3 +2198,46 @@ button.b-cell:hover .b-cap { background: var(--lime); }
   .deck-all .deck-card:last-child { border-right: 1px solid var(--line); }
 }
 @media (min-width: 761px) { .deck-all { background: var(--paper); } }
+
+/* Home works deck: the open card's cream label turns lime, like the cards on the Works page */
+.deck-label { transition: background 0.25s ease; }
+.deck-card:hover .deck-label, .deck-card:focus-visible .deck-label { background: var(--lime); }
+
+/* ---------- Arcade: the Leap Kill videogame in a full-screen window (js/arcade.js) ---------- */
+html.arcade-open, html.arcade-open body { overflow: hidden; }
+.arcade { position: fixed; inset: 0; z-index: 400; background: #160a52; color: var(--panel); display: grid; place-items: center; }
+.arcade[hidden] { display: none; }
+.arcade-stage { width: min(100vw - 48px, (100dvh - 110px) * 16 / 9, 1280px); display: grid; gap: 12px; }
+.arcade-screen { aspect-ratio: 16 / 9; width: 100%; background: #000; border: 2px solid var(--lime); box-shadow: 10px 12px 0 var(--violet); }
+.arcade-frame { display: block; width: 100%; height: 100%; border: 0; }
+.arcade-keys { margin: 0; font: 0.8rem/1.3 var(--mono); color: #c9c4ff; text-align: center; }
+.arcade-keys b { color: var(--lime); font-weight: 700; }
+.arcade-tools { position: absolute; top: 14px; right: 14px; display: flex; gap: 8px; }
+.arcade-btn { font: 700 1rem/1 var(--mono); min-width: 42px; height: 42px; padding: 0 12px; border: 2px solid var(--lime); background: var(--lime); color: #160a52; cursor: pointer; }
+.arcade-btn[data-arcade="restart"] { background: transparent; color: var(--lime); }
+.arcade-btn:hover, .arcade-btn:focus-visible { background: var(--panel); border-color: var(--panel); color: #160a52; outline: none; }
+.arcade-rotate { display: none; }
+
+/* phones and small tablets: the game fills the screen sideways, buttons sit in the corner */
+@media (max-width: 1024px) and (pointer: coarse) {
+  .arcade-keys { display: none; }
+  .arcade-stage { width: min(100vw, 100dvh * 16 / 9); }
+  .arcade-screen { border: 0; box-shadow: none; }
+  .arcade-tools { top: max(6px, env(safe-area-inset-top)); right: max(6px, env(safe-area-inset-right)); flex-direction: column; }
+  .arcade-btn { min-width: 36px; height: 36px; padding: 0 8px; font-size: 0.9rem; }
+}
+/* held upright: ask to turn the phone */
+@media (orientation: portrait) and (max-width: 760px) {
+  .arcade-rotate { display: grid; place-items: center; position: absolute; inset: 0; background: #160a52; padding: 24px; text-align: center; }
+  .arcade-rotate-card { display: grid; justify-items: center; gap: 18px; }
+  .arcade-rotate p { margin: 0; font: 900 italic 1.5rem/1.15 var(--sans); font-stretch: 125%; color: var(--lime); max-width: 14ch; }
+  .arcade-rotate-phone { width: 46px; height: 80px; border: 4px solid var(--panel); border-radius: 9px; animation: arcade-turn 2.2s ease-in-out infinite; }
+  .arcade-rotate-close { height: auto; padding: 10px 14px; font-size: 0.85rem; }
+  .arcade-tools { display: none; }
+}
+@keyframes arcade-turn { 0%, 30% { transform: rotate(0); } 60%, 100% { transform: rotate(-90deg); } }
+@media (prefers-reduced-motion: reduce) { .arcade-rotate-phone { animation: none; transform: rotate(-90deg); } }
+
+/* Leap Kill page: a Play button over the game video */
+.lk-game-video { position: relative; }
+.lk-play { position: absolute; z-index: 2; left: 50%; top: 50%; transform: translate(-50%, -50%); font-size: 1rem; padding: 14px 22px; box-shadow: 6px 7px 0 var(--line); }

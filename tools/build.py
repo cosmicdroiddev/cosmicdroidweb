@@ -9,56 +9,6 @@ FONTS = ('<link rel="preconnect" href="https://fonts.googleapis.com">\n'
 
 NAV = [("work.html", "Works"), ("about.html", "About"), ("contact.html", "Contact")]
 
-# the Frog Jump overlay is unchanged
-INTRO = '''<div class="intro" id="intro" role="dialog" aria-modal="true" aria-label="Frog Jump, a small game" hidden>
-  <div class="intro-stage">
-    <canvas width="400" height="640" tabindex="-1" aria-label="Game area. Steer the Frog left and right and lick monsters."></canvas>
-    <div class="intro-screen" data-screen="title">
-      <div class="intro-card">
-        <p class="intro-logo">cosmicdroid</p>
-        <p>Help the Frog climb the haunted castle, floor by floor, or slip straight into the gallery.</p>
-        <div class="intro-actions">
-          <button class="button" type="button" data-action="play">Play</button>
-          <button class="button ghost" type="button" data-action="enter">Back to the castle</button>
-        </div>
-        <p class="intro-keys">← → to steer, click to aim the tongue<br>phones: tilt to steer, tap to aim</p>
-        <p class="intro-keys">best: <span data-best>0</span></p>
-      </div>
-    </div>
-    <div class="intro-screen" data-screen="tilt" hidden>
-      <div class="intro-card">
-        <p class="intro-big intro-warn">tilt is off</p>
-        <p>Frog Jump is played by tilting your phone left and right. Without motion access the Frog can't steer, so the game won't work as intended.</p>
-        <p class="intro-keys">If you said no by mistake, tap "try again". On iPhone you may need to close and reopen the page first.</p>
-        <div class="intro-actions">
-          <button class="button" type="button" data-action="tilt-retry">Try again</button>
-          <button class="button ghost" type="button" data-action="tilt-anyway">Play anyway</button>
-        </div>
-        <button class="intro-skip" type="button" data-action="enter">back to the castle</button>
-      </div>
-    </div>
-    <div class="intro-screen" data-screen="over" hidden>
-      <div class="intro-card">
-        <p data-cause>The Frog fell into the dark</p>
-        <p class="intro-big" data-score>0</p>
-        <p class="intro-keys">reached <span data-floor>The Dungeon</span><br>best: <span data-best>0</span></p>
-        <div class="intro-actions">
-          <button class="button" type="button" data-action="play">Play again</button>
-          <button class="button ghost" type="button" data-action="enter">Back to the castle</button>
-        </div>
-      </div>
-    </div>
-  </div>
-  <div class="intro-controls">
-    <button class="tongue-btn" type="button" data-tongue hidden aria-label="Stick out the tongue">lick</button>
-  </div>
-  <div class="intro-bar">
-    <span class="intro-hint" hidden>hold left or right to steer</span>
-    <button class="intro-skip" type="button" data-action="enter">back to the castle (esc)</button>
-  </div>
-</div>
-'''
-
 ICON_MAIL = '<svg viewBox="0 0 32 24" aria-hidden="true"><rect x="1.5" y="1.5" width="29" height="21" fill="none" stroke="currentColor" stroke-width="2"/><path d="M2 3l14 11L30 3M2 21l10-9M30 21l-10-9" fill="none" stroke="currentColor" stroke-width="2"/></svg>'
 ICON_IG = '<svg class="ic-ig" viewBox="0 0 28 28" aria-hidden="true"><rect x="2" y="2" width="24" height="24" rx="6" fill="none" stroke="currentColor" stroke-width="2.4"/><circle cx="14" cy="14" r="5.6" fill="none" stroke="currentColor" stroke-width="2.4"/><circle cx="21" cy="7" r="1.6" fill="currentColor"/></svg>'
 # placeholder frog mark until the real logo goes into js/media.js ("logo-icon")
@@ -102,7 +52,7 @@ def page(fname, title, desc, body, current, base="", home=False):
     <p class="loader-text">loading<span class="loader-dots"></span></p>
   </div>
 </div>
-{INTRO if home else ""}<div class="frame">
+<div class="frame">
 <header class="site-header">
   <a class="brand-icon" href="{base}index.html" aria-label="cosmicdroid home" data-logo="logo-icon">{FROG_MARK}</a>
   <a class="brand-word" href="{base}index.html" data-logo="logo-wordmark"><span>cosmicdroid</span></a>
@@ -133,7 +83,7 @@ def page(fname, title, desc, body, current, base="", home=False):
 <script src="{base}js/media.js"></script>
 <script src="{base}js/projects.js"></script>
 <script src="{base}js/main.js"></script>
-{f'<script src="{base}js/flipbook.js"></script>' + chr(10) if fname == "leapkill.html" else ""}{f'<script src="{base}js/game.js"></script>' + chr(10) + f'<script src="{base}js/castle.js"></script>' + chr(10) if home else ""}</body>
+{f'<script src="{base}js/flipbook.js"></script>' + chr(10) if fname == "leapkill.html" else ""}{f'<script src="{base}js/arcade.js"></script>' + chr(10) if home or fname == "leapkill.html" else ""}{f'<script src="{base}js/castle.js"></script>' + chr(10) if home else ""}</body>
 </html>
 '''
     path = os.path.join(ROOT, fname)
@@ -183,7 +133,7 @@ best = "\n".join(
     f'    <figure class="cell-fig">{slot(f"bestiary-{i}", "400×400 loop", alt=f"Creature {i}")}</figure>'
     for i in range(1, 7))
 rooms = [("work.html", "Works", "check out my latest work", ""), ("murals.html", "Murals", "fantasy on a bigger canvas", ""),
-         ("index.html#play", "Arcade", "play Frog Jump", " data-play-frogjump"), ("about.html", "About", "random stuff about me", ""),
+         ("index.html#play", "Arcade", "play Leap Kill", " data-play-game"), ("about.html", "About", "random stuff about me", ""),
          ("contact.html", "Contact", "waiting for your idea!", "")]
 room_list = "\n".join(
     f'      <li><a href="{h}"{x} data-room-art="room-{i + 1}"><span class="room-art" aria-hidden="true"><span class="runner room-runner"></span></span><b>{r}</b><span class="what">{w}</span><span class="arrow" aria-hidden="true">↗</span></a></li>'
@@ -238,7 +188,6 @@ home = f'''<section class="castle-hero" aria-label="cosmicdroid castle">
 </section>
 <section class="block works-block">
   {bar("Works", ("work.html", "open the works page"))}
-  {FILTERS}
   <div class="deck deck-all" data-deck="all"></div>
 </section>
 <section class="block">
@@ -373,6 +322,7 @@ leapkill = f'''<section class="lk-hero">
   {bar("The videogame")}
   <div class="lk-game">
     <div class="lk-game-video">
+      <a class="button lime lk-play" href="#play" data-play-game>Play the game <span aria-hidden="true">↗</span></a>
       <video muted loop playsinline preload="none" data-autoplay poster="assets/img/leapkill/game-poster.webp" aria-label="Video: playing the Leap Kill videogame">
         <source src="assets/img/leapkill/game.mp4" type="video/mp4">
       </video>
@@ -419,7 +369,7 @@ frog = page_head("The Frog", "A lone bounty hunter frog who gets paid to kill mo
     <h2>Coming out of the swamp</h2>
     <p>Every job is a monster, and every monster is a little too familiar. The first chapters of the comic are in the works, along with prints, stickers and a small game you can play on the TV in the castle.</p>
     <p>Follow <a href="https://www.instagram.com/cosmicdroid/" rel="noopener">@cosmicdroid</a> to see new pages as they land.</p>
-    <p><a class="button" href="index.html#play">Play Frog Jump <span aria-hidden="true">↗</span></a></p>
+    <p><a class="button" href="index.html#play">Play Leap Kill <span aria-hidden="true">↗</span></a></p>
   </div>
   <div class="split-cell">{slot("frog-pages", "900×1200 comic page or animatic", ratio="3 / 4", alt="Comic page preview")}</div>
 </section>

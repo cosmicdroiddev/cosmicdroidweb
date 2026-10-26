@@ -37,7 +37,7 @@ var CASTLE_SPOTS = [
   { id: "bedroom", room: "My room",  label: "About me",       href: "about.html",   zone: [52.4, 24, 15.2, 7] },   // the bed with the cat
   { id: "playlist", room: "Studio",  label: "My playlist",    href: "https://music.youtube.com/playlist?list=PLMcMfiZgKh7Q1RoNm8sItHevV0RsI1gAZ", external: true, zone: [9, 37, 14, 13] }, // the drum kit
   { id: "library", room: "Studio",   label: "My work",        href: "work.html",    zone: [53.6, 37, 14, 13] },    // the bookshelf
-  { id: "arcade",  room: "Arcade",   label: "Play Frog Jump", action: "frogjump",   zone: [19.6, 58, 10.4, 11] },  // the TV
+  { id: "arcade",  room: "Arcade",   label: "Play Leap Kill", action: "arcade",   zone: [19.6, 58, 10.4, 11] },  // the TV
   { id: "post",    room: "Hall",     label: "Contact",        href: "contact.html", zone: [58.4, 80, 9.2, 9] }      // the mailbox
 ];
 
@@ -733,7 +733,7 @@ var CASTLE_SPOTS = [
   // ---- animated details ----
   function drawDetails(g, time) {
     var s = time / 1000;
-    // TV screen: a tiny Frog Jump
+    // TV screen: a tiny frog hopping (the TV opens the Leap Kill game)
     box(g, 28, 353, 26, 24, 3, C.cyan, false);
     var hop = Math.abs(Math.sin(s * 3)) * 9;
     line(g, [32, 372, 40, 372], C.white, 1.6); line(g, [44, 364, 51, 364], C.white, 1.6);
@@ -1187,8 +1187,8 @@ var CASTLE_SPOTS = [
   // ---- using a glowing thing ----
   function use(spot) {
     if (!spot) return;
-    if (spot.action === "frogjump") {
-      if (window.frogJump) window.frogJump.open();
+    if (spot.action === "arcade") {
+      if (window.arcade) window.arcade.open();
       return;
     }
     saveSpot();
@@ -1218,7 +1218,7 @@ var CASTLE_SPOTS = [
   }
   function stop() { running = false; cancelAnimationFrame(raf); }
   function isOverlayOpen() {
-    var o = document.getElementById("intro");
+    var o = document.getElementById("arcade");
     return !!(o && !o.hidden);
   }
 
@@ -1398,13 +1398,6 @@ var CASTLE_SPOTS = [
   canvas.addEventListener("pointermove", function (e) {
     if (e.pointerType !== "mouse") return;
     canvas.style.cursor = spotAtPoint(e) ? "pointer" : "default";
-  });
-
-  // the "Arcade" link next to the castle opens Frog Jump too
-  document.querySelectorAll("[data-play-frogjump]").forEach(function (a) {
-    a.addEventListener("click", function (e) {
-      if (window.frogJump) { e.preventDefault(); window.frogJump.open(); }
-    });
   });
 
   fit();
