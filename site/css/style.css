@@ -2234,3 +2234,19 @@ html.arcade-open, html.arcade-open body { overflow: hidden; }
 
 /* Leap Kill page: clicking the game video opens the game */
 .lk-game-video { cursor: pointer; }
+
+/* Arcade on a phone held upright: the game is turned sideways (landscape) by default,
+   so it fills the screen; touches still land right because they happen inside the game frame */
+@media (orientation: portrait) and (pointer: coarse) {
+  .arcade { display: block; }
+  .arcade .arcade-stage, .arcade:fullscreen .arcade-stage {
+    position: absolute; left: 50%; top: 50%;
+    width: 100vh; width: 100dvh; height: 100vw;
+    display: grid; place-items: center;
+    transform: translate(-50%, -50%) rotate(90deg);
+  }
+  .arcade .arcade-screen, .arcade:fullscreen .arcade-screen { width: min(100vh, 100vw * 16 / 9); width: min(100dvh, 100vw * 16 / 9); }
+  /* buttons in the bottom strip, right side = top right once the phone is turned */
+  .arcade-tools { flex-direction: row; right: max(6px, env(safe-area-inset-right)); left: auto; top: auto; bottom: max(6px, env(safe-area-inset-bottom)); }
+  .arcade-tools .arcade-btn { transform: rotate(90deg); }
+}
