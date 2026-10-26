@@ -33,7 +33,7 @@
     "</div>";
   document.body.appendChild(box);
 
-  var screen = box.querySelector(".arcade-screen");
+  var gameScreen = box.querySelector(".arcade-screen");   // (not "screen": that name is the phone screen, used below)
   var frame = null;
   var lastFocus = null;
 
@@ -51,7 +51,7 @@
         frame.contentWindow.addEventListener("keydown", function (e) { if (e.key === "Escape") close(); });
       } catch (e) {}
     });
-    screen.appendChild(frame);
+    gameScreen.appendChild(frame);
   }
 
   // ---- full screen ----
@@ -68,7 +68,7 @@
     } catch (e) {}
   }
   function lockLandscape() {
-    try { if (screen.orientation && screen.orientation.lock) screen.orientation.lock("landscape").catch(function () {}); } catch (e) {}
+    try { if (window.screen.orientation && window.screen.orientation.lock) window.screen.orientation.lock("landscape").catch(function () {}); } catch (e) {}
   }
   function leaveFullscreen() {
     if (!isFs()) return;

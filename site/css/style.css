@@ -2250,3 +2250,7 @@ html.arcade-open, html.arcade-open body { overflow: hidden; }
   .arcade-tools { flex-direction: row; right: max(6px, env(safe-area-inset-right)); left: auto; top: auto; bottom: max(6px, env(safe-area-inset-bottom)); }
   .arcade-tools .arcade-btn { transform: rotate(90deg); }
 }
+
+/* home menu bar once it turns purple: mail + Instagram icons go yellow on hover too
+   (an older rule turned them violet there, which looked like no change) */
+body .site-header.is-purple .socials a:hover { color: var(--lime); }
