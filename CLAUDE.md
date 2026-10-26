@@ -17,7 +17,7 @@ Portfolio of cosmicdroid (illustrator, animator, muralist from Colombia). Static
 
 ## Design rules (agreed with the owner)
 - Square grid look: thin cobalt lines (`--line`), light blue paper (`--paper`), cream panels (`--panel`), lime (`--lime`) highlights, violet (`--violet`) banner, logo square `#b377ff`.
-- Fonts: Archivo (wide italic 900 for headings/labels), Space Mono for small text.
+- Fonts: Germania One for every title and label (the heavy wide italic Archivo look is retired, owner Oct 26 — never use it), Archivo regular for body text, Space Mono for small text.
 - Menu text and icons stay blue; the home header fades to `#b377ff` while scrolling down to the purple banner (`#more`).
 - Phone (≤760px): header 64px with hamburger; menu drops over the page; castle first and full height with stick / GO / JUMP.
 - Keep the castle map, door zones and the drawn art in sync; the frog can jump ~75px (≈4 tiles in the 4× template).

@@ -2254,3 +2254,21 @@ html.arcade-open, html.arcade-open body { overflow: hidden; }
 /* home menu bar once it turns purple: mail + Instagram icons go yellow on hover too
    (an older rule turned them violet there, which looked like no change) */
 body .site-header.is-purple .socials a:hover { color: var(--lime); }
+
+/* ---------- Owner, Oct 26: the heavy wide Archivo look is retired. Every place that used it
+   (services, frog fact, section titles in text, character cards, deck card names) uses
+   Germania One, like "Hey, I'm cosmicdroid." ---------- */
+.service h3, .foot-facts .fact-label, .split-cell h2, .dossier h3, .deck-label b {
+  font-family: "Germania One", var(--sans) !important;
+  font-weight: 400 !important;
+  font-style: normal !important;
+  font-stretch: normal !important;
+  text-transform: none !important;
+  letter-spacing: 0.01em !important;
+}
+.service h3 { font-size: 1.7rem; line-height: 1.05; }
+.foot-facts .fact-label { font-size: 1.75rem !important; line-height: 1; }
+@media (max-width: 760px) { .foot-facts .fact-label { font-size: 1.5rem !important; } }
+.split-cell h2 { font-size: 1.9rem; line-height: 1.05; }
+.dossier h3 { font-size: 1.7rem; line-height: 1; }
+.deck-label b { font-size: 1.35rem; line-height: 1.1; }
