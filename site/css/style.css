@@ -2216,7 +2216,6 @@ html.arcade-open, html.arcade-open body { overflow: hidden; }
 .arcade-btn { font: 700 1rem/1 var(--mono); min-width: 42px; height: 42px; padding: 0 12px; border: 2px solid var(--lime); background: var(--lime); color: #160a52; cursor: pointer; }
 .arcade-btn[data-arcade="restart"] { background: transparent; color: var(--lime); }
 .arcade-btn:hover, .arcade-btn:focus-visible { background: var(--panel); border-color: var(--panel); color: #160a52; outline: none; }
-.arcade-rotate { display: none; }
 
 /* phones and small tablets: the game fills the screen sideways, buttons sit in the corner */
 @media (max-width: 1024px) and (pointer: coarse) {
@@ -2226,17 +2225,12 @@ html.arcade-open, html.arcade-open body { overflow: hidden; }
   .arcade-tools { top: max(6px, env(safe-area-inset-top)); right: max(6px, env(safe-area-inset-right)); flex-direction: column; }
   .arcade-btn { min-width: 36px; height: 36px; padding: 0 8px; font-size: 0.9rem; }
 }
-/* held upright: ask to turn the phone */
-@media (orientation: portrait) and (max-width: 760px) {
-  .arcade-rotate { display: grid; place-items: center; position: absolute; inset: 0; background: #160a52; padding: 24px; text-align: center; }
-  .arcade-rotate-card { display: grid; justify-items: center; gap: 18px; }
-  .arcade-rotate p { margin: 0; font: 900 italic 1.5rem/1.15 var(--sans); font-stretch: 125%; color: var(--lime); max-width: 14ch; }
-  .arcade-rotate-phone { width: 46px; height: 80px; border: 4px solid var(--panel); border-radius: 9px; animation: arcade-turn 2.2s ease-in-out infinite; }
-  .arcade-rotate-close { height: auto; padding: 10px 14px; font-size: 0.85rem; }
-  .arcade-tools { display: none; }
-}
-@keyframes arcade-turn { 0%, 30% { transform: rotate(0); } 60%, 100% { transform: rotate(-90deg); } }
-@media (prefers-reduced-motion: reduce) { .arcade-rotate-phone { animation: none; transform: rotate(-90deg); } }
+/* full screen: the game takes the whole screen, no frame */
+.arcade:fullscreen { background: #000; }
+.arcade:fullscreen .arcade-stage { width: min(100vw, 100vh * 16 / 9); }
+.arcade:fullscreen .arcade-screen { border: 0; box-shadow: none; }
+.arcade:fullscreen .arcade-keys { display: none; }
+.arcade, .arcade-frame { touch-action: none; }
 
 /* Leap Kill page: a Play button over the game video */
 .lk-game-video { position: relative; }

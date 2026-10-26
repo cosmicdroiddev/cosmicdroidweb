@@ -6,7 +6,9 @@
   on the Leap Kill page, and any link ending in #play.
 
   Desktop: arrows move, Space jumps, X shoots.
-  Phones: play sideways (landscape) with the on-screen stick and button.
+  Phones: on-screen stick and button. Opening the game asks the browser for full screen
+  (and landscape, where allowed); if the browser says no, the ⛶ button tries again.
+  iPhones don't allow full screen for pages, so there the window simply fills the screen.
 */
 (function () {
   var base = document.body.getAttribute("data-base") || "";
@@ -25,15 +27,9 @@
       '<p class="arcade-keys"><b>Leap Kill</b> &nbsp;← → move · space jump · X shoot</p>' +
     "</div>" +
     '<div class="arcade-tools">' +
+      '<button type="button" class="arcade-btn arcade-fs" data-arcade="fullscreen" aria-label="Full screen" title="Full screen">⛶</button>' +
       '<button type="button" class="arcade-btn" data-arcade="restart" aria-label="Restart the game" title="Restart">↻</button>' +
       '<button type="button" class="arcade-btn" data-arcade="close" aria-label="Close the game" title="Close">✕</button>' +
-    "</div>" +
-    '<div class="arcade-rotate" aria-live="polite">' +
-      '<div class="arcade-rotate-card">' +
-        '<span class="arcade-rotate-phone" aria-hidden="true"></span>' +
-        "<p>Turn your phone sideways to play</p>" +
-        '<button type="button" class="arcade-btn arcade-rotate-close" data-arcade="close">back to the castle</button>' +
-      "</div>" +
     "</div>";
   document.body.appendChild(box);
 
@@ -58,17 +54,40 @@
     screen.appendChild(frame);
   }
 
+  // ---- full screen ----
+  var canFs = !!(box.requestFullscreen || box.webkitRequestFullscreen);
+  var touch = window.matchMedia && window.matchMedia("(pointer: coarse)").matches;
+  if (!canFs) box.querySelector(".arcade-fs").hidden = true;
+  function isFs() { return !!(document.fullscreenElement || document.webkitFullscreenElement); }
+  function goFullscreen() {
+    if (!canFs || isFs()) return;
+    try {
+      var r = box.requestFullscreen ? box.requestFullscreen({ navigationUI: "hide" }) : box.webkitRequestFullscreen();
+      if (r && r.then) r.then(lockLandscape).catch(function () {});
+      else lockLandscape();
+    } catch (e) {}
+  }
+  function lockLandscape() {
+    try { if (screen.orientation && screen.orientation.lock) screen.orientation.lock("landscape").catch(function () {}); } catch (e) {}
+  }
+  function leaveFullscreen() {
+    if (!isFs()) return;
+    try { (document.exitFullscreen || document.webkitExitFullscreen).call(document); } catch (e) {}
+  }
+
   function open() {
     if (!box.hidden) return;
     lastFocus = document.activeElement;
     box.hidden = false;
     document.documentElement.classList.add("arcade-open");
+    if (touch) goFullscreen();   // phones and tablets: straight to full screen
     load();
     setTimeout(function () { if (frame) frame.focus(); }, 50);
   }
 
   function close() {
     if (box.hidden) return;
+    leaveFullscreen();
     box.hidden = true;
     document.documentElement.classList.remove("arcade-open");
     // removing the frame stops the music and the game loop
@@ -80,7 +99,9 @@
   box.addEventListener("click", function (e) {
     var b = e.target.closest("[data-arcade]");
     if (!b) return;
-    if (b.getAttribute("data-arcade") === "close") close();
+    var act = b.getAttribute("data-arcade");
+    if (act === "close") close();
+    else if (act === "fullscreen") { if (isFs()) leaveFullscreen(); else goFullscreen(); }
     else load();
   });
   document.addEventListener("keydown", function (e) {
