@@ -2415,3 +2415,6 @@ html[data-theme="dark"] .foot-critter { background: #b377ff; }
 /* phone menu: one clean line under the top bar when the menu opens */
 @media (max-width: 760px) { .site-header.is-open .nav { border-top: 0 !important; } }
 html[data-theme="dark"] .pad-enter:not(.is-ready) { opacity: 0.6; }
+/* dark mode, home Works block: inactive tabs in yellow letters */
+html[data-theme="dark"] .works-block .deck-filters button[aria-selected="false"] { color: var(--lime); }
+html[data-theme="dark"] .works-block .deck-filters button[aria-selected="false"]:hover { color: #160a52; background: var(--lime); }
