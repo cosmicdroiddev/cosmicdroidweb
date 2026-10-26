@@ -2413,7 +2413,10 @@ html[data-theme="dark"] .foot-critter { background: #b377ff; }
   .page-head:has(.page-head-text:empty) .page-head-title { border-bottom: 0; }
 }
 /* phone menu: one clean line under the top bar when the menu opens */
-@media (max-width: 760px) { .site-header.is-open .nav { border-top: 0 !important; } }
+@media (max-width: 760px) {
+  .site-header.is-open { border-bottom-color: transparent !important; }
+  .site-header.is-open .nav { border-top: 1px solid #3326d6 !important; }
+}
 html[data-theme="dark"] .pad-enter:not(.is-ready) { opacity: 0.6; }
 /* dark mode, home Works block: inactive tabs in yellow letters */
 html[data-theme="dark"] .works-block .deck-filters button[aria-selected="false"] { color: var(--lime); }
