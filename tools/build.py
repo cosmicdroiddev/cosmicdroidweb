@@ -188,6 +188,7 @@ home = f'''<section class="castle-hero" aria-label="cosmicdroid castle">
 </section>
 <section class="block works-block">
   {bar("Works", ("work.html", "open the works page"))}
+  {FILTERS}
   <div class="deck deck-all" data-deck="all"></div>
 </section>
 <section class="block">
