@@ -2280,3 +2280,110 @@ body .site-header.is-purple .socials a:hover { color: var(--lime); }
   .wg-label b { font-size: clamp(1.05rem, 1.35vw, 1.3rem); }
 }
 @media (min-width: 1000px) { .works-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
+
+/* ---------- Light / dark switch in the menu bar (owner, Oct 26): tiny icon next to mail + IG ---------- */
+.theme-toggle {
+  display: block; padding: 0; margin: 0; border: 0; background: none; cursor: pointer;
+  color: inherit; line-height: 0; -webkit-tap-highlight-color: transparent;
+}
+.theme-toggle svg { width: 22px; height: 22px; }
+.theme-toggle .ic-sun, html[data-theme="dark"] .theme-toggle .ic-moon { display: none; }
+html[data-theme="dark"] .theme-toggle .ic-sun { display: block; }
+.site-header .theme-toggle { color: var(--ink); transition: color 0.2s ease; }
+.site-header .theme-toggle:hover, .site-header .theme-toggle:focus-visible { color: var(--lime); outline: none; }
+
+/* ================= DARK MODE (owner, Oct 26) =================
+   Dark blue instead of the light backgrounds, the joystick purple for every line,
+   lavender text, lime titles. The menu bar looks exactly the same in both modes,
+   and artwork/photos are never recoloured. */
+html[data-theme="dark"] {
+  --paper: #290a6f;      /* page background (the owner's dark blue) */
+  --panel: #33137f;      /* cards and panels, a touch lighter */
+  --line: #7a3cf2;       /* every line: the joystick purple */
+  --ink: #ddd8ff;        /* text: light lavender */
+  --muted: #ada3ec;
+  color-scheme: dark;
+}
+html[data-theme="dark"] body { background: #1e0754; }
+/* the menu bar keeps the light-mode colours */
+html[data-theme="dark"] .site-header {
+  --paper: #dce9fb; --panel: #fbf9ea; --line: #3326d6; --ink: #2a1fb0; --muted: #5650b8;
+}
+/* grid paper: dark blue with purple lines (castle area, loader, comic reader, room previews) */
+html[data-theme="dark"] .castle-hero { --grid: rgba(122, 60, 242, 0.8); background-color: var(--paper); }
+html[data-theme="dark"] .castle-hero {
+  background:
+    linear-gradient(var(--grid) 1px, transparent 1px) 0 0 / 48px 48px,
+    linear-gradient(90deg, var(--grid) 1px, transparent 1px) 0 0 / 48px 48px,
+    var(--paper);
+}
+html[data-theme="dark"] .loader,
+html[data-theme="dark"] .lk-hero-art {
+  background:
+    linear-gradient(rgba(122, 60, 242, 0.6) 1px, transparent 1px) 0 0 / 48px 48px,
+    linear-gradient(90deg, rgba(122, 60, 242, 0.6) 1px, transparent 1px) 0 0 / 48px 48px,
+    var(--paper);
+}
+html[data-theme="dark"] .room-art {
+  background:
+    linear-gradient(rgba(122, 60, 242, 0.6) 1px, transparent 1px) 0 0 / 24px 24px,
+    linear-gradient(90deg, rgba(122, 60, 242, 0.6) 1px, transparent 1px) 0 0 / 24px 24px,
+    var(--panel);
+}
+/* titles in lime */
+html[data-theme="dark"] .page-title, html[data-theme="dark"] .bar-title, html[data-theme="dark"] .castle-hello,
+html[data-theme="dark"] .proj-title, html[data-theme="dark"] h1, html[data-theme="dark"] h2, html[data-theme="dark"] h3,
+html[data-theme="dark"] .fact-label { color: var(--lime) !important; }
+html[data-theme="dark"] .site-header h1, html[data-theme="dark"] .site-header h2 { color: inherit !important; }
+/* buttons: lime ones keep dark text; the blue ones become purple with light text */
+html[data-theme="dark"] .button { color: #fff; }
+html[data-theme="dark"] .button:hover, html[data-theme="dark"] .button.lime { color: #160a52; background: var(--lime); }
+html[data-theme="dark"] .button.lime:hover { color: var(--lime); background: #160a52; }
+html[data-theme="dark"] .button.ghost { color: var(--ink); }
+html[data-theme="dark"] .button.ghost:hover { color: #160a52; }
+/* hovered labels/rows that turn lime need dark text on top */
+html[data-theme="dark"] .wg-card:hover .wg-label, html[data-theme="dark"] .wg-card:focus-visible .wg-label,
+html[data-theme="dark"] .deck-card:hover .deck-label { color: #160a52; }
+html[data-theme="dark"] .wg-card:hover .wg-meta, html[data-theme="dark"] .deck-card:hover .deck-label span { color: #3a2a8a; }
+/* form fields */
+html[data-theme="dark"] input, html[data-theme="dark"] textarea, html[data-theme="dark"] select { background: #1e0754; color: var(--ink); }
+html[data-theme="dark"] ::placeholder { color: #8f86d0; }
+
+/* ---------- Menu bar (owner, Oct 26): Works / About / Contact and the icons are yellow in both modes;
+   on hover they get bold (a smooth thicker outline), the current page stays bold ---------- */
+html body .site-header .nav a,
+html body .site-header .nav a:hover,
+html body .site-header .nav a[aria-current="page"] {
+  color: var(--lime) !important;
+  background-image: none !important;
+  font-weight: 400 !important;
+  -webkit-text-stroke: 0px var(--lime) !important;
+  paint-order: normal !important;
+  transition: -webkit-text-stroke-width 0.2s ease, color 0.2s ease;
+}
+html body .site-header .nav a:hover,
+html body .site-header .nav a:focus-visible,
+html body .site-header .nav a[aria-current="page"] { -webkit-text-stroke-width: 0.9px !important; }
+html body .site-header .socials a,
+html body .site-header .socials a:hover,
+html body .site-header .theme-toggle,
+html body .site-header .theme-toggle:hover { color: var(--lime) !important; filter: none !important; }
+.site-header .socials svg *, .site-header .theme-toggle svg * { transition: stroke-width 0.2s ease; }
+.site-header .socials a:hover svg *, .site-header .socials a:focus-visible svg *,
+.site-header .theme-toggle:hover svg *, .site-header .theme-toggle:focus-visible svg * { stroke-width: 3.2px; }
+.site-header .socials a:hover .ic-ig circle:last-child { stroke-width: 0; }
+/* dark mode: anything that sits on lime keeps dark text so it stays readable */
+html[data-theme="dark"] :is(
+  .scroll-cue:hover, .pad-jump, .room-list a:hover, .room-list a:focus-visible, .bar-link, .bar-link:hover,
+  .deck-filters button[aria-selected="true"], .deck-go, .wg-go, .crumb a:hover, .placeholder-note, .facts .todo,
+  .pager a:hover, .lightbox-close, .foot-links a:hover, .lk-cell:hover .lk-go, .home-intro .room-list a:hover b,
+  .gallery button:hover .g-cap, .cats-arrow:hover, .cats-shuffle:hover, .proj-back:hover, .st-tags li:first-child,
+  .compare-knob, .copied-note, button.b-cell:hover .b-cap, .lk-nudge, .lk-btn:hover:not(:disabled)
+) { color: #160a52 !important; }
+html[data-theme="dark"] .room-list a:hover *, html[data-theme="dark"] .proj-back:hover * { color: #160a52 !important; }
+/* dark mode: text that used the line colour gets the readable lavender/lime instead */
+html[data-theme="dark"] a:not(.button):not(.bar-link) { color: var(--ink); }
+html[data-theme="dark"] :is(.scroll-cue, .slot-empty b, .proj-back, .cats-arrow, .cats-shuffle) { color: var(--ink); }
+html[data-theme="dark"] .slot-empty::before { color: var(--muted); }
+html[data-theme="dark"] :is(.proj-facts dt, .b-facts dt, .facts dt) { color: var(--lime); }
+html[data-theme="dark"] :is(.st-line, .st-h) { color: var(--lime); }

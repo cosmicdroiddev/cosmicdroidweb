@@ -633,3 +633,43 @@
     });
   });
 })();
+
+// ---- light / dark mode ----
+// The page starts in the visitor's device setting (set in <head> before paint). The moon/sun
+// button in the menu bar switches it, and that choice is remembered on this browser.
+(function () {
+  var root = document.documentElement;
+  var btns = document.querySelectorAll("[data-theme-toggle]");
+  function current() { return root.getAttribute("data-theme") === "dark" ? "dark" : "light"; }
+  function sync() {
+    var dark = current() === "dark";
+    btns.forEach(function (b) {
+      b.setAttribute("aria-pressed", dark ? "true" : "false");
+      b.setAttribute("aria-label", dark ? "Light mode" : "Dark mode");
+      b.title = dark ? "Light mode" : "Dark mode";
+    });
+  }
+  function set(t, save) {
+    root.setAttribute("data-theme", t);
+    if (save) { try { localStorage.setItem("cd-theme", t); } catch (e) {} }
+    sync();
+  }
+  if (!root.getAttribute("data-theme")) {   // (normally already set in <head>)
+    var t = null; try { t = localStorage.getItem("cd-theme"); } catch (e) {}
+    if (t !== "dark" && t !== "light") t = (window.matchMedia && matchMedia("(prefers-color-scheme: dark)").matches) ? "dark" : "light";
+    set(t, false);
+  }
+  btns.forEach(function (b) {
+    b.addEventListener("click", function () { set(current() === "dark" ? "light" : "dark", true); });
+  });
+  // follow the device while the visitor hasn't picked one here
+  try {
+    var mq = matchMedia("(prefers-color-scheme: dark)");
+    var follow = function (e) {
+      var saved = null; try { saved = localStorage.getItem("cd-theme"); } catch (x) {}
+      if (saved !== "dark" && saved !== "light") set(e.matches ? "dark" : "light", false);
+    };
+    if (mq.addEventListener) mq.addEventListener("change", follow); else if (mq.addListener) mq.addListener(follow);
+  } catch (e) {}
+  sync();
+})();

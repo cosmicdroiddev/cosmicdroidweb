@@ -10,6 +10,10 @@ FONTS = ('<link rel="preconnect" href="https://fonts.googleapis.com">\n'
 NAV = [("work.html", "Works"), ("about.html", "About"), ("contact.html", "Contact")]
 
 ICON_MAIL = '<svg viewBox="0 0 32 24" aria-hidden="true"><rect x="1.5" y="1.5" width="29" height="21" fill="none" stroke="currentColor" stroke-width="2"/><path d="M2 3l14 11L30 3M2 21l10-9M30 21l-10-9" fill="none" stroke="currentColor" stroke-width="2"/></svg>'
+# light/dark switch: a moon in light mode, a sun in dark mode (same line style as the mail + IG icons)
+ICON_THEME = ('<svg class="ic-moon" viewBox="0 0 28 28" aria-hidden="true"><path d="M20.5 18.6A9 9 0 0 1 10.4 6.2a9 9 0 1 0 10.1 12.4z" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linejoin="round"/></svg>'
+              '<svg class="ic-sun" viewBox="0 0 28 28" aria-hidden="true"><circle cx="14" cy="14" r="5" fill="none" stroke="currentColor" stroke-width="2.2"/>'
+              '<path d="M14 2.5v3.2M14 22.3v3.2M2.5 14h3.2M22.3 14h3.2M5.9 5.9l2.2 2.2M19.9 19.9l2.2 2.2M5.9 22.1l2.2-2.2M19.9 8.1l2.2-2.2" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg>')
 ICON_IG = '<svg class="ic-ig" viewBox="0 0 28 28" aria-hidden="true"><rect x="2" y="2" width="24" height="24" rx="6" fill="none" stroke="currentColor" stroke-width="2.4"/><circle cx="14" cy="14" r="5.6" fill="none" stroke="currentColor" stroke-width="2.4"/><circle cx="21" cy="7" r="1.6" fill="currentColor"/></svg>'
 # placeholder frog mark until the real logo goes into js/media.js ("logo-icon")
 FROG_MARK = '''<svg viewBox="0 0 64 64" aria-hidden="true" class="frog-mark">
@@ -39,11 +43,12 @@ def page(fname, title, desc, body, current, base="", home=False):
 <meta name="description" content="{desc}">
 <meta property="og:title" content="{title}">
 <meta property="og:description" content="{desc}">
-<meta name="theme-color" content="#dce9fb">
+<meta name="theme-color" content="#b377ff">
 <link rel="icon" href="{base}assets/favicon.svg" type="image/svg+xml">
 {FONTS}
 <link rel="stylesheet" href="{base}css/style.css">
-{f'<link rel="stylesheet" href="{base}css/flipbook.css">' + chr(10) if fname == "leapkill.html" else ""}<script>try{{if(!sessionStorage.getItem("cd-loaded"))document.documentElement.classList.add("is-loading")}}catch(e){{document.documentElement.classList.add("is-loading")}}</script>
+{f'<link rel="stylesheet" href="{base}css/flipbook.css">' + chr(10) if fname == "leapkill.html" else ""}<script>try{{var t=localStorage.getItem("cd-theme");if(t!=="dark"&&t!=="light")t=matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light";document.documentElement.setAttribute("data-theme",t)}}catch(e){{}}</script>
+<script>try{{if(!sessionStorage.getItem("cd-loaded"))document.documentElement.classList.add("is-loading")}}catch(e){{document.documentElement.classList.add("is-loading")}}</script>
 </head>
 <body data-base="{base}" class="bar-purple">
 <div class="loader" id="loader" aria-hidden="true">
@@ -60,6 +65,7 @@ def page(fname, title, desc, body, current, base="", home=False):
 {nav}
   </nav>
   <div class="socials">
+    <button class="theme-toggle" type="button" data-theme-toggle aria-label="Dark mode" aria-pressed="false">{ICON_THEME}</button>
     <a href="mailto:cosmicdroidworld@gmail.com" aria-label="Email cosmicdroid">{ICON_MAIL}</a>
     <a href="https://www.instagram.com/cosmicdroid/" rel="noopener" aria-label="cosmicdroid on Instagram">{ICON_IG}</a>
   </div>
