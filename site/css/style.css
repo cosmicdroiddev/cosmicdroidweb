@@ -2272,3 +2272,11 @@ body .site-header.is-purple .socials a:hover { color: var(--lime); }
 .split-cell h2 { font-size: 1.9rem; line-height: 1.05; }
 .dossier h3 { font-size: 1.7rem; line-height: 1; }
 .deck-label b { font-size: 1.35rem; line-height: 1.1; }
+
+/* Works page (owner, Oct 26): bigger cards — tighter gaps and edges, bigger names */
+@media (min-width: 761px) {
+  .works-grid { gap: clamp(14px, 1.4vw, 22px); padding: clamp(18px, 1.8vw, 28px); }
+  .wg-label { padding: 14px 18px; }
+  .wg-label b { font-size: clamp(1.05rem, 1.35vw, 1.3rem); }
+}
+@media (min-width: 1000px) { .works-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
