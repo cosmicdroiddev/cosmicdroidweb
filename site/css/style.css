@@ -2431,3 +2431,4 @@ html[data-theme="dark"] .works-block .deck-filters button[aria-selected="false"]
 .contact-room img { display: block; width: 100%; height: auto; max-width: 600px; margin: auto; padding: clamp(24px, 4vw, 56px); box-sizing: border-box; }
 .contact-room .room-night, html[data-theme="dark"] .contact-room .room-day { display: none; }
 html[data-theme="dark"] .contact-room .room-night { display: block; }
+@media (min-width: 761px) { .contact-room img { max-width: 470px; } }
