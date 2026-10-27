@@ -2426,3 +2426,8 @@ html[data-theme="dark"] .works-block .deck-filters button[aria-selected="false"]
 
 /* page descriptions under the titles (Works, Murals, Frog): same size as the Contact intro */
 .page-head .page-lede { font-size: 1.15rem !important; line-height: 1.55; max-width: 52ch; }
+
+/* Contact room: transparent animated pictures (no box behind them); the night room in dark mode */
+.contact-room img { display: block; width: 100%; height: auto; max-width: 600px; margin: auto; padding: clamp(24px, 4vw, 56px); box-sizing: border-box; }
+.contact-room .room-night, html[data-theme="dark"] .contact-room .room-day { display: none; }
+html[data-theme="dark"] .contact-room .room-night { display: block; }
