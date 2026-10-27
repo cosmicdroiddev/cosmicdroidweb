@@ -3,7 +3,7 @@
 Portfolio of cosmicdroid (illustrator, animator, muralist from Colombia). Static site, no framework, no build step to deploy: `site/` is published as-is by Netlify (`netlify.toml`).
 
 ## Layout
-- `site/` — the website. Pages: index (castle game + home), work, murals, about, contact, frog, leapkill (comic + flipbook reader), projects/juno-mural.
+- `site/` — the website. Pages: index (castle game + home), work, murals, about, contact, leapkill (the Frog page was removed Oct 27) (comic + flipbook reader), projects/juno-mural.
 - `tools/build.py` — generates every `site/*.html` page (header, footer, nav and all page content live here). **Edit page HTML here, then run `python3 tools/build.py`.** Don't hand-edit the generated HTML; it gets overwritten.
 - `tools/webimg.py` — turns big originals into light WebP (`NAME.webp` for zoom + `NAME-sm.webp` for the page). Use it for every new image; never commit print-size files.
 - Project pages are built in `tools/build.py` with `project()` + `intro()` / `gallery()`, or (new, Oct 2026) with `bento()`: a Leap Kill-style grid of boxes that fit together with no gaps — now used for every work page (layouts are checked for holes/overlaps at build time; no picture wider than 4 of the 6 columns); images go in `site/assets/img/<slug>/`. Only use files with real names (sketch, process, final…) from the owner's folders, never `Untitled_Artwork`/`IMG_` ones.

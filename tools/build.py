@@ -345,42 +345,8 @@ leapkill = f'''<section class="lk-hero">
 '''
 page("leapkill.html", "Leap Kill | cosmicdroid", "Leap Kill, a comic by cosmicdroid. Vol. 01 comes with holographic stickers and a videogame.", leapkill, "")
 
-# ---------- FROG ----------
-frog = page_head("The Frog", "A lone bounty hunter frog who gets paid to kill monsters and keeps ending up in conversations he'd rather avoid. A personal universe of comics, paintings, toys and games, still being built.") + f'''
-<section class="split">
-  <div class="split-cell">{slot("frog-hero", "800×1000", ratio="4 / 5", alt="The Frog and Ciruela")}</div>
-  <div class="split-cell stack">
-    <div class="dossier">
-      <div class="dossier-head">{slot("frog-icon", "200×200", alt="The Frog")}<div><h3>The Frog</h3><p class="role">bounty hunter</p></div></div>
-      <ul>
-        <li>Works alone and never asks for help</li>
-        <li>Overthinks every job</li>
-        <li>Plays drums, rides a skateboard</li>
-        <li>Doesn't talk about his weak spots</li>
-      </ul>
-    </div>
-    <div class="dossier">
-      <div class="dossier-head">{slot("ciruela-icon", "200×200", alt="Ciruela the cat")}<div><h3>Ciruela</h3><p class="role">companion, transport</p></div></div>
-      <ul>
-        <li>Only says "miau"</li>
-        <li>Cute, fluffy, deadly</li>
-        <li>Carries the Frog between jobs</li>
-        <li>Unimpressed by his excuses</li>
-      </ul>
-    </div>
-  </div>
-</section>
-<section class="split">
-  <div class="split-cell prose">
-    <h2>Coming out of the swamp</h2>
-    <p>Every job is a monster, and every monster is a little too familiar. The first chapters of the comic are in the works, along with prints, stickers and a small game you can play on the TV in the castle.</p>
-    <p>Follow <a href="https://www.instagram.com/cosmicdroid/" rel="noopener">@cosmicdroid</a> to see new pages as they land.</p>
-    <p><a class="button" href="index.html#play">Play Leap Kill <span aria-hidden="true">↗</span></a></p>
-  </div>
-  <div class="split-cell">{slot("frog-pages", "900×1200 comic page or animatic", ratio="3 / 4", alt="Comic page preview")}</div>
-</section>
-'''
-page("frog.html", "The Frog | cosmicdroid", "The Frog, a bounty hunter frog and his cat Ciruela. A personal universe by cosmicdroid.", frog, "")
+# (the Frog page was removed, owner Oct 27; it's in git history)
+
 
 # ---------- ABOUT ----------
 about = page_head("About") + f'''

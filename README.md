@@ -23,7 +23,6 @@ Plain HTML, CSS and JavaScript. No build step, no framework.
 index.html            Home (the playable castle + featured work)
 murals.html           All murals
 work.html             Illustration, branding, merch
-frog.html             The Frog universe
 about.html            Bio, studies, services
 contact.html          Contact form
 projects/             One page per project (juno-mural.html is the template)

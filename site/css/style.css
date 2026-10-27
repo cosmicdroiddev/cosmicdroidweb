@@ -2432,3 +2432,12 @@ html[data-theme="dark"] .works-block .deck-filters button[aria-selected="false"]
 .contact-room .room-night, html[data-theme="dark"] .contact-room .room-day { display: none; }
 html[data-theme="dark"] .contact-room .room-night { display: block; }
 @media (min-width: 761px) { .contact-room img { max-width: 470px; } }
+
+/* Owner, Oct 27: work names and the home room menu names in Germania One, like the other titles */
+.wg-label b, .deck-label b, .room-list b {
+  font-family: "Germania One", var(--sans) !important;
+  font-weight: 400 !important; letter-spacing: 0.01em !important;
+}
+.wg-label b { font-size: clamp(1.25rem, 1.6vw, 1.5rem) !important; line-height: 1.1 !important; }
+.deck-label b { font-size: 1.45rem !important; line-height: 1.1 !important; }
+.room-list b { font-size: 1.45rem; line-height: 1.1; }
