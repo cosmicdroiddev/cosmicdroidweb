@@ -2423,3 +2423,6 @@ html[data-theme="dark"] .works-block .deck-filters button[aria-selected="false"]
 html[data-theme="dark"] .works-block .deck-filters button[aria-selected="false"]:hover { color: #160a52; background: var(--lime); }
 /* castle GO button when it's ready (at a door): frog green, like the frog in the logo */
 .pad-enter.is-ready, html[data-theme="dark"] .pad-enter.is-ready { background: #4fe0b8; color: #160a52; }
+
+/* page descriptions under the titles (Works, Murals, Frog): same size as the Contact intro */
+.page-head .page-lede { font-size: 1.15rem !important; line-height: 1.55; max-width: 52ch; }
