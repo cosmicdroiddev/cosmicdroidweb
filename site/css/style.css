@@ -2488,3 +2488,6 @@ html[data-theme="dark"] .about-dragon { filter: brightness(2.5) saturate(0.8); }
 /* About: the studies list is set in JetBrains Mono (owner Oct 29) */
 .timeline, .timeline .year { font-family: "JetBrains Mono", var(--mono); }
 .timeline li { grid-template-columns: 7ch 1fr; }
+
+/* phone: the purple banner text runs the full width instead of stopping halfway (owner Oct 29) */
+@media (max-width: 760px) { .cta p { max-width: none; width: 100%; } }
