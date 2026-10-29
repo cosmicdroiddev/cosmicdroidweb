@@ -5,7 +5,7 @@ ROOT = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "site")
 
 FONTS = ('<link rel="preconnect" href="https://fonts.googleapis.com">\n'
          '<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>\n'
-         '<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:ital,wdth,wght@0,62..125,100..900;1,62..125,100..900&family=Space+Mono:wght@400;700&family=Pirata+One&family=VT323&family=Germania+One&display=swap">')
+         '<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:ital,wdth,wght@0,62..125,100..900;1,62..125,100..900&family=Space+Mono:wght@400;700&family=JetBrains+Mono:wght@400;500&family=Pirata+One&family=VT323&family=Germania+One&display=swap">')
 
 NAV = [("work.html", "Works"), ("about.html", "About"), ("contact.html", "Contact")]
 

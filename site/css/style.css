@@ -2484,3 +2484,7 @@ html[data-theme="dark"] .foot-critter .slot img { transform: scale(1.09); }
 
 /* About: the drawn logo sits under the studies instead of the dragon (owner Oct 29); class name kept */
 html[data-theme="dark"] .about-dragon { filter: brightness(2.5) saturate(0.8); } /* the dark violet logo is lightened on the dark blue */
+
+/* About: the studies list is set in JetBrains Mono (owner Oct 29) */
+.timeline, .timeline .year { font-family: "JetBrains Mono", var(--mono); }
+.timeline li { grid-template-columns: 7ch 1fr; }
