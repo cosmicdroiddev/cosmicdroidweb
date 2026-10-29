@@ -133,7 +133,7 @@ services = [
     ("murals", "Murals", "Indoor and outdoor walls for cafes, shops, organizations and festivals."),
 ]
 svc = "\n".join(
-    f'    <div class="service"><span class="num">0{i + 1}</span><span class="svc-art" data-anim="assets/img/whatimake/{k}.webp"><img src="assets/img/whatimake/{k}-still.webp" alt="" width="600" height="600" loading="lazy"></span><h3>{t}</h3><p>{d}</p></div>'
+    f'    <div class="service"><span class="svc-art" data-anim="assets/img/whatimake/{k}.webp"><img src="assets/img/whatimake/{k}-still.webp" alt="" width="600" height="600" loading="lazy"></span><h3>{t}</h3><p>{d}</p></div>'
     for i, (k, t, d) in enumerate(services))
 best = "\n".join(
     f'    <figure class="cell-fig">{slot(f"bestiary-{i}", "400×400 loop", alt=f"Creature {i}")}</figure>'

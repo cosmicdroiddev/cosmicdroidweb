@@ -2447,3 +2447,8 @@ html[data-theme="dark"] .contact-room .room-night { display: block; }
 .service .svc-art img { display: block; width: 100%; height: 100%; object-fit: contain; }
 .service:focus-visible { outline: 3px solid var(--violet); outline-offset: -3px; }
 @media (max-width: 760px) { .service .svc-art { width: 150px; } }   /* phone: smaller so the four cards don't take a whole screen each */
+
+/* "What I make": drawings centred in their squares, numbers removed (owner Oct 29) */
+.service { justify-items: center; }
+.service h3, .service p { justify-self: stretch; }
+.service .svc-art { margin: 0 auto; }
