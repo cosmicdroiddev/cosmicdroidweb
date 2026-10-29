@@ -14,8 +14,6 @@
 window.PROJECTS = [
   { slug: "all-the-cores", title: "All the Cores and More", type: "work", tag: "Merch design", year: "2026", cover: "assets/img/all-the-cores/cover.webp", page: "projects/all-the-cores.html", featured: true },   // CHECK year
   { slug: "no-known-weakness", title: "No Known Weakness", type: "work", tag: "Album art", year: "2026", cover: "assets/img/no-known-weakness/final-sm.webp", page: "projects/no-known-weakness.html", featured: true },   // CHECK year
-  { slug: "catacomb", title: "Catacomb", type: "work", tag: "Jersey design", year: "2026", cover: "assets/img/catacomb/dragon-sm.webp", page: "projects/catacomb.html" },   // CHECK year
-  { slug: "localsonly", title: "Locals Only", type: "work", tag: "Merch design", year: "2025", cover: "assets/img/localsonly/rodeo-sm.webp", page: "projects/localsonly.html" },   // CHECK year
   { slug: "imprint-rolling", title: "Imprint Rolling", type: "work", tag: "Branding, illustration", year: "2025", cover: "assets/img/imprint-rolling/cover.webp", page: "projects/imprint-rolling.html" },   // CHECK year
   { slug: "jfgprintco", title: "JFGprintco", type: "work", tag: "Branding, mural", year: "2025", cover: "assets/img/jfgprintco/profile-sm.webp", page: "projects/jfgprintco.html" },   // CHECK year
   { slug: "terp-wizard", title: "Terp Wizard", type: "work", tag: "Merch design", year: "2026", cover: "assets/img/terp-wizard/lab-cover.webp", page: "projects/terp-wizard.html", featured: true },   // CHECK year
@@ -32,5 +30,7 @@ window.PROJECTS = [
   { slug: "cage-of-destiny", title: "Cage of Destiny", type: "work", tag: "Game jam", year: "2023", cover: "assets/img/cage-of-destiny/cover.webp", page: "projects/cage-of-destiny.html" },   // CHECK year
   { slug: "botanica-mural", title: "Botánica mural", type: "mural", tag: "Mural", year: "2022", cover: "assets/img/botanica-mural/profile-sm.webp", page: "projects/botanica-mural.html" },   // CHECK name, place and year
   { slug: "pizzaneta", title: "Pizzaneta", type: "work", tag: "Branding, merch", year: "2022", cover: "assets/img/pizzaneta/cover.webp", page: "projects/pizzaneta.html" },   // CHECK year
+  { slug: "catacomb", title: "Catacomb", type: "work", tag: "Jersey design", year: "2026", cover: "assets/img/catacomb/dragon-sm.webp", page: "projects/catacomb.html" },   // CHECK year
+  { slug: "localsonly", title: "Locals Only", type: "work", tag: "Merch design", year: "2025", cover: "assets/img/localsonly/rodeo-sm.webp", page: "projects/localsonly.html" },   // CHECK year
   { slug: "cosmic-realms", title: "Cosmic realms", type: "work", tag: "Illustration", year: "2024", cover: "assets/img/cosmic-realms/cover.jpg", page: null },   // CHECK
 ];
