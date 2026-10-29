@@ -352,7 +352,7 @@ about = page_head("About") + f'''
       <li><span class="year">2023</span><span>Master in Illustration &amp; Animation</span></li>
       <li><span class="year">2018</span><span>Bachelor in Computer Engineering</span></li>
     </ul>
-    <img class="about-dragon" src="assets/img/about/logo-overlay.webp" alt="cosmicdroid logo" width="1200" height="811" loading="lazy">
+    <img class="about-dragon" src="assets/img/about/logologo.webp" alt="cosmicdroid logo" width="758" height="199" loading="lazy">
   </div>
 </section>
 ''' + cta()
