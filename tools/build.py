@@ -138,11 +138,11 @@ svc = "\n".join(
 best = "\n".join(
     f'    <figure class="cell-fig">{slot(f"bestiary-{i}", "400×400 loop", alt=f"Creature {i}")}</figure>'
     for i in range(1, 7))
-rooms = [("work.html", "Works", "check out my latest work", ""), ("murals.html", "Murals", "fantasy on a bigger canvas", ""),
+rooms = [("work.html", "Works", "check out my latest work", ""),
          ("index.html#play", "Arcade", "play Leap Kill", " data-play-game"), ("about.html", "About", "random stuff about me", ""),
          ("contact.html", "Contact", "waiting for your idea!", "")]
 room_list = "\n".join(
-    f'      <li><a href="{h}"{x} data-room-art="room-{i + 1}"><span class="room-art" aria-hidden="true"><span class="runner room-runner"></span></span><b>{r}</b><span class="what">{w}</span><span class="arrow" aria-hidden="true">↗</span></a></li>'
+    f'      <li><a href="{h}"{x} data-room-art="room-{i + 1}"><span class="room-art" aria-hidden="true"></span><b>{r}</b><span class="what">{w}</span><span class="arrow" aria-hidden="true">↗</span></a></li>'
     for i, (h, r, w, x) in enumerate(rooms))
 room_lines = room_list.split("\n")
 rooms_top, rooms_bottom = "\n".join(room_lines[:3]), "\n".join(room_lines[3:])
