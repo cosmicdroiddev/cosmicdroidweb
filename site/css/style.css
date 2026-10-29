@@ -2462,3 +2462,14 @@ html[data-theme="dark"] .contact-room .room-night { display: block; }
   .home-intro > .castle-intro .castle-hello { font-size: clamp(2rem, 2.9vw, 2.6rem); margin-bottom: 8px; }
   .home-intro > .castle-intro p { margin-bottom: 12px; }
 }
+
+/* Home: the six squares (hello, Leap Kill, four rooms) 15% shorter, and the hello paragraph uses the full width (owner Oct 29) */
+@media (min-width: 761px) {
+  .home-intro { --rh: 75px; }
+  .home-intro > .castle-intro p { max-width: none; }
+}
+@media (min-width: 761px) {
+  .home-intro > .castle-intro { padding-top: 18px; padding-bottom: 14px; }
+  .home-intro > .castle-intro .castle-hello { margin-bottom: 6px; }
+  .home-intro > .castle-intro p { margin-bottom: 10px; }
+}
