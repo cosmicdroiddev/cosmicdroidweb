@@ -32,5 +32,4 @@ window.PROJECTS = [
   { slug: "pizzaneta", title: "Pizzaneta", type: "work", tag: "Branding, merch", year: "2022", cover: "assets/img/pizzaneta/cover.webp", page: "projects/pizzaneta.html" },   // CHECK year
   { slug: "catacomb", title: "Catacomb", type: "work", tag: "Jersey design", year: "2026", cover: "assets/img/catacomb/dragon-sm.webp", page: "projects/catacomb.html" },   // CHECK year
   { slug: "localsonly", title: "Locals Only", type: "work", tag: "Merch design", year: "2025", cover: "assets/img/localsonly/rodeo-sm.webp", page: "projects/localsonly.html" },   // CHECK year
-  { slug: "cosmic-realms", title: "Cosmic realms", type: "work", tag: "Illustration", year: "2024", cover: "assets/img/cosmic-realms/cover.jpg", page: null },   // CHECK
 ];
