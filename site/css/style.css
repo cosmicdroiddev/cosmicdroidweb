@@ -2510,3 +2510,10 @@ html[data-theme="dark"] .about-dragon { filter: brightness(2.5) saturate(0.8); }
   .deck-filters button { flex: 1 1 auto; padding-left: 10px; padding-right: 10px; white-space: nowrap; }
   .deck-filters .long { display: none; }
 }
+
+/* Phone: the pressed/tapped menu row grows a bit (it used to shrink to its text height) (owner Oct 29) */
+@media (max-width: 760px) {
+  .home-intro .guide-all .room-list a:hover,
+  .home-intro .guide-all .room-list a:active,
+  .home-intro .guide-all .room-list a:focus-visible { height: calc(var(--rh) * 1.35); }
+}
