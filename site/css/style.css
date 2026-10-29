@@ -2452,3 +2452,13 @@ html[data-theme="dark"] .contact-room .room-night { display: block; }
 .service { justify-items: center; }
 .service h3, .service p { justify-self: stretch; }
 .service .svc-art { margin: 0 auto; }
+
+/* Home: four rooms now, so the hello box and the Leap Kill box are each half the height and the line between them
+   meets the line between Arcade and About (owner Oct 29). The hello box is a bit tighter to fit. */
+@media (min-width: 761px) {
+  .home-intro { grid-template-rows: minmax(0, 1fr) minmax(0, 1fr); }
+  .home-intro > .guide-all { min-height: calc(var(--rh) * 5); }
+  .home-intro > .castle-intro { padding-top: 22px; padding-bottom: 18px; }
+  .home-intro > .castle-intro .castle-hello { font-size: clamp(2rem, 2.9vw, 2.6rem); margin-bottom: 8px; }
+  .home-intro > .castle-intro p { margin-bottom: 12px; }
+}
