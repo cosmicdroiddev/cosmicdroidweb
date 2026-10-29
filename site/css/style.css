@@ -2441,3 +2441,9 @@ html[data-theme="dark"] .contact-room .room-night { display: block; }
 .wg-label b { font-size: clamp(1.25rem, 1.6vw, 1.5rem) !important; line-height: 1.1 !important; }
 .deck-label b { font-size: 1.45rem !important; line-height: 1.1 !important; }
 .room-list b { font-size: 1.45rem; line-height: 1.1; }
+
+/* "What I make" pictures (owner Oct 29): the boil drawings replace the empty gif boxes; see js/main.js for hover/touch behaviour */
+.service .svc-art { display: block; width: min(100%, 230px); aspect-ratio: 1 / 1; }
+.service .svc-art img { display: block; width: 100%; height: 100%; object-fit: contain; }
+.service:focus-visible { outline: 3px solid var(--violet); outline-offset: -3px; }
+@media (max-width: 760px) { .service .svc-art { width: 150px; } }   /* phone: smaller so the four cards don't take a whole screen each */

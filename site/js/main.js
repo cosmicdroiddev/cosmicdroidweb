@@ -690,3 +690,29 @@
   } catch (e) {}
   sync();
 })();
+
+/* "What I make" pictures: still by default, the boil animation plays while the card is hovered or focused.
+   Touch screens have no hover, so there the pictures animate all the time. Reduced motion keeps them still. */
+(function () {
+  try {
+    var arts = document.querySelectorAll(".svc-art");
+    if (!arts.length || (window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches)) return;
+    var base = document.body.getAttribute("data-base") || "";
+    var canHover = window.matchMedia && matchMedia("(hover: hover)").matches;
+    arts.forEach(function (art) {
+      var img = art.querySelector("img"), still = img.getAttribute("src"), anim = base + art.getAttribute("data-anim");
+      function play() { if (img.getAttribute("src") !== anim) img.src = anim; }
+      function stop() { img.src = still; }
+      if (!canHover) { play(); return; }
+      var card = art.closest(".service") || art;
+      card.addEventListener("mouseenter", play);
+      card.addEventListener("mouseleave", stop);
+      card.addEventListener("focusin", play);
+      card.addEventListener("focusout", stop);
+      card.setAttribute("tabindex", "0");
+    });
+    if (canHover) window.addEventListener("load", function () {   // warm the cache so the first hover is instant
+      setTimeout(function () { arts.forEach(function (a) { new Image().src = base + a.getAttribute("data-anim"); }); }, 1500);
+    });
+  } catch (e) {}
+})();
