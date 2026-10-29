@@ -673,21 +673,12 @@
   }
   if (!root.getAttribute("data-theme")) {   // (normally already set in <head>)
     var t = null; try { t = localStorage.getItem("cd-theme"); } catch (e) {}
-    if (t !== "dark" && t !== "light") t = (window.matchMedia && matchMedia("(prefers-color-scheme: dark)").matches) ? "dark" : "light";
+    if (t !== "dark" && t !== "light") t = "light";   // light is the default; the switch remembers a visitor's choice
     set(t, false);
   }
   btns.forEach(function (b) {
     b.addEventListener("click", function () { set(current() === "dark" ? "light" : "dark", true); });
   });
-  // follow the device while the visitor hasn't picked one here
-  try {
-    var mq = matchMedia("(prefers-color-scheme: dark)");
-    var follow = function (e) {
-      var saved = null; try { saved = localStorage.getItem("cd-theme"); } catch (x) {}
-      if (saved !== "dark" && saved !== "light") set(e.matches ? "dark" : "light", false);
-    };
-    if (mq.addEventListener) mq.addEventListener("change", follow); else if (mq.addListener) mq.addListener(follow);
-  } catch (e) {}
   sync();
 })();
 

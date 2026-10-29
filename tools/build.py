@@ -47,7 +47,7 @@ def page(fname, title, desc, body, current, base="", home=False):
 <link rel="icon" href="{base}assets/favicon.svg" type="image/svg+xml">
 {FONTS}
 <link rel="stylesheet" href="{base}css/style.css">
-{f'<link rel="stylesheet" href="{base}css/flipbook.css">' + chr(10) if fname == "leapkill.html" else ""}<script>try{{var t=localStorage.getItem("cd-theme");if(t!=="dark"&&t!=="light")t=matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light";document.documentElement.setAttribute("data-theme",t)}}catch(e){{}}</script>
+{f'<link rel="stylesheet" href="{base}css/flipbook.css">' + chr(10) if fname == "leapkill.html" else ""}<script>try{{var t=localStorage.getItem("cd-theme");if(t!=="dark"&&t!=="light")t="light";document.documentElement.setAttribute("data-theme",t)}}catch(e){{}}</script>
 <script>try{{if(!sessionStorage.getItem("cd-loaded"))document.documentElement.classList.add("is-loading")}}catch(e){{document.documentElement.classList.add("is-loading")}}</script>
 </head>
 <body data-base="{base}" class="bar-purple">
