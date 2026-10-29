@@ -660,6 +660,12 @@
   function sync() {
     var dark = current() === "dark";
     swapVideos(dark);
+    // footer frog: its own drawing (with a background) in dark mode
+    var fi = document.querySelector('[data-slot="footer-critter"] img');
+    if (fi) {
+      if (!fi.getAttribute("data-light")) fi.setAttribute("data-light", fi.getAttribute("src"));
+      fi.src = dark ? (document.body.getAttribute("data-base") || "") + "assets/img/cosmiclaptop-dark.webp" : fi.getAttribute("data-light");
+    }
     btns.forEach(function (b) {
       b.setAttribute("aria-pressed", dark ? "true" : "false");
       b.setAttribute("aria-label", dark ? "Light mode" : "Dark mode");
