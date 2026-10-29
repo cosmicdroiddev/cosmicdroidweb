@@ -2474,3 +2474,5 @@ html[data-theme="dark"] .contact-room .room-night { display: block; }
   .home-intro > .castle-intro .castle-hello { margin-bottom: 6px; }
   .home-intro > .castle-intro p { margin-bottom: 10px; }
 }
+/* footer frog in dark mode drawn bigger (measured: its drawing has more empty margin, 9% matches), to match the size of the light-mode frog (owner Oct 29) */
+html[data-theme="dark"] .foot-critter .slot img { transform: scale(1.09); }
