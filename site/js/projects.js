@@ -2,9 +2,9 @@
   PROJECT LIST
   ------------
   This is the only file you edit to add, remove or reorder projects.
-  Each entry becomes a card on the Home, Murals or Work page.
+  Each entry becomes a card on the Home or Work page.
 
-  type      "mural" shows on Murals, "work" shows on Work
+  type      "mural" shows under the Murals filter, "work" shows on Work
   featured  true = also shows on the homepage (keep it to about 6)
   page      path to the project's own page, or null if it doesn't have one yet
   cover     square-ish cover image in assets/img/<slug>/

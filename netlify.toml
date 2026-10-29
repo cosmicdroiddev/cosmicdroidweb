@@ -14,6 +14,12 @@
   to = "/projects/terp-wizard.html"
   status = 301
 
+# the Murals page was removed; old links go to Works (murals are a filter there)
+[[redirects]]
+  from = "/murals.html"
+  to = "/work.html"
+  status = 301
+
 # ---------- "web in progress" mode ----------
 # Visitors on cosmicdroid.com see site/soon.html. The full site still works on the
 # *.netlify.app address (your private preview link).

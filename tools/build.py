@@ -216,17 +216,7 @@ works = page_head("Works", "Murals, illustration, branding, characters and merch
 ''' + cta()
 page("work.html", "Works | cosmicdroid", "Murals, illustration, branding, character design and merch by cosmicdroid.", works, "work.html")
 
-# ---------- MURALS (reached from the castle and the Works filter) ----------
-murals = page_head("Murals", "Walls I've painted for organizations, businesses and friends. Based in Colombia and open to painting anywhere in the world.") + f'''
-<section class="block">
-  <div class="deck deck-tall" data-deck="mural"></div>
-</section>
-<section class="block">
-  {bar("A wall, start to finish")}
-  <div class="pad-cell">{slot("murals-timelapse", "16:9 video .mp4", ratio="16 / 9", alt="Mural timelapse")}</div>
-</section>
-''' + cta()
-page("murals.html", "Murals | cosmicdroid", "Murals painted by cosmicdroid in Colombia and abroad.", murals, "work.html")
+# (the Murals page was removed Oct 29; murals live in the Works filter and netlify.toml sends /murals.html to /work.html)
 
 
 # ---------- LEAP KILL ----------

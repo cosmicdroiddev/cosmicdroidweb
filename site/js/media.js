@@ -35,7 +35,6 @@ window.MEDIA = {
   "leapkill-3": "assets/img/leapkill/03.jpg",
 
   // MURALS
-  "murals-timelapse": "",              // a mural timelapse, 16:9 (.mp4)
 
   // WORK
   "work-loop-1": "",                   // three animated loops under the grid, 1:1 (800×800)

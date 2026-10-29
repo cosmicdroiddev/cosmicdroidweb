@@ -1,6 +1,6 @@
 # cosmicdroid.com
 
-The portfolio of **cosmicdroid**: a playable castle homepage, works, murals, the Leap Kill comic, about and contact.
+The portfolio of **cosmicdroid**: a playable castle homepage, works, the Leap Kill comic, about and contact.
 
 - **Website files:** `site/` (this is what goes online)
 - **Page generator:** `tools/build.py` → run `python3 tools/build.py` after changing page content
@@ -21,7 +21,6 @@ Plain HTML, CSS and JavaScript. No build step, no framework.
 
 ```
 index.html            Home (the playable castle + featured work)
-murals.html           All murals
 work.html             Illustration, branding, merch
 about.html            Bio, studies, services
 contact.html          Contact form
@@ -171,7 +170,7 @@ To remove a slot you don't want, delete its `<figure data-slot="…">` from the 
 ## The square grid design (Oct 2026)
 
 - Every page sits on a grid of thin cobalt lines with square cells. Colors and fonts are tokens at the top of `css/style.css` (`--paper`, `--line`, `--violet`, `--lime`, `--cyan`; Archivo for headings and the wordmark, Space Mono for small text).
-- Menu: **Works / About / Contact**. Murals live inside Works (filter "Murals"), on `murals.html`, and in the castle's mural studio.
+- Menu: **Works / About / Contact**. Murals live inside Works (filter "Murals") and in the castle's mural studio. (The Murals page was removed Oct 29; `/murals.html` redirects to Works.)
 - **Works deck**: cards sit side by side; the one you point at opens wide. On phones the cards swipe sideways. Cards come from `js/projects.js` (`featured: true` shows them on the homepage; `type` drives the filters).
 - **Your logo**: `assets/img/logo-icon.png` (wizard frog, from pp.PNG) and `assets/img/logo-wordmark.png` (from cosmicdroid_text.png), set in `js/media.js` as `"logo-icon"` and `"logo-wordmark"`. Swap the files to change them.
 - Phones (760px and under): 64px header with a violet menu button, castle full screen first, then the rest of the page.
