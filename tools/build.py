@@ -51,7 +51,6 @@ def page(fname, title, desc, body, current, base="", home=False):
 <script>try{{if(!sessionStorage.getItem("cd-loaded"))document.documentElement.classList.add("is-loading")}}catch(e){{document.documentElement.classList.add("is-loading")}}</script>
 </head>
 <body data-base="{base}" class="bar-purple">
-<svg class="boil-defs" width="0" height="0" aria-hidden="true" focusable="false"><filter id="boil" x="-5%" y="-5%" width="110%" height="110%"><feTurbulence type="fractalNoise" baseFrequency="0.035" numOctaves="2" seed="1" result="n"/><feDisplacementMap in="SourceGraphic" in2="n" scale="2.2" xChannelSelector="R" yChannelSelector="G"/></filter></svg>
 <div class="loader" id="loader" aria-hidden="true">
   <div class="loader-inner">
     <img class="loader-art" src="{base}assets/img/loader.webp" alt="" width="180" height="200">

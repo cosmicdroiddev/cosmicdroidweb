@@ -690,19 +690,3 @@
   } catch (e) {}
   sync();
 })();
-
-/* Line boil: the SVG filter #boil gets a new noise seed ~8 times a second, so outlines shimmer like hand-redrawn frames.
-   Used by the logo, page titles and (on hover) work pictures, see "Line boil" in css/style.css. Off with reduced motion. */
-(function () {
-  try {
-    if (window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches) return;
-    var t = document.querySelector("#boil feTurbulence");
-    if (!t) return;
-    var seed = 1, last = 0;
-    function tick(now) {
-      if (now - last > 125) { last = now; seed = seed % 6 + 1; t.setAttribute("seed", seed); }
-      requestAnimationFrame(tick);
-    }
-    requestAnimationFrame(tick);
-  } catch (e) {}
-})();

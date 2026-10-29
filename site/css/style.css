@@ -2441,9 +2441,3 @@ html[data-theme="dark"] .contact-room .room-night { display: block; }
 .wg-label b { font-size: clamp(1.25rem, 1.6vw, 1.5rem) !important; line-height: 1.1 !important; }
 .deck-label b { font-size: 1.45rem !important; line-height: 1.1 !important; }
 .room-list b { font-size: 1.45rem; line-height: 1.1; }
-
-/* Line boil (owner Oct 28, subtle): a tiny wobble that re-rolls ~8 times a second (js/main.js steps the seed of #boil).
-   Always on for the logo mark and page titles; on hover for work pictures. Switched off by main.js with reduced motion. */
-.boil-defs { position: absolute; width: 0; height: 0; overflow: hidden; }
-.brand-icon svg, .brand-icon img, .page-title { filter: url(#boil); }
-.wg-card:hover .wg-img img, .deck-card.is-open .deck-img img { filter: url(#boil); }
