@@ -44,7 +44,8 @@ def page(fname, title, desc, body, current, base="", home=False):
 <meta property="og:title" content="{title}">
 <meta property="og:description" content="{desc}">
 <meta name="theme-color" content="#b377ff">
-<link rel="icon" href="{base}assets/favicon.svg" type="image/svg+xml">
+<link rel="icon" href="{base}assets/favicon.png" type="image/png">
+<link rel="apple-touch-icon" href="{base}assets/apple-touch-icon.png">
 {FONTS}
 <link rel="stylesheet" href="{base}css/style.css">
 {f'<link rel="stylesheet" href="{base}css/flipbook.css">' + chr(10) if fname == "leapkill.html" else ""}<script>try{{var t=localStorage.getItem("cd-theme");if(t!=="dark"&&t!=="light")t="light";document.documentElement.setAttribute("data-theme",t)}}catch(e){{}}</script>
