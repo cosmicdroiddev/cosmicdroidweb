@@ -2491,3 +2491,15 @@ html[data-theme="dark"] .about-dragon { filter: brightness(2.5) saturate(0.8); }
 
 /* phone: the purple banner text runs the full width instead of stopping halfway (owner Oct 29) */
 @media (max-width: 760px) { .cta p { max-width: none; width: 100%; } }
+
+/* Phone: the menu rows have four items now (no empty fifth row), and touching a row no longer leaves the
+   "hover" look stuck on it (cream grid + lime title) (owner Oct 29) */
+@media (max-width: 760px) { .home-intro > .guide-all { min-height: 0; } }
+@media (hover: none) {
+  .home-intro .room-list a:hover { background: transparent; }
+  .home-intro .room-list a:hover .room-art { opacity: 0; }
+  .home-intro .room-list a:hover b { background: transparent; }
+  html[data-theme="dark"] .home-intro .room-list a:hover b { color: var(--lime); }
+  .room-list a:hover { background: transparent; }
+  .room-list a:active { background: var(--lime); }
+}
