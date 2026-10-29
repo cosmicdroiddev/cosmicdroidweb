@@ -131,7 +131,7 @@ services = [
     ("illustration", "Illustration", "Characters, posters, album and gig artwork, editorial pieces."),
     ("branding", "Branding", "Logos and identities with a mascot or two, plus the merch to go with them."),
     ("animation", "Animation", "Loops, GIFs and short animated pieces for social and screens."),
-    ("murals", "Murals", "Indoor and outdoor walls for cafes, shops, organizations, festivals and your home."),
+    ("murals", "Murals", "Indoor and outdoor walls for cafes, shops, organizations and festivals."),
 ]
 svc = "\n".join(
     f'    <div class="service"><span class="svc-art" data-anim="assets/img/whatimake/{k}.webp"><img src="assets/img/whatimake/{k}-still.webp" alt="" width="600" height="600" loading="lazy"></span><h3>{t}</h3><p>{d}</p></div>'
