@@ -2476,3 +2476,10 @@ html[data-theme="dark"] .contact-room .room-night { display: block; }
 }
 /* footer frog in dark mode drawn bigger (measured: its drawing has more empty margin, 9% matches), to match the size of the light-mode frog (owner Oct 29) */
 html[data-theme="dark"] .foot-critter .slot img { transform: scale(1.09); }
+
+/* About: the animated dragon drawing under the studies (owner Oct 29) */
+.about-dragon { display: block; width: min(100%, 460px); height: auto; margin: 28px auto 0; }
+/* the portrait fills the whole left column now that the right column is taller (no empty strip under the photo) */
+@media (min-width: 761px) { .about-portrait img:not(.about-logo) { max-height: none; } }
+/* dark mode: the dragon's purple lines are lightened so they read on the dark blue */
+html[data-theme="dark"] .about-dragon { filter: brightness(2.4) saturate(0.9); }

@@ -351,6 +351,7 @@ about = page_head("About") + f'''
       <li><span class="year">2023</span><span>Master in Illustration &amp; Animation</span></li>
       <li><span class="year">2018</span><span>Bachelor in Computer Engineering</span></li>
     </ul>
+    <img class="about-dragon" src="assets/img/about/dragon.webp" alt="A drawing of a mechanical dragon, dripping" width="720" height="553" loading="lazy">
   </div>
 </section>
 ''' + cta()
