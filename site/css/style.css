@@ -2503,3 +2503,10 @@ html[data-theme="dark"] .about-dragon { filter: brightness(2.5) saturate(0.8); }
   .room-list a:hover { background: transparent; }
   .room-list a:active { background: var(--lime); }
 }
+
+/* phone: shorter filter tab names so the three tabs fit on one line (owner Oct 29) */
+@media (max-width: 760px) {
+  .deck-filters { flex-wrap: nowrap; }
+  .deck-filters button { flex: 1 1 auto; padding-left: 10px; padding-right: 10px; white-space: nowrap; }
+  .deck-filters .long { display: none; }
+}
