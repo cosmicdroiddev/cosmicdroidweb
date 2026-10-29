@@ -2480,6 +2480,6 @@ html[data-theme="dark"] .foot-critter .slot img { transform: scale(1.09); }
 /* About: the animated dragon drawing under the studies (owner Oct 29) */
 .about-dragon { display: block; width: min(100%, 460px); height: auto; margin: 28px auto 0; }
 /* desktop: smaller so the right column is no taller than the photo (photo keeps its original size) */
-@media (min-width: 761px) { .about-dragon { width: min(100%, 270px); margin-top: 18px; } }
-/* dark mode: the dragon's purple lines are lightened so they read on the dark blue */
-html[data-theme="dark"] .about-dragon { filter: brightness(2.4) saturate(0.9); }
+@media (min-width: 761px) { .about-dragon { width: min(100%, 300px); margin-top: 18px; } }
+
+/* About: the drawn logo sits under the studies instead of the dragon (owner Oct 29); class name kept */
