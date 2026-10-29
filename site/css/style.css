@@ -2406,8 +2406,8 @@ html[data-theme="dark"] .home-intro .room-list a:focus-visible .what, html[data-
 html[data-theme="dark"] .stick { background: #b377ff; }
 html[data-theme="dark"] .pad-enter:not(.is-ready) { background: #b377ff; color: #2a1fb0; }
 /* footer frog with the laptop: in dark mode it uses its own drawing (assets/img/cosmiclaptop-dark.webp, swapped in main.js)
-   and its square goes back to the light-mode background (owner Oct 29) */
-html[data-theme="dark"] .foot-critter { background: #dce9fb; }
+   and its square uses the same dark blue as the rest of the page (owner Oct 29) */
+html[data-theme="dark"] .foot-critter { background: var(--paper); }
 /* phones: no empty row under the page title (About, Contact) */
 @media (max-width: 760px) {
   .page-head-text:empty { display: none; }
