@@ -344,9 +344,9 @@ about = page_head("About") + f'''
 <section class="split">
   <div class="split-cell about-portrait"><img src="assets/img/about/portrait-sm.webp" srcset="assets/img/about/portrait-sm.webp 600w, assets/img/about/portrait.webp 1067w" sizes="(max-width: 760px) 100vw, 45vw" alt="cosmicdroid sitting outside, drawing in a sketchbook" width="600" height="900"><img class="about-logo" src="assets/img/about/logo-overlay.webp" alt="" aria-hidden="true" width="1200" height="811"></div>
   <div class="split-cell prose">
-    <p>I'm cosmicdroid, an illustrator, animator and muralist based in Colombia. I draw weird characters, haunted colors and small dark worlds, and I put them on walls, shirts, posters, album covers and screens.</p>
-    <p>I studied computer engineering before switching paths to illustration and animation, so I'm as comfortable building an animated loop or a little video game as I am on a ladder with a brush.</p>
-    <p>I've painted walls at home and abroad, I'm happy to travel for the right wall.</p>
+    <p>I'm cosmicdroid, an illustrator, animator and muralist from Colombia. I draw weird characters in colors that feel a bit haunted, and they end up on walls, shirts, posters, album covers and screens.</p>
+    <p>I studied computer engineering first, then switched to illustration and animation. I still like building things that move, like a looping animation or a small video game.</p>
+    <p>I've painted walls here and in other countries. If the wall is right, I'll travel for it.</p>
     <h2>Studies</h2>
     <ul class="timeline">
       <li><span class="year">2023</span><span>Master in Illustration &amp; Animation</span></li>
