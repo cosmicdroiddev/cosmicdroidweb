@@ -60,8 +60,8 @@ def page(fname, title, desc, body, current, base="", home=False):
 </div>
 <div class="frame">
 <header class="site-header">
-  <a class="brand-icon" href="{base}index.html" aria-label="cosmicdroid home" data-logo="logo-icon">{FROG_MARK}</a>
-  <a class="brand-word" href="{base}index.html" data-logo="logo-wordmark"><span>cosmicdroid</span></a>
+  <a class="brand-icon" href="{base}index.html" aria-label="cosmicdroid home"><img src="{base}assets/img/logo-icon.png" alt="cosmicdroid" width="256" height="256"></a>
+  <a class="brand-word" href="{base}index.html"><img src="{base}assets/img/logo-wordmark.png" alt="cosmicdroid" width="1000" height="139"></a>
   <nav class="nav" id="site-nav" aria-label="Main">
 {nav}
   </nav>
