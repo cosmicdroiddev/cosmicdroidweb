@@ -2517,3 +2517,13 @@ html[data-theme="dark"] .about-dragon { filter: brightness(2.5) saturate(0.8); }
   .home-intro .guide-all .room-list a:active,
   .home-intro .guide-all .room-list a:focus-visible { height: calc(var(--rh) * 1.35); }
 }
+
+/* Home: the room list (Works / Arcade / About / Contact) is gone; the hello box and the Leap Kill box sit side by side (owner Nov 2) */
+.home-intro { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); grid-template-rows: auto; grid-template-areas: "intro comic"; }
+.home-intro > .castle-intro { border-right: 1px solid var(--line); border-bottom: 1px solid var(--line); min-height: 230px; }
+.home-intro > .lk-cell { border-right: 0; border-bottom: 1px solid var(--line); min-height: 230px; }
+@media (max-width: 760px) {
+  .home-intro { grid-template-columns: minmax(0, 1fr); grid-template-areas: "intro" "comic"; }
+  .home-intro > .castle-intro { border-right: 0; min-height: 0; }
+  .home-intro > .lk-cell { min-height: 190px; }
+}

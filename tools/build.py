@@ -182,11 +182,6 @@ home = f'''<section class="castle-hero" aria-label="cosmicdroid castle">
     <p>Illustrator, animator and muralist. Weird characters, haunted places, dark fantasy. Powered by 90s/00s nostalgia.</p>
     <a class="button" href="work.html">See my works <span aria-hidden="true">↗</span></a>
   </div>
-  <div class="castle-guide guide-all">
-    <ul class="room-list" aria-label="Rooms">
-{room_list}
-    </ul>
-  </div>
   <a class="lk-cell" href="leapkill.html">
     <span class="label">my comic</span>
     <img src="assets/img/leapkill/title.gif" alt="Leap Kill, my comic" width="777" height="672">
