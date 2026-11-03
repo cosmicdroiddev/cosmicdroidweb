@@ -2527,3 +2527,10 @@ html[data-theme="dark"] .about-dragon { filter: brightness(2.5) saturate(0.8); }
   .home-intro > .castle-intro { border-right: 0; min-height: 0; }
   .home-intro > .lk-cell { min-height: 190px; }
 }
+
+/* Desktop: the hello box content sits in the middle of the box (equal space above and below), button a bit lower (owner Nov 3) */
+@media (min-width: 761px) {
+  .home-intro > .castle-intro { justify-content: center; padding-top: 24px; padding-bottom: 24px; }
+  .home-intro > .castle-intro p { margin-bottom: 22px; }
+  .home-intro > .castle-intro p.castle-hello { margin-bottom: 10px; }
+}
