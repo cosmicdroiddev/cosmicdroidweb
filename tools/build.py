@@ -200,7 +200,7 @@ home = f'''<section class="castle-hero" aria-label="cosmicdroid castle">
   </div>
 </section>
 ''' + cta()
-page("index.html", "cosmicdroid", "Illustrator, animator and muralist based in Colombia. Murals, characters, branding, merch and animation.", home, "index.html", home=True)
+page("index.html", "cosmicdroid | Illustrator, animator and muralist", "Portfolio of cosmicdroid, an illustrator, animator and muralist from Colombia. Murals, characters, branding, merch and animation.", home, "index.html", home=True)
 
 # ---------- WORKS ----------
 
@@ -927,5 +927,19 @@ bento("jfgprintco", "JFGprintco", "Illustration, a mural and a crew of corgi cha
 
 
 
+
+# ---------- sitemap + robots (so Google finds every page) ----------
+import pathlib
+_site = pathlib.Path(__file__).resolve().parent.parent / "site"
+_urls = []
+for _f in sorted(_site.rglob("*.html")):
+    _rel = _f.relative_to(_site).as_posix()
+    if _rel.startswith("games/"):
+        continue
+    _urls.append("https://cosmicdroid.com/" + ("" if _rel == "index.html" else _rel))
+(_site / "sitemap.xml").write_text(
+    '<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'
+    + "".join(f"  <url><loc>{u}</loc></url>\n" for u in _urls) + "</urlset>\n")
+(_site / "robots.txt").write_text("User-agent: *\nAllow: /\n\nSitemap: https://cosmicdroid.com/sitemap.xml\n")
 
 print("ok")
