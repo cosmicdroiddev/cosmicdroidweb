@@ -100,8 +100,10 @@ def page(fname, title, desc, body, current, base="", home=False):
 
 def ticker(words):
     run = "".join(f"<span>{w}</span><i aria-hidden=\"true\">✦</i>" for w in words)
+    # enough copies that the strip always fills the whole bar (even on wide screens) and loops with no gap
+    n = max(3, -(-5000 // sum(len(w) * 10 + 60 for w in words)))
     return f'''<div class="ticker" aria-label="{', '.join(words)}">
-  <div class="ticker-track" aria-hidden="true">{run}{run}{run}</div>
+  <div class="ticker-track" aria-hidden="true" style="--n:{n}">{run * n}</div>
 </div>'''
 
 TICK = ticker(["illustration", "murals", "animation", "branding", "web design", "character design", "merch"])

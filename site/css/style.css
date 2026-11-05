@@ -385,7 +385,7 @@ main { display: block; }
 @media (prefers-reduced-motion: no-preference) {
   .ticker-track { animation: ticker 40s linear infinite; }
 }
-@keyframes ticker { to { transform: translateX(-33.333%); } }
+@keyframes ticker { to { transform: translateX(calc(-100% / var(--n, 3))); } }
 
 /* ---------- blocks and bars ---------- */
 .block { border-bottom: 1px solid var(--line); }
